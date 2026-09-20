@@ -2,7 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>(function(){try{var r=document.documentElement;r.setAttribute('data-th0',r.getAttribute('data-theme')||'');var t=localStorage.getItem('bgt.theme');if(t==='light'||t==='dark')r.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>(function(){
+var r=document.documentElement;
+try{r.setAttribute('data-th0',r.getAttribute('data-theme')||'');var t=localStorage.getItem('bgt.theme');if(t==='light'||t==='dark')r.setAttribute('data-theme',t);}catch(e){}
+var K=['bg','surface','ink','ink-2','line','band','band-ink','gold','on-gold','primary','on-primary','gold-soft'];
+var X=['wk','ink-3','line-2','band-ink-2','gold-text','focus'];
+var GL=['glow-text','glow-box','glow-tab'];
+var BASE=["#3B5BDB", "#0891B2", "#C2334D", "#D69E1F", "#C2703D", "#8B5CF6", "#0E9F7E", "#64748B", "#D946A8", "#5B8C2A", "#0F766E", "#7C3AED"];
+var S={"midnight":{"n":"Midnight gold","L":["#F4F5FA","#FFFFFF","#151A33","#4F5873","#DFE2EE","#1A1E4A","#F5F2E9","#DDB35A","#2B2106","#1A1E4A","#FFFFFF","#FBF3DC"],"D":["#0B0E22","#141937","#EEF0FA","#AEB5D3","#2A3160","#1B2160","#F5F2E9","#E0B85C","#2B2106","#7F90FF","#0B0E22","#3A3018"],"c":["#3B5BDB","#0891B2","#C2334D","#D69E1F","#C2703D","#8B5CF6","#0E9F7E","#64748B","#D946A8","#5B8C2A","#0F766E","#7C3AED"]},"forest":{"h":"weave","n":"Forest brass","L":["#F2F5F2","#FFFFFF","#14211B","#4A5F55","#DCE5DE","#12352B","#F3F1E6","#C9A86A","#2A2110","#12352B","#FFFFFF","#F6EEDC"],"D":["#0A1410","#111F19","#E8F0EA","#A6BBB0","#22382E","#174236","#F3F1E6","#D4B57A","#2A2110","#86D6B0","#0A1410","#2E2818"],"c":["#2F7D5B","#3A8FA8","#B5483A","#C9962B","#9A6B3F","#7A6BB5","#5FA37A","#6B7C74","#B0567A","#7A9A3C","#2E6B5E","#8F6FC0"]},"graphite":{"h":"dots","n":"Graphite copper","L":["#F4F4F3","#FFFFFF","#1E2024","#5A5F66","#E2E2E0","#24272C","#F1EEE9","#C98254","#2A1608","#24272C","#FFFFFF","#F7E9DE"],"D":["#0E0F11","#191B1F","#ECECEA","#A9ADB3","#2C3036","#292D33","#F1EEE9","#D9946A","#2A1608","#C9CDD4","#0E0F11","#382619"],"c":["#4F6D8F","#5B9A9A","#B5523F","#C8973A","#B0704A","#8A6FA8","#6F9A7A","#7C848E","#B0577F","#8A9A4A","#3E7C80","#6F5FA0"]},"bordeaux":{"h":"chalk","n":"Bordeaux rose","L":["#F8F3F3","#FFFFFF","#2A1218","#6A4A52","#EBDDE0","#4A1626","#F8EEEE","#DDA893","#3A170D","#4A1626","#FFFFFF","#F8E8E1"],"D":["#150A0E","#22131A","#F3E9EB","#C2A5AD","#3A222B","#5A1C30","#F8EEEE","#E3B09C","#3A170D","#E3B09C","#2A0F18","#3D2620"],"c":["#A83252","#2F7F8C","#CC7A32","#6F8F4E","#8A5FA8","#5470B8","#B85C7A","#7C8A8F","#C2547E","#9A8F3C","#3F7A70","#6A4F9A"]},"sage":{"n":"Sage linen","L":["#F3F5F1","#FFFFFF","#1F2A22","#56655B","#DFE5DC","#DDE6D8","#1F2A22","#2F5A41","#FFFFFF","#2F5A41","#FFFFFF","#E4EEDF"],"D":["#0F1511","#172019","#E7EEE8","#A6B5AA","#2A382E","#1E2B22","#E7EEE8","#9BCB9E","#0F1A12","#9BCB9E","#0F1A12","#24332A"],"c":["#4F7F5F","#3F7F8F","#B8593C","#C89A32","#9A7B4F","#7C6BAE","#6E9E6A","#7A857D","#B0607F","#8F9C45","#367A72","#6B5F9F"]},"aubergine":{"h":"pearl","n":"Aubergine pearl","L":["#F6F3F8","#FFFFFF","#241A2E","#5F5170","#E4DDEB","#34213F","#F6F1F8","#C8B4E6","#2A1840","#34213F","#FFFFFF","#EFE7F8"],"D":["#120C18","#1D1426","#F0EAF5","#B9AAC8","#33264A","#432B54","#F6F1F8","#D2C0EE","#2A1840","#C8B4E6","#1A0F26","#352548"],"c":["#6B4FA8","#3D8A9A","#C0475E","#CFA23E","#B5704A","#4F7FC0","#8A6FC0","#7B7A90","#B04F8F","#7FA05A","#3C8A82","#5A46A0"]},"luxe":{"n":"Midnight gold luxe","fx":"luxe","L":["#F3F4F9","#FFFFFF","#141A33","#4D5672","#DEE1EC","#12173F","#F7F1E1","#D9AE4A","#2A1E04","#12173F","#F0D27A","#FAF0D2"],"D":["#090C1F","#121736","#EEF0FA","#ADB4D2","#29305E","#10154A","#F7F1E1","#E6BF58","#2A1E04","#E3BC55","#1B1400","#3A2F12"],"c":["#3D5CE0","#0FA3B8","#C7364F","#DDAE3A","#C97A4A","#8E63E6","#12A38A","#6A7899","#D14FA5","#68A03A","#177F86","#7A55E0"]},"silver":{"h":"brushed","n":"Midnight silver","L":["#F3F5F8","#FFFFFF","#111C33","#4A5670","#DDE2EA","#14213D","#F1F4F9","#C3CBD8","#14213D","#14213D","#FFFFFF","#E6EBF3"],"D":["#080D1A","#101830","#EAEFF7","#A7B2C8","#25304D","#182A52","#F1F4F9","#D2D9E5","#0F1A33","#AFC4F5","#080D1A","#22304F"],"c":["#3E63DD","#0EA5B7","#D0455F","#D9A441","#C27B4E","#8B6BE6","#12A594","#6B7A93","#D24FA0","#6EA13B","#1B8A8F","#6A57D6"]},"onyx":{"h":"quilt","n":"Onyx gold","L":["#F5F4F1","#FFFFFF","#16130C","#5A5445","#E5E1D6","#15130F","#F7F2E4","#D4AF37","#241A02","#15130F","#FFFFFF","#F9F0D2"],"D":["#0A0907","#15130F","#F4EFE2","#B5AC96","#2D2A21","#1C1A14","#F7F2E4","#E2BC4B","#241A02","#E2BC4B","#1A1200","#3A3010"],"c":["#3F6FB0","#2A8C82","#B5453A","#D4AF37","#A8683A","#8467B5","#5C9A4E","#7A7565","#B0578A","#8C9A3C","#2E7A6E","#6B5AA8"]},"espresso":{"h":"grain","n":"Espresso bronze","L":["#F6F2EE","#FFFFFF","#241812","#6A5648","#E8DED4","#2B1D16","#F6EDE3","#C9964B","#2A1804","#2B1D16","#FFFFFF","#F7E9D5"],"D":["#120C09","#1F1510","#F3EAE0","#C0AC9A","#3A2A20","#3A271C","#F6EDE3","#D9A65C","#2A1804","#D9A65C","#1F1004","#40301C"],"c":["#5B7BA6","#4E9A8F","#B84A3C","#D09A38","#A66A3E","#8A6BA8","#6B9A55","#8A7A6A","#B5567F","#98A03E","#3E8078","#7A5FA0"]},"ocean":{"h":"ripple","n":"Ocean amber","L":["#F1F5F7","#FFFFFF","#0C2530","#45606B","#D8E3E8","#0B2E3B","#EDF5F7","#F0A83A","#2B1A00","#0B2E3B","#FFFFFF","#FDEFD6"],"D":["#061419","#0C222B","#E7F1F4","#9CB8C1","#1C3A46","#0F3C4D","#EDF5F7","#F4B44E","#2B1A00","#7FD0DE","#061419","#3A2E12"],"c":["#1F86A6","#2EA58B","#D45A45","#E0A030","#B57040","#7B6FC4","#5FA55A","#5F8391","#C8578F","#9BA640","#2A8A80","#5F6CC0"]},"neon":{"h":"scan","n":"Neon nights","g":1,"L":["#F4F1FB","#FFFFFF","#1A1030","#5B4C7A","#E3DCF2","#190B33","#F6EEFF","#FF2BD6","#16002B","#2A0F5C","#FFFFFF","#FCE3F8"],"D":["#07030F","#120A24","#F2EAFF","#B3A3D6","#2A1B4D","#1A0B3D","#F6EEFF","#FF3DE0","#12001F","#22E5FF","#001318","#2B1046"],"c":["#7C3AED","#06B6D4","#F0369E","#F5B700","#FF6B3D","#8B5CF6","#10D9A0","#6C6F9C","#E11DEB","#7EE021","#00A3B4","#5B5BFF"]},"laser":{"h":"grid","n":"Laser lime","g":1,"L":["#F2F7F2","#FFFFFF","#0A1A10","#3F5F4A","#D8E6DB","#05110A","#EAFBEF","#39FF14","#032008","#0A2B14","#FFFFFF","#E1FBD9"],"D":["#030806","#0A140E","#E8FFEE","#8FBF9E","#163524","#0B2415","#EAFBEF","#39FF14","#032008","#39FF14","#032008","#123A1E"],"c":["#16C172","#00B8D9","#FF3D71","#FFC400","#FF7A00","#B24BFF","#00E5A0","#6B8F7A","#FF4FD8","#A6E22E","#00A896","#5B7CFF"]}};
+var B={skins:S,base:BASE,cur:'midnight'};
+B.dark=function(){var a=r.getAttribute('data-theme');return a==='dark'||(a!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);};
+B.apply=function(name){
+  if(name)B.cur=name;
+  var s=S[B.cur]||S.midnight,d=B.dark(),p=d?s.D:s.L,st=r.style;
+  if(B.cur!=='midnight'&&s.fx){r.setAttribute('data-fx',s.fx);}else{r.removeAttribute('data-fx');}
+  if(B.cur!=='midnight'&&s.h){r.setAttribute('data-hdr',s.h);}else{r.removeAttribute('data-hdr');}
+  if(B.cur==='midnight'||!S[B.cur]){K.concat(X,GL).forEach(function(k){st.removeProperty('--'+k);});}
+  else{
+    K.forEach(function(k,i){st.setProperty('--'+k,p[i]);});
+    st.setProperty('--wk','color-mix(in srgb,var(--bg) 55%,var(--surface))');
+    st.setProperty('--ink-3','color-mix(in srgb,var(--ink-2) 65%,var(--bg))');
+    st.setProperty('--line-2','color-mix(in srgb,var(--line) 55%,var(--surface))');
+    st.setProperty('--band-ink-2','color-mix(in srgb,var(--band-ink) 68%,var(--band))');
+    st.setProperty('--gold-text',d?'var(--gold)':'color-mix(in srgb,var(--gold) 40%,var(--ink))');
+    st.setProperty('--focus',d?p[7]:p[9]);
+    if(s.g){
+      st.setProperty('--glow-text','0 0 18px color-mix(in srgb,var(--gold) 65%,transparent)');
+      st.setProperty('--glow-box','0 0 16px color-mix(in srgb,var(--gold) 45%,transparent)');
+      st.setProperty('--glow-tab','0 -8px 16px -8px var(--gold)');
+    }else{GL.forEach(function(k){st.removeProperty('--'+k);});}
+  }
+  var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',p[5]);
+};
+B.color=function(h){var s=S[B.cur],i=BASE.indexOf(h);return(i<0||B.cur==='midnight'||!s)?h:s.c[i];};
+window.BGT=B;
+try{var k=localStorage.getItem('bgt.skin');if(k&&S[k])B.cur=k;}catch(e){}
+B.apply();
+if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',function(){B.apply();});}catch(e){}}
+})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#1A1E4A">
 <link rel="manifest" href="manifest.webmanifest">
@@ -456,6 +493,154 @@ html{scroll-padding-bottom:76px}
   radial-gradient(farthest-side at 100% 50%,rgba(20,26,60,.28),rgba(0,0,0,0)) right center/14px 100% no-repeat scroll,
   var(--surface)}
 @media (max-width:640px){ .tab{padding:0 14px} .tab.sub{padding:0 12px} }
+
+/* ===== v6: colour themes ===== */
+.band .btn{background:color-mix(in srgb,var(--band-ink) 9%,transparent);border-color:color-mix(in srgb,var(--band-ink) 26%,transparent)}
+.band .btn:hover{background:color-mix(in srgb,var(--band-ink) 18%,transparent);border-color:color-mix(in srgb,var(--band-ink) 45%,transparent)}
+.skins{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.skin{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);text-align:left}
+.skin:hover{border-color:var(--ink-3)}
+.skin[aria-pressed="true"]{border-color:var(--primary);box-shadow:inset 0 0 0 1.5px var(--primary)}
+.sksw{display:flex;height:22px;border-radius:6px;overflow:hidden;border:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
+.sksw i{flex:1;display:block}
+.sksw i:first-child{flex:1.6}
+.skn{font-weight:500;font-size:14px}
+
+/* ===== v7: neon glow (only set by the neon themes) + theme picker headings ===== */
+.st.main b{text-shadow:var(--glow-text,none)}
+.logo,.btn.gold{box-shadow:var(--glow-box,0 0 0 0 transparent)}
+.chip[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--primary),var(--glow-box,0 0 0 0 transparent)}
+.tab[aria-current="true"]{box-shadow:var(--glow-tab,none)}
+.skhead{grid-column:1/-1;font-size:13px;color:var(--ink-2);margin-top:6px}
+
+/* ===== v8: Midnight gold luxe (only active when the root has data-fx="luxe") ===== */
+:root[data-fx="luxe"]{
+  --metal:linear-gradient(135deg,#8F6B1C 0%,#D6AB3D 15%,#F8E7A2 33%,#E4BC52 49%,#B78725 68%,#F0CF72 85%,#A67A1E 100%);
+  --metal-v:linear-gradient(180deg,#FFF1B5 0%,#F1CE6C 28%,#D5A43B 54%,#B98526 71%,#F4D97F 100%);
+  --gilt-line:linear-gradient(90deg,rgba(214,171,61,0),#E9C766 22%,#FBEBB0 50%,#E9C766 78%,rgba(214,171,61,0));
+}
+:root[data-fx="luxe"] .band{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(115deg,rgba(255,255,255,0) 36%,rgba(255,255,255,.055) 50%,rgba(255,255,255,0) 64%),
+    radial-gradient(90% 120% at 10% -15%,rgba(96,116,255,.34) 0%,rgba(96,116,255,0) 56%),
+    radial-gradient(75% 95% at 105% 115%,rgba(228,188,82,.18) 0%,rgba(228,188,82,0) 62%),
+    linear-gradient(180deg,color-mix(in srgb,var(--band) 84%,#4656e0) 0%,var(--band) 52%,color-mix(in srgb,var(--band) 82%,#000) 100%);
+  box-shadow:inset 0 -1px 0 rgba(242,211,122,.6),inset 0 -4px 0 rgba(8,10,40,.45);
+}
+:root[data-fx="luxe"] .band::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-radial-gradient(circle at 106% -8%,rgba(236,202,108,.20) 0 1px,transparent 1px 13px);
+  -webkit-mask-image:radial-gradient(115% 125% at 100% 0%,#000 0%,rgba(0,0,0,.35) 42%,transparent 66%);
+  mask-image:radial-gradient(115% 125% at 100% 0%,#000 0%,rgba(0,0,0,.35) 42%,transparent 66%);
+}
+:root[data-fx="luxe"] .band::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 1px,transparent 1px 6px);
+}
+:root[data-fx="luxe"] .band .wrap{position:relative;z-index:1}
+:root[data-fx="luxe"] .band h1::after{content:"";display:block;width:64px;height:2px;margin-top:12px;border-radius:2px;background:var(--metal)}
+:root[data-fx="luxe"] .st.main b{
+  background:var(--metal-v);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 1px 0 rgba(70,45,0,.6)) drop-shadow(0 0 12px rgba(236,196,88,.2));
+}
+:root[data-fx="luxe"] .st:not(.main){
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03));
+  border:1px solid rgba(236,202,108,.24);border-radius:12px;padding:8px 12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+}
+:root[data-fx="luxe"] .logo{
+  background:var(--metal);color:#2A1E04;text-shadow:0 1px 0 rgba(255,240,180,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(90,60,0,.5),0 2px 8px rgba(0,0,0,.4);
+}
+:root[data-fx="luxe"] .band .btn{background:rgba(255,255,255,.06);border-color:rgba(236,202,108,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+:root[data-fx="luxe"] .band .btn:hover{background:rgba(236,202,108,.15);border-color:rgba(244,214,128,.75)}
+:root[data-fx="luxe"] .entry{
+  border-color:color-mix(in srgb,#D6AB3D 42%,var(--line));
+  box-shadow:0 24px 46px -26px rgba(8,10,44,.8),inset 0 1px 0 rgba(255,255,255,.75);
+}
+:root[data-fx="luxe"] .entry::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:1px;background:var(--gilt-line)}
+:root[data-fx="luxe"] .btn.gold{
+  background:var(--metal);border-color:#A57B20;color:#2A1E04;text-shadow:0 1px 0 rgba(255,240,180,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62),inset 0 -1px 0 rgba(110,75,0,.38),0 3px 8px -3px rgba(90,60,0,.55);
+}
+:root[data-fx="luxe"] .btn.gold:disabled{opacity:.5}
+:root[data-fx="luxe"] .btn.gold:not(:disabled):active{filter:brightness(.95)}
+:root[data-fx="luxe"] .tab[aria-current="true"]{border-top-color:transparent;background:var(--metal) top/100% 3px no-repeat,var(--gold-soft)}
+:root[data-fx="luxe"] .tabs{border-top-color:color-mix(in srgb,#D6AB3D 45%,var(--line))}
+:root[data-fx="luxe"] .chip[aria-pressed="true"]{border-color:#C9A03E;box-shadow:inset 0 0 0 1.5px #C9A03E}
+:root[data-fx="luxe"] .seg button[aria-pressed="true"]{box-shadow:inset 0 0 0 1px rgba(236,202,108,.55),inset 0 1px 0 rgba(255,255,255,.12)}
+
+/* ===== v9: header depth + accent hairline for the other deep-header themes, each with its own faint texture ===== */
+:root[data-hdr] .band{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(115deg,transparent 36%,color-mix(in srgb,var(--band-ink) 5%,transparent) 50%,transparent 64%),
+    radial-gradient(90% 120% at 10% -15%,color-mix(in srgb,var(--band-ink) 14%,transparent) 0%,transparent 56%),
+    radial-gradient(75% 95% at 105% 115%,color-mix(in srgb,var(--gold) 17%,transparent) 0%,transparent 62%),
+    linear-gradient(180deg,color-mix(in srgb,var(--band) 90%,var(--band-ink)) 0%,var(--band) 52%,color-mix(in srgb,var(--band) 82%,#000) 100%);
+  box-shadow:inset 0 -1px 0 color-mix(in srgb,var(--gold) 70%,transparent),inset 0 -4px 0 color-mix(in srgb,#000 38%,transparent);
+}
+:root[data-hdr] .band::before{content:"";position:absolute;inset:0;pointer-events:none}
+:root[data-hdr] .band .wrap{position:relative;z-index:1}
+/* Midnight silver: brushed steel, fine grain with a light-catching sheen */
+:root[data-hdr="brushed"] .band::before{
+  background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--band-ink) 5%,transparent) 0 1px,transparent 1px 3px);
+  -webkit-mask-image:linear-gradient(115deg,#000 0%,rgba(0,0,0,.2) 46%,#000 100%);mask-image:linear-gradient(115deg,#000 0%,rgba(0,0,0,.2) 46%,#000 100%);
+}
+/* Onyx gold: quilted diamonds */
+:root[data-hdr="quilt"] .band::before{
+  background:
+    repeating-linear-gradient(45deg,color-mix(in srgb,var(--gold) 10%,transparent) 0 1px,transparent 1px 20px),
+    repeating-linear-gradient(-45deg,color-mix(in srgb,var(--gold) 10%,transparent) 0 1px,transparent 1px 20px);
+  -webkit-mask-image:radial-gradient(120% 130% at 100% 0%,#000 0%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.1) 100%);mask-image:radial-gradient(120% 130% at 100% 0%,#000 0%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.1) 100%);
+}
+/* Espresso bronze: leather / wood grain, uneven fine lines */
+:root[data-hdr="grain"] .band::before{
+  background:
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--band-ink) 3.4%,transparent) 0 1px,transparent 1px 7px),
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--band-ink) 2.6%,transparent) 0 1px,transparent 1px 11px),
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--band-ink) 2.2%,transparent) 0 2px,transparent 2px 17px);
+}
+/* Ocean amber: slow ripples rising from the lower left */
+:root[data-hdr="ripple"] .band::before{
+  background:repeating-radial-gradient(ellipse 150% 95% at 16% 140%,color-mix(in srgb,var(--band-ink) 9%,transparent) 0 1px,transparent 1px 16px);
+  -webkit-mask-image:linear-gradient(0deg,#000 0%,rgba(0,0,0,.4) 55%,transparent 92%);mask-image:linear-gradient(0deg,#000 0%,rgba(0,0,0,.4) 55%,transparent 92%);
+}
+/* Forest brass: ledger-cloth weave */
+:root[data-hdr="weave"] .band::before{
+  background:
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--band-ink) 3%,transparent) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,color-mix(in srgb,var(--band-ink) 3%,transparent) 0 1px,transparent 1px 3px);
+}
+/* Graphite copper: technical dot grid */
+:root[data-hdr="dots"] .band::before{
+  background:radial-gradient(color-mix(in srgb,var(--band-ink) 13%,transparent) 1px,transparent 1.5px) 0 0/22px 22px;
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.2));mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.2));
+}
+/* Bordeaux rose: tailored chalk pinstripe */
+:root[data-hdr="chalk"] .band::before{
+  background:repeating-linear-gradient(100deg,color-mix(in srgb,var(--band-ink) 6%,transparent) 0 1px,transparent 1px 16px);
+  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 60%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 60%);
+}
+/* Aubergine pearl: soft pearlescent lustre, no lines */
+:root[data-hdr="pearl"] .band::before{
+  background:
+    radial-gradient(38% 55% at 88% 12%,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%),
+    radial-gradient(28% 42% at 60% 84%,color-mix(in srgb,var(--band-ink) 9%,transparent),transparent 70%),
+    radial-gradient(30% 48% at 6% 72%,color-mix(in srgb,var(--gold) 13%,transparent),transparent 70%);
+}
+/* Neon nights: CRT scanlines */
+:root[data-hdr="scan"] .band::before{
+  background:repeating-linear-gradient(0deg,color-mix(in srgb,var(--band-ink) 5%,transparent) 0 1px,transparent 1px 4px);
+}
+/* Laser lime: radar / terminal grid */
+:root[data-hdr="grid"] .band::before{
+  background:
+    linear-gradient(color-mix(in srgb,var(--gold) 10%,transparent) 1px,transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg,color-mix(in srgb,var(--gold) 10%,transparent) 1px,transparent 1px) 0 0/24px 24px;
+  -webkit-mask-image:radial-gradient(120% 120% at 100% 0%,#000,rgba(0,0,0,.3) 60%,transparent);mask-image:radial-gradient(120% 120% at 100% 0%,#000,rgba(0,0,0,.3) 60%,transparent);
+}
 </style>
 </head>
 <body>
@@ -580,6 +765,10 @@ html{scroll-padding-bottom:76px}
   <div class="db">
     <label>Sheet title<input id="bookTitle" maxlength="60" autocomplete="off"></label>
     <div class="setgrp">
+      <div class="setlbl">Colour theme</div>
+      <div class="skins" id="skinList" role="group" aria-label="Colour theme"></div>
+    </div>
+    <div class="setgrp">
       <div class="setlbl">Appearance</div>
       <div class="seg wide" id="themeSeg" role="group" aria-label="Appearance">
         <button type="button" data-th="auto" aria-pressed="true">System</button>
@@ -645,7 +834,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.3', APP_BUILD = '20 Sep 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.7', APP_BUILD = '20 Sep 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -656,6 +845,7 @@ const TRASH = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" strok
 const UP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
 const DOWN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 
+const cc = h => (window.BGT ? window.BGT.color(h) : h);
 const pad = n => String(n).padStart(2, '0');
 const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
 const curYm = () => todayStr().slice(0, 7);
@@ -849,7 +1039,7 @@ function stats(ym){
     total = round2(total + t.amt);
     if (!names[t.cat]) names[t.cat] = t.catName;
   });
-  const rows = state.categories.map(c => ({id: c.id, name: c.name, color: c.color, deleted: false}));
+  const rows = state.categories.map(c => ({id: c.id, name: c.name, color: cc(c.color), deleted: false}));
   Object.keys(catTot).forEach(id => { if (!catById(id)) rows.push({id: id, name: (names[id] || 'Deleted category') + ' (deleted)', color: '#8A93A6', deleted: true}); });
   let max = 0, big = 0, bigV = 0, topId = null, topV = 0;
   rows.forEach(r => { const row = cell[r.id] || {}; Object.keys(row).forEach(k => { if (row[k] > max) max = row[k]; }); });
@@ -884,7 +1074,7 @@ function renderHead(st){
 }
 function renderChips(){
   $('#chips').innerHTML = state.categories.map(c =>
-    '<button type="button" class="chip" data-id="' + esc(c.id) + '" aria-pressed="' + (entry.cat === c.id) + '" style="--c:' + esc(c.color) + '"><i class="dot"></i>' + esc(c.name) + '</button>'
+    '<button type="button" class="chip" data-id="' + esc(c.id) + '" aria-pressed="' + (entry.cat === c.id) + '" style="--c:' + esc(cc(c.color)) + '"><i class="dot"></i>' + esc(c.name) + '</button>'
   ).join('') + '<button type="button" class="chip new" data-act="newcat">+ New category</button>';
   const ok = !!catById(entry.cat);
   $('#amt').disabled = !ok; $('#addBtn').disabled = !ok;
@@ -933,7 +1123,7 @@ function scrollGrid(){
 const openSet = new Set(), seenSet = new Set();
 function groupOpen(key, dflt){ if (!seenSet.has(key)) { seenSet.add(key); if (dflt) openSet.add(key); } return openSet.has(key); }
 function rowHtml(t){
-  const c = catById(t.cat), name = c ? c.name : (t.catName || 'Deleted category') + ' (deleted)', color = c ? c.color : '#8A93A6';
+  const c = catById(t.cat), name = c ? c.name : (t.catName || 'Deleted category') + ' (deleted)', color = c ? cc(c.color) : '#8A93A6';
   return '<li><button type="button" class="row" data-id="' + esc(t.id) + '" aria-label="Edit ' + esc(name) + ' entry">' +
     '<span><span class="rcat"><i class="dot" style="--c:' + esc(color) + '"></i><span>' + esc(name) + '</span></span>' + (t.note ? '<span class="rnote">' + esc(t.note) + '</span>' : '') + '</span>' +
     '<span class="ramt">' + fmt(t.amt) + '</span></button></li>';
@@ -1032,7 +1222,7 @@ function renderSummary(st){
   }
   const rows = Object.keys(byCat).map(id => {
     const c = catById(id), vals = byCat[id];
-    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? c.color : '#8A93A6', vals: vals, total: round2(vals.reduce((n, v) => n + v, 0))};
+    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? cc(c.color) : '#8A93A6', vals: vals, total: round2(vals.reduce((n, v) => n + v, 0))};
   }).filter(r => r.total > 0).sort((a, b) => b.total - a.total);
   const grand = round2(colTot.reduce((n, v) => n + v, 0));
   $('#sheetBody').innerHTML = bar + '</div>' + (rows.length ? matrixHtml(cols, rows, colTot, grand, foot) : '<div class="emptysheet">No spending recorded ' + (mode === 'week' ? 'in ' + esc(ymLabel(view.ym)) : 'this year') + ' yet.</div>');
@@ -1332,7 +1522,7 @@ function openCats(fromChips){
 function renderCats(){
   const n = state.categories.length;
   $('#catList').innerHTML = n ? state.categories.map((c, i) =>
-    '<div class="crow" data-id="' + esc(c.id) + '"><i class="dot" style="--c:' + esc(c.color) + '"></i>' +
+    '<div class="crow" data-id="' + esc(c.id) + '"><i class="dot" style="--c:' + esc(cc(c.color)) + '"></i>' +
     '<input class="cname" value="' + esc(c.name) + '" maxlength="40" aria-label="Category name">' +
     '<button type="button" class="icon-btn" data-mv="-1" aria-label="Move ' + esc(c.name) + ' up"' + (i === 0 ? ' disabled' : '') + '>' + UP + '</button>' +
     '<button type="button" class="icon-btn" data-mv="1" aria-label="Move ' + esc(c.name) + ' down"' + (i === n - 1 ? ' disabled' : '') + '>' + DOWN + '</button>' +
@@ -1590,8 +1780,20 @@ function applyTheme(mode){
   if (mode === 'light' || mode === 'dark') rootEl.setAttribute('data-theme', mode);
   else if (initialTheme) rootEl.setAttribute('data-theme', initialTheme);
   else rootEl.removeAttribute('data-theme');
+  if (window.BGT) window.BGT.apply();
 }
-function renderThemeSeg(){ const t = getTheme(); document.querySelectorAll('#themeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.th === t))); }
+function renderThemeSeg(){ const t = getTheme(); document.querySelectorAll('#themeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.th === t))); renderSkins(); }
+const SKIN_ORDER = ['midnight', 'luxe', 'silver', 'onyx', 'espresso', 'ocean', 'forest', 'graphite', 'bordeaux', 'aubergine', 'sage', '#Neon (looks best in dark mode)', 'neon', 'laser'];
+function renderSkins(){
+  const B = window.BGT, box = $('#skinList'); if (!B || !box) return;
+  const dark = B.dark();
+  box.innerHTML = SKIN_ORDER.map(k => {
+    if (k.charAt(0) === '#') return '<div class="skhead">' + esc(k.slice(1)) + '</div>';
+    const sk = B.skins[k]; if (!sk) return '';
+    const p = dark ? sk.D : sk.L;
+    return '<button type="button" class="skin" data-skin="' + k + '" aria-pressed="' + (B.cur === k) + '"><span class="sksw"><i style="background:' + p[5] + '"></i><i style="background:' + (sk.fx ? 'linear-gradient(135deg,#8F6B1C,#F8E7A2 38%,#B78725 68%,#F0CF72)' : p[7]) + '"></i><i style="background:' + sk.c[0] + '"></i><i style="background:' + sk.c[1] + '"></i><i style="background:' + sk.c[2] + '"></i></span><span class="skn">' + esc(sk.n) + '</span></button>';
+  }).join('');
+}
 function lastExportText(){
   let t = null; try { t = localStorage.getItem('bgt.lastExport'); } catch(e) {}
   if (!t) return 'You haven\u2019t exported yet. Export a CSV now and then so you always have a copy of your entries.';
@@ -1632,6 +1834,12 @@ function initSettings(){
     const b = e.target.closest('button[data-th]'); if (!b) return;
     try { if (b.dataset.th === 'auto') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, b.dataset.th); } catch(err) {}
     applyTheme(b.dataset.th); renderThemeSeg();
+  });
+  $('#skinList').addEventListener('click', e => {
+    const b = e.target.closest('[data-skin]'); if (!b || !window.BGT) return;
+    const k = b.dataset.skin;
+    try { if (k === 'midnight') localStorage.removeItem('bgt.skin'); else localStorage.setItem('bgt.skin', k); } catch(err) {}
+    window.BGT.apply(k); renderSkins(); render();
   });
   $('#setExport').addEventListener('click', exportCsv);
   $('#setImport').addEventListener('click', openImport);
@@ -1784,7 +1992,7 @@ function arcPath(r0, r1, a0, a1){
 function itemsFrom(catTot, catCnt, names){
   return Object.keys(catTot).map(id => {
     const c = catById(id);
-    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? c.color : '#8A93A6', value: catTot[id], n: catCnt[id] || 0};
+    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? cc(c.color) : '#8A93A6', value: catTot[id], n: catCnt[id] || 0};
   }).filter(x => x.value > 0).sort((a, b) => b.value - a.value);
 }
 function renderPies(st){
