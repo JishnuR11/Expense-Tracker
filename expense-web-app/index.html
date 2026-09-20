@@ -1,0 +1,1883 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>(function(){try{var r=document.documentElement;r.setAttribute('data-th0',r.getAttribute('data-theme')||'');var t=localStorage.getItem('bgt.theme');if(t==='light'||t==='dark')r.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#1A1E4A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Expenses">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Expense sheet</title>
+<style>
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(fonts/bricolage-grotesque-latin-600-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(fonts/bricolage-grotesque-latin-ext-600-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(fonts/bricolage-grotesque-latin-700-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(fonts/bricolage-grotesque-latin-ext-700-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(fonts/ibm-plex-sans-latin-ext-400-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(fonts/ibm-plex-sans-latin-ext-500-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(fonts/ibm-plex-sans-latin-ext-600-normal.woff2) format("woff2");
+}
+</style>
+<style>
+:root{
+  --bg:#F4F5FA; --surface:#FFFFFF; --wk:#F7F8FC;
+  --ink:#151A33; --ink-2:#4F5873; --ink-3:#7C86A2;
+  --line:#DFE2EE; --line-2:#ECEEF6;
+  --band:#1A1E4A; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
+  --gold:#DDB35A; --on-gold:#2B2106; --gold-soft:#FBF3DC; --gold-text:#8A6413;
+  --primary:#1A1E4A; --on-primary:#FFFFFF; --focus:#3B5BDB;
+  --pos:#0F7B5A; --neg:#C22F1F;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0E22; --surface:#141937; --wk:#101431;
+    --ink:#EEF0FA; --ink-2:#AEB5D3; --ink-3:#7F88AB;
+    --line:#2A3160; --line-2:#1E2447;
+    --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
+    --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
+    --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
+    --pos:#4FCB9E; --neg:#FF8272;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0E22; --surface:#141937; --wk:#101431;
+  --ink:#EEF0FA; --ink-2:#AEB5D3; --ink-3:#7F88AB;
+  --line:#2A3160; --line-2:#1E2447;
+  --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
+  --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
+  --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
+  --pos:#4FCB9E; --neg:#FF8272;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--body);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.muted{color:var(--ink-2)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* ---------- band ---------- */
+.band{background:var(--band);color:var(--band-ink);padding:14px 0 84px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brandrow{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:30px;height:30px;border-radius:9px;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font:700 17px var(--display);flex:none}
+.brand{font:600 15px var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sync{font-size:13px;color:var(--band-ink-2);display:inline-flex;align-items:center;gap:7px;margin-right:6px}
+.sync::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--band-ink-2)}
+.sync[data-s="synced"]::before{background:#4FCB9E}
+.sync[data-s="error"]::before{background:#FF8272}
+.band .btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:var(--band-ink)}
+.band .btn:hover{background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.45)}
+h1{font:700 clamp(36px,6.5vw,58px)/1.02 var(--display);letter-spacing:-.025em;margin:26px 0 0}
+.stats{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:18px}
+.st span{display:block;font-size:13px;color:var(--band-ink-2)}
+.st b{font:600 18px/1.35 var(--body)}
+.st.main b{font:700 34px/1.12 var(--display);color:var(--gold)}
+
+/* ---------- buttons & fields ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--primary);color:var(--on-primary);border-color:var(--primary);font-weight:600}
+.btn.gold{background:var(--gold);color:var(--on-gold);border-color:var(--gold);font-weight:600}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.danger{color:var(--neg)}
+.btn.link{border:0;background:none;color:var(--ink-2);padding:0 4px;min-height:34px;text-decoration:underline;text-underline-offset:3px}
+.btn.link:hover{color:var(--neg)}
+.icon-btn{width:40px;padding:0}
+label{display:grid;gap:4px;font-size:13px;color:var(--ink-2)}
+input,select,textarea{min-height:42px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);width:100%}
+textarea{padding:10px 12px;min-height:130px;resize:vertical;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+input:disabled{background:var(--line-2);color:var(--ink-3);cursor:not-allowed}
+.money{position:relative}
+.money span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3);pointer-events:none}
+.money input{padding-left:28px}
+.err{color:var(--neg);font-size:13px;min-height:18px}
+
+/* ---------- entry card ---------- */
+.entry{position:relative;margin-top:-52px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;box-shadow:0 16px 36px -20px rgba(14,18,70,.55)}
+.entry h2{font:600 16px var(--body);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.chip:hover{border-color:var(--ink-3)}
+.chip[aria-pressed="true"]{border-color:var(--primary);box-shadow:inset 0 0 0 1.5px var(--primary);background:var(--gold-soft);font-weight:600}
+.chip.new{border-style:dashed;color:var(--ink-2)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;display:inline-block}
+.fields{display:grid;grid-template-columns:minmax(130px,1.1fr) 170px minmax(130px,1.6fr) auto;gap:10px;align-items:end}
+
+/* ---------- sheet card ---------- */
+.sheetcard{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.shr{display:flex;align-items:center;gap:8px}
+.seg{display:inline-flex;background:var(--line-2);border-radius:9px;padding:3px}
+.seg button{border:0;background:none;padding:0 16px;border-radius:6px;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary);font-weight:600}
+
+.gridscroll{overflow-x:auto;position:relative}
+table.grid{border-collapse:separate;border-spacing:0;font-size:14px;min-width:100%}
+.grid th,.grid td{border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:0}
+.grid th.dcol{min-width:68px;height:54px;text-align:center;background:var(--surface);font-weight:400}
+.grid th.dcol .wd{display:block;font-size:11px;line-height:1.3;color:var(--ink-3)}
+.grid th.dcol .dn{display:block;font:600 15px/1.3 var(--body)}
+.grid th.dcol.we{background:var(--wk)}
+.grid th.dcol.today{box-shadow:inset 1px 0 0 var(--gold),inset -1px 0 0 var(--gold),inset 0 -3px 0 var(--gold)}
+.grid th.dcol.today .dn{color:var(--gold-text)}
+.grid th.cat,.grid th.corner{position:sticky;left:0;z-index:3;background:var(--surface);min-width:152px;max-width:152px;text-align:left;padding:0 14px;font-weight:500;border-right:1px solid var(--line)}
+.grid th.corner{z-index:4;font-size:13px;color:var(--ink-2);font-weight:500}
+.grid th.cat .cn{display:flex;align-items:center;gap:8px;height:46px}
+.grid th.cat .cn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.grid .rt{position:sticky;right:0;z-index:3;min-width:116px;text-align:right;border-left:1px solid var(--line);background:var(--surface)}
+.grid th.rt{z-index:4;font-size:13px;color:var(--ink-2);font-weight:500;padding:0 14px}
+.grid td.rt{padding:0 14px;font-weight:600}
+.grid td.rt b{position:relative;font-weight:600}
+.rtbar{position:absolute;top:7px;bottom:7px;left:0;width:var(--w);background:color-mix(in srgb,var(--c) 26%,transparent);border-radius:0 5px 5px 0}
+.grid td.c{height:46px}
+.grid td.we:not(.v){background:var(--wk)}
+.grid td.v{background:color-mix(in srgb,var(--c) calc(var(--h) * 100%),var(--surface))}
+.grid td.today{box-shadow:inset 1px 0 0 var(--gold),inset -1px 0 0 var(--gold)}
+.cell{display:block;width:100%;height:46px;padding:0 10px;border:0;background:transparent;text-align:right;font-size:13.5px}
+.cell:hover{background:rgba(120,130,175,.18)}
+.cell:empty:hover::after{content:"+";color:var(--ink-3);font-size:17px}
+.grid tfoot th,.grid tfoot td{background:var(--line-2);font-weight:600;height:48px;border-bottom:0}
+.grid tfoot td.ft{text-align:right;padding:0 10px;font-size:13.5px}
+.grid tfoot td.ft.big{background:var(--gold-soft);color:var(--gold-text)}
+.grid tfoot td.rt.grand{background:var(--primary);color:var(--on-primary);border-left-color:var(--primary)}
+.grid tfoot th.cat{font-weight:600}
+.emptysheet{padding:26px 16px;color:var(--ink-2)}
+
+/* entries list */
+.rows{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;padding:10px 16px;border:0;border-top:1px solid var(--line-2);background:none;min-height:58px}
+.rows li:first-child .row{border-top:0}
+.row:hover{background:var(--line-2)}
+.rdate{font-size:13px;color:var(--ink-2)}
+.rcat{display:flex;align-items:center;gap:8px;font-weight:500;min-width:0}
+.rcat span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rnote{display:block;font-size:13px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:18px}
+.ramt{font-weight:600}
+
+/* ---------- month tabs ---------- */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:stretch;background:var(--surface);border-top:1px solid var(--line);padding:0 8px env(safe-area-inset-bottom,0px);overflow-x:auto}
+.tab{flex:none;min-height:52px;padding:0 18px;border:0;border-top:3px solid transparent;background:none;color:var(--ink-2);font-weight:500}
+.tab:hover{color:var(--ink)}
+.tab[aria-current="true"]{color:var(--ink);border-top-color:var(--gold);background:var(--gold-soft);font-weight:600}
+.tab.add{font-size:22px}
+
+/* ---------- dialogs ---------- */
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(580px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}
+dialog::backdrop{background:rgba(8,10,30,.6)}
+.dh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dh h2{margin:0;font:600 17px var(--body)}
+.dh p{margin:0;font-size:13px}
+.db{padding:16px 18px;display:grid;gap:12px}
+.df{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line)}
+.df .left{margin-right:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.newcat{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.crow{display:grid;grid-template-columns:14px minmax(0,1fr) 40px 40px 40px;gap:6px;align-items:center;margin-bottom:8px}
+.crow .icon-btn,.clrow .icon-btn{min-height:40px;background:none;border:1px solid var(--line);border-radius:8px;display:inline-flex;align-items:center;justify-content:center}
+.crow .icon-btn:hover,.clrow .icon-btn:hover{background:var(--line-2)}
+.crow .icon-btn:disabled{opacity:.35;cursor:not-allowed}
+.icon-btn.danger{color:var(--neg)}
+.clrow{display:grid;grid-template-columns:130px minmax(0,1fr) 40px;gap:8px;align-items:center;margin-bottom:8px}
+.cladd{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:8px;align-items:end;padding-top:12px;border-top:1px solid var(--line-2)}
+.chk{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:14px}
+.chk input{width:18px;min-height:18px;height:18px}
+.imprev{font-size:14px;padding:10px 12px;border-radius:8px;background:var(--line-2);min-height:42px}
+
+.toast{position:fixed;left:50%;bottom:68px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;display:none;gap:14px;align-items:center;z-index:40;max-width:calc(100vw - 24px)}
+.toast.show{display:flex}
+.toast button{background:none;border:0;color:inherit;font-weight:600;text-decoration:underline;padding:4px}
+
+@media (max-width:760px){
+  .fields{grid-template-columns:1fr 1fr}
+  .fields .f-note,.fields .f-add{grid-column:1/-1}
+  .st.main b{font-size:30px}
+  .grid th.cat,.grid th.corner{min-width:116px;max-width:116px;padding:0 10px}
+  .grid .rt{min-width:100px}
+  .cladd{grid-template-columns:1fr 1fr}
+  .cladd button{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ===== v3: mobile, pies, collapsible entries, date picker, calculator ===== */
+*{-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+input,select,textarea{font-size:16px}
+.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.gridscroll{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.cell{user-select:none;-webkit-user-select:none}
+
+.fld{display:grid;gap:4px}
+.fld .lbl{font-size:13px;color:var(--ink-2)}
+.datebtn{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-align:left;white-space:nowrap;overflow:hidden}
+.datebtn:hover{border-color:var(--ink-3)}
+.datebtn svg{color:var(--ink-3)}
+.datebtn span{overflow:hidden;text-overflow:ellipsis}
+
+.mathbar{display:grid;gap:8px}
+.mathbar .keys{display:flex;gap:6px}
+.mathbar .keys button{flex:1;min-height:44px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--line-2);font-size:19px;font-weight:500}
+.mathbar .keys button:active{background:var(--line)}
+.mathbar .calc{font-weight:600;color:var(--pos);font-size:14px}
+.mathbar .calc:empty{display:none}
+
+.chev{width:9px;height:9px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);transition:transform .15s;flex:none;margin:0 5px 0 3px}
+[aria-expanded="true"]>.chev{transform:rotate(45deg)}
+
+/* pie charts */
+.piecard{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.piepanel{border-bottom:1px solid var(--line)}
+.pchead{display:flex;align-items:center;gap:8px;width:100%;min-height:50px;padding:0 14px;border:0;background:none;text-align:left}
+.pchead b{font-weight:600}
+.pchead small{color:var(--ink-2);font-size:13px}
+.pbody{display:flex;align-items:center;gap:20px;padding:2px 16px 16px}
+.pie{width:160px;height:160px;flex:none;overflow:visible}
+.slice{stroke:var(--surface);stroke-width:2;cursor:pointer;outline:none;transition:transform .15s ease,opacity .15s ease}
+.pie.sel .slice{opacity:.45}
+.pie.sel .slice.on{opacity:1;transform:translate(var(--dx),var(--dy))}
+.slice:focus-visible{stroke:var(--focus);stroke-width:4}
+.hole{fill:transparent;cursor:pointer}
+.pie.empty circle{stroke:var(--line-2)}
+.pdet{min-width:0;flex:1}
+.pd-hint{color:var(--ink-2);font-size:14px}
+.pd-name{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
+.pd-name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pd-amt{font:700 26px/1.2 var(--display);margin-top:2px}
+.pd-sub{color:var(--ink-2);font-size:13px;margin-top:2px}
+
+/* collapsible entries */
+.ltool{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:14px}
+.grp{display:grid;grid-template-columns:22px minmax(0,1fr) auto;column-gap:8px;row-gap:7px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:12px 14px;min-height:58px}
+.wgrp{background:var(--wk);border-top:1px solid var(--line)}
+.grpw:first-of-type .wgrp{border-top:0}
+.dgrp{padding-left:30px;border-top:1px solid var(--line-2)}
+.gt{min-width:0}
+.gt b{display:block;font-weight:600}
+.gt small{display:block;color:var(--ink-2);font-size:13px}
+.tagcur{display:inline-block;margin-left:8px;padding:0 8px;border-radius:999px;background:var(--gold-soft);color:var(--gold-text);font-size:12px;font-weight:600;vertical-align:1px}
+.gs{font-weight:600;white-space:nowrap}
+.gbar{grid-column:2/4;height:4px;border-radius:2px;background:var(--line-2);overflow:hidden}
+.gbar i{display:block;height:100%;background:var(--gold)}
+.dgrp .gbar i{background:var(--primary);opacity:.55}
+.row{grid-template-columns:minmax(0,1fr) auto}
+.gbody .row{padding:10px 16px 10px 46px;min-height:52px}
+
+/* date picker */
+#dlgDate{width:min(360px,calc(100vw - 24px))}
+.dp{padding:14px}
+.dp-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dp-head .icon-btn{min-height:44px;width:44px;flex:none;border:1px solid var(--line);border-radius:8px;background:none;font-size:22px;line-height:1}
+.dp-sel{display:flex;gap:6px;flex:1;min-width:0}
+.dp-sel select{min-height:44px;padding:0 8px}
+.dp-wd,.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dp-wd span{font-size:12px;color:var(--ink-3);padding:4px 0}
+.dpd{min-height:44px;border:0;border-radius:10px;background:none;font-size:16px}
+.dpd:hover{background:var(--line-2)}
+.dpd.today{box-shadow:inset 0 0 0 1.5px var(--gold)}
+.dpd.sel{background:var(--primary);color:var(--on-primary);font-weight:600}
+.dp-foot{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .band{padding:12px 0 76px}
+  .band .btn{min-width:44px;padding:0 11px}
+  .band .btn .lbl{display:none}
+  .sync{margin-right:0}
+  h1{margin-top:20px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+  .st.main{grid-column:1/-1}
+  .st b{font-size:16px}
+  .entry{padding:14px;margin-top:-46px;border-radius:14px}
+  .sh{padding:10px 12px}
+  .seg{width:100%}
+  .seg button{flex:1}
+  .shr{width:100%;justify-content:space-between}
+  .grid th.dcol{min-width:60px}
+  .grid th.cat,.grid th.corner{min-width:104px;max-width:104px;padding:0 8px}
+  .grid th.cat .cn{gap:6px}
+  .grid td.rt,.grid th.rt{min-width:92px;padding:0 10px}
+  .pie{width:124px;height:124px}
+  .pbody{gap:14px;padding:2px 14px 14px}
+  .pd-amt{font-size:22px}
+  .gbody .row{padding-left:40px}
+  dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 20px);margin:10px auto auto}
+  #dlgDate,#dlgConfirm{margin:auto auto 8px}
+}
+@media (pointer:coarse){
+  .btn{min-height:44px}
+  .btn.sm{min-height:40px}
+  .chip{min-height:44px}
+  .tab{min-height:56px}
+}
+
+/* ===== v3.1 fixes ===== */
+.fields .mathbar,.cladd .mathbar{grid-column:1/-1;order:10}
+.shr .btn.link{margin-left:auto}
+.grp{min-height:52px;row-gap:5px;padding-top:10px;padding-bottom:10px}
+@media (max-width:640px){
+  .top{flex-wrap:nowrap;gap:8px}
+  .brandrow{flex:1}
+  .brand{font-size:14px}
+  .actions{flex:none;flex-wrap:nowrap;gap:6px}
+  .sync{font-size:0;gap:0;margin:0 6px}
+  .sync::before{width:10px;height:10px}
+  .fields > label:first-child{grid-column:1/-1;order:1}
+  .fields .mathbar{order:2}
+  .fields .fld{order:3}
+  .fields .f-note{grid-column:auto;order:4}
+  .fields .f-add{grid-column:1/-1;order:5}
+  .cladd{grid-template-columns:1fr}
+  .cladd .mathbar{order:0}
+  .cladd button{grid-column:auto}
+  .grid td.rt,.grid th.rt{position:relative}
+}
+
+/* ===== v4: settings ===== */
+html{scroll-padding-bottom:76px}
+.mbadd{width:100%}
+.fields:has(.mathbar:not([hidden])) .f-add{display:none}
+.seg.wide{display:flex}
+.seg.wide button{flex:1}
+.setgrp{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line-2)}
+.setlbl{font-weight:600;font-size:14px}
+.setrow{display:flex;gap:8px;flex-wrap:wrap}
+.setrow .btn{flex:1;min-width:120px}
+.small{font-size:13px;margin:0}
+.shrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)}
+.shrow:last-child{border-bottom:0}
+.shinfo{min-width:0}
+.shinfo b{display:block;font-weight:600}
+.shinfo small{color:var(--ink-2);font-size:13px}
+#sheetList{max-height:240px;overflow:auto}
+.filerow{display:flex;align-items:center;gap:10px;min-width:0}
+.filerow span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.radios{display:grid;gap:8px}
+
+/* ===== v5: grouped month tabs, category summary ===== */
+.tab.tgb{display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.tab.tgb.has-active{color:var(--ink);border-top-color:var(--gold)}
+.tab.sub{padding:0 14px}
+.tgrp{display:flex;align-items:stretch;flex:none;background:var(--wk);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.sumbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line-2)}
+.yrnav{display:flex;align-items:center;gap:8px}
+.yrnav .btn.sm{min-width:40px;padding:0;font-size:18px}
+.yrnav b{min-width:46px;text-align:center}
+.grid td.sv{height:46px;padding:0 10px;text-align:right;font-size:13.5px}
+@media (max-width:640px){ .sumbar .seg{flex:1} }
+
+/* ===== v5.1 ===== */
+.grid th.tt{min-width:104px;text-align:right;padding:0 12px;font-size:13px;color:var(--ink-2);font-weight:500;background:var(--surface);border-right:1px solid var(--line)}
+.grid td.tt{position:relative;min-width:104px;text-align:right;padding:0 12px;font-weight:600;border-right:1px solid var(--line);background:var(--surface)}
+.grid td.tt b{position:relative;font-weight:600}
+.grid tfoot td.tt.grand{background:var(--primary);color:var(--on-primary);border-right-color:var(--primary)}
+.seg button{white-space:nowrap}
+@media (max-width:640px){ .seg button{padding:0 8px} .grid th.tt,.grid td.tt{min-width:92px;padding:0 10px} }
+
+/* ===== v5.2: hint that older tabs sit off to the left / right ===== */
+.tabs{background:
+  linear-gradient(to right,var(--surface) 30%,rgba(255,255,255,0)) left center/44px 100% no-repeat local,
+  linear-gradient(to left,var(--surface) 30%,rgba(255,255,255,0)) right center/44px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(20,26,60,.28),rgba(0,0,0,0)) left center/14px 100% no-repeat scroll,
+  radial-gradient(farthest-side at 100% 50%,rgba(20,26,60,.28),rgba(0,0,0,0)) right center/14px 100% no-repeat scroll,
+  var(--surface)}
+@media (max-width:640px){ .tab{padding:0 14px} .tab.sub{padding:0 12px} }
+</style>
+</head>
+<body>
+<div class="band">
+  <div class="wrap">
+    <header class="top">
+      <div class="brandrow"><span class="logo" aria-hidden="true">₹</span><span class="brand" id="brand"></span></div>
+      <div class="actions">
+        <span class="sync" id="sync" data-s="local" role="status" title="Saved on this device">On this device</span>
+        <button class="btn" id="btnCats" type="button" aria-label="Categories"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span class="lbl">Categories</span></button>
+        <button class="btn" id="btnSettings" type="button" aria-label="Settings" aria-haspopup="dialog"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg><span class="lbl">Settings</span></button>
+      </div>
+    </header>
+    <h1 id="mtitle"></h1>
+    <div class="stats" id="stats"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <form class="entry" id="entryForm" novalidate>
+    <h2>Add an expense</h2>
+    <div class="chips" id="chips" role="group" aria-label="Choose a category"></div>
+    <div class="fields">
+      <label>Amount
+        <div class="money"><span>₹</span><input id="amt" inputmode="decimal" autocomplete="off" placeholder="Pick a category first" disabled></div>
+      </label>
+      <div class="mathbar" id="mbAmt" hidden><div class="calc" aria-live="polite"></div><div class="keys"></div><button type="submit" class="btn gold mbadd">Add expense</button></div>
+      <div class="fld"><span class="lbl" id="dtLbl">Date</span><button type="button" class="datebtn" id="dtBtn" data-for="dt" aria-labelledby="dtLbl dtBtn" aria-haspopup="dialog"></button><input type="hidden" id="dt"></div>
+      <label class="f-note">Note <input id="note" maxlength="120" placeholder="Optional" autocomplete="off"></label>
+      <button class="btn gold f-add" id="addBtn" type="submit" disabled>Add expense</button>
+    </div>
+    <div class="err" id="formErr" role="alert"></div>
+  </form>
+
+  <section class="piecard" id="pieApp" aria-label="Spending by category across all months"></section>
+
+  <section class="sheetcard" aria-label="Month sheet">
+    <div class="sh">
+      <div class="seg" id="viewseg" role="group" aria-label="View">
+        <button type="button" data-mode="sheet" aria-pressed="true">Sheet</button>
+        <button type="button" data-mode="list" aria-pressed="false">Entries</button>
+        <button type="button" data-mode="summary" aria-pressed="false">By category</button>
+      </div>
+      <div class="shr">
+        <button class="btn" id="btnToday" type="button">Jump to today</button>
+      </div>
+    </div>
+    <div class="piepanel" id="pieMonth" aria-label="Spending by category this month"></div>
+    <div id="sheetBody"></div>
+  </section>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="Month sheets"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlgCell" aria-labelledby="clTitle">
+  <div class="dh"><div><h2 id="clTitle"></h2><p class="muted" id="clSub"></p></div><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <div id="clList"></div>
+    <form id="clForm" class="cladd" novalidate>
+      <label>Add amount<div class="money"><span>₹</span><input id="clAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+      <div class="mathbar" id="mbCell" hidden><div class="calc" aria-live="polite"></div><div class="keys"></div></div>
+      <label>Note<input id="clNote" maxlength="120" placeholder="Optional" autocomplete="off"></label>
+      <button class="btn gold" type="submit">Add</button>
+    </form>
+    <div class="err" id="clErr" role="alert"></div>
+  </div>
+  <div class="df"><span class="muted left" id="clTotal"></span><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgCats" aria-labelledby="catTitle">
+  <div class="dh"><h2 id="catTitle">Categories</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <p class="muted" style="margin:0">Categories are the rows of your sheet, in this order. If you delete one, old entries keep its name.</p>
+    <form id="newCatForm" class="newcat">
+      <input id="ncName" maxlength="40" placeholder="New category name" aria-label="New category name" autocomplete="off">
+      <button class="btn primary" type="submit">Add</button>
+    </form>
+    <div class="err" id="ncErr" role="alert"></div>
+    <div id="catList"></div>
+  </div>
+  <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgEdit" aria-labelledby="edTitle">
+  <form id="editForm" novalidate>
+    <div class="dh"><h2 id="edTitle">Edit entry</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+    <div class="db">
+      <label>Category <select id="eCat"></select></label>
+      <div class="two">
+        <label>Amount <input id="eAmt" inputmode="decimal" autocomplete="off"></label>
+        <div class="fld"><span class="lbl" id="edLbl">Date</span><button type="button" class="datebtn" id="eDateBtn" data-for="eDate" aria-labelledby="edLbl eDateBtn" aria-haspopup="dialog"></button><input type="hidden" id="eDate"></div>
+      </div>
+      <div class="mathbar" id="mbEdit" hidden><div class="calc" aria-live="polite"></div><div class="keys"></div></div>
+      <label>Note <input id="eNote" maxlength="120" autocomplete="off"></label>
+      <div class="err" id="eErr" role="alert"></div>
+    </div>
+    <div class="df">
+      <button type="button" class="btn danger left" id="eDel">Delete entry</button>
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Save changes</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgSheet" aria-labelledby="shTitle">
+  <form id="sheetForm">
+    <div class="dh"><h2 id="shTitle">Add a month sheet</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+    <div class="db">
+      <div class="two">
+        <label>Month <select id="shM"></select></label>
+        <label>Year <select id="shY"></select></label>
+      </div>
+      <p class="muted" style="margin:0">Entries you date in any month create that sheet automatically, so you only need this to open an empty month in advance.</p>
+    </div>
+    <div class="df"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Add sheet</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgSettings" aria-labelledby="stTitle">
+  <div class="dh"><h2 id="stTitle">Settings</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <label>Sheet title<input id="bookTitle" maxlength="60" autocomplete="off"></label>
+    <div class="setgrp">
+      <div class="setlbl">Appearance</div>
+      <div class="seg wide" id="themeSeg" role="group" aria-label="Appearance">
+        <button type="button" data-th="auto" aria-pressed="true">System</button>
+        <button type="button" data-th="light" aria-pressed="false">Light</button>
+        <button type="button" data-th="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+    <div class="setgrp">
+      <div class="setlbl">Data</div>
+      <div class="setrow"><button type="button" class="btn" id="setImport">Import CSV</button><button type="button" class="btn" id="setExport">Export CSV</button></div>
+      <p class="muted small" id="backupNote"></p>
+    </div>
+    <div class="setgrp">
+      <div class="setlbl">Month sheets</div>
+      <div id="sheetList"></div>
+    </div>
+    <p class="muted small" id="verLine"></p>
+  </div>
+  <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgImport" aria-labelledby="imTitle">
+  <div class="dh"><h2 id="imTitle">Import entries</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <p class="muted small">Choose a CSV exported from this app, or paste its text below. Cells copied from a Google Sheet month grid work too.</p>
+    <div class="filerow"><button type="button" class="btn" id="imPick">Choose CSV file</button><span class="muted" id="imFile">No file chosen</span><input type="file" id="imFileInput" accept=".csv,text/csv,text/plain" hidden></div>
+    <textarea id="imText" placeholder="Or paste the CSV text here" aria-label="CSV text"></textarea>
+    <div class="two" id="imYearRow" hidden><label>Year for these dates<select id="imY"></select></label></div>
+    <div class="radios">
+      <label class="chk"><input type="radio" name="imMode" value="add" checked> Add only new entries (skips exact duplicates)</label>
+      <label class="chk"><input type="radio" name="imMode" value="replace"> Replace entries in the months found in the file</label>
+    </div>
+    <div class="imprev" id="imPrev">Nothing loaded yet.</div>
+    <div class="err" id="imErr" role="alert"></div>
+  </div>
+  <div class="df"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn primary" id="imGo" disabled>Import</button></div>
+</dialog>
+
+<dialog id="dlgDate" aria-label="Pick a date">
+  <div class="dp">
+    <div class="dp-head">
+      <button type="button" class="icon-btn" id="dpPrev" aria-label="Previous month">&#8249;</button>
+      <div class="dp-sel"><select id="dpM" aria-label="Month"></select><select id="dpY" aria-label="Year"></select></div>
+      <button type="button" class="icon-btn" id="dpNext" aria-label="Next month">&#8250;</button>
+    </div>
+    <div class="dp-wd" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+    <div class="dp-grid" id="dpGrid"></div>
+    <div class="dp-foot"><button type="button" class="btn" id="dpToday">Today</button><button type="button" class="btn" data-close>Cancel</button></div>
+  </div>
+</dialog>
+
+<dialog id="dlgConfirm" aria-labelledby="cfTitle">
+  <div class="dh"><h2 id="cfTitle"></h2></div>
+  <div class="db"><p id="cfBody" style="margin:0"></p></div>
+  <div class="df"><button type="button" class="btn" id="cfCancel">Cancel</button><button type="button" class="btn primary" id="cfOk">Delete</button></div>
+</dialog>
+
+<script>
+(function(){
+'use strict';
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- constants & helpers ---------- */
+const LS = 'bgt.v2.';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.3', APP_BUILD = '20 Sep 2026';
+const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const WDL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const PALETTE = ['#3B5BDB','#0891B2','#C2334D','#D69E1F','#C2703D','#8B5CF6','#0E9F7E','#64748B','#D946A8','#5B8C2A','#0F766E','#7C3AED'];
+const DEFAULTS = [['d-utilities','Utilities'],['d-travel','Travel'],['d-outside','Outside Food'],['d-breakfast','Breakfast'],['d-snacks','Snacks'],['d-shopping','Shopping']];
+const TRASH = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 10v6M14 10v6"/></svg>';
+const UP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
+const DOWN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+
+const pad = n => String(n).padStart(2, '0');
+const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+const curYm = () => todayStr().slice(0, 7);
+const ymLabel = (ym, short) => { const p = ym.split('-').map(Number); const n = MONTHS[p[1] - 1]; return (short ? n.slice(0, 3) : n) + ' ' + p[0]; };
+const dayLabel = d => { const p = d.split('-').map(Number); return p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3); };
+const daysIn = ym => { const p = ym.split('-').map(Number); return new Date(p[0], p[1], 0).getDate(); };
+const lastDay = ym => ym + '-' + pad(daysIn(ym));
+const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+const fmtN = n => { const v = round2(n); return v.toLocaleString('en-IN', {minimumFractionDigits: Number.isInteger(v) ? 0 : 2, maximumFractionDigits: 2}); };
+const fmt = n => (n < 0 ? '\u2212' : '') + '\u20B9' + fmtN(Math.abs(n));
+function normExpr(s){ return String(s == null ? '' : s).replace(/[\u20B9,\s]/g, '').replace(/[x\u00D7]/gi, '*').replace(/\u00F7/g, '/').replace(/[\u2212\u2013\u2014]/g, '-'); }
+function evalExpr(src){
+  const s = normExpr(src);
+  if (!s || !/^[0-9+\-*\/().]+$/.test(s)) return NaN;
+  let i = 0;
+  const num = () => { const j = i; while (i < s.length && /[0-9.]/.test(s[i])) i++; const t = s.slice(j, i); if (!t || (t.match(/\./g) || []).length > 1 || t === '.') throw 0; return parseFloat(t); };
+  const factor = () => {
+    if (s[i] === '-') { i++; return -factor(); }
+    if (s[i] === '+') { i++; return factor(); }
+    if (s[i] === '(') { i++; const v = expr(); if (s[i] !== ')') throw 0; i++; return v; }
+    return num();
+  };
+  const term = () => { let v = factor(); while (s[i] === '*' || s[i] === '/') { const op = s[i++], r = factor(); if (op === '*') v *= r; else { if (r === 0) throw 0; v /= r; } } return v; };
+  const expr = () => { let v = term(); while (s[i] === '+' || s[i] === '-') { const op = s[i++], r = term(); v = op === '+' ? v + r : v - r; } return v; };
+  try { const v = expr(); return i === s.length && isFinite(v) ? v : NaN; } catch(e) { return NaN; }
+}
+const hasOp = s => { const c = normExpr(s); return /[+*\/()]/.test(c) || /.-/.test(c); };
+const parseAmount = s => { const v = evalExpr(s); return isFinite(v) ? round2(v) : NaN; };
+const newId = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const validDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= '2000-01-01' && d <= '2100-12-31';
+
+/* ---------- state ---------- */
+const state = {
+  title: DEFAULT_TITLE,
+  categories: DEFAULTS.map((a, i) => ({id: a[0], name: a[1], color: PALETTE[i % PALETTE.length]})),
+  months: {}
+};
+const view = {ym: curYm(), mode: 'sheet', sum: 'week', sumYear: null, sumFor: null};
+const entry = {cat: null};
+let needScroll = true;
+let gridFocus = {r: 0, c: 0};
+const store = {db: null, uid: null, timers: {}, writing: {}, again: {}, dirty: new Set(), localKeys: new Set()};
+
+const catById = id => state.categories.find(c => c.id === id);
+const ymKeys = () => Object.keys(state.months).sort();
+const nextColor = () => { const used = state.categories.map(c => c.color); return PALETTE.find(c => used.indexOf(c) < 0) || PALETTE[state.categories.length % PALETTE.length]; };
+const usage = id => Object.keys(state.months).reduce((n, k) => n + state.months[k].txns.filter(t => t.cat === id).length, 0);
+
+function cleanCats(list){
+  return (Array.isArray(list) ? list : []).filter(c => c && typeof c === 'object' && c.id && c.name).map((c, i) => ({id: String(c.id), name: String(c.name), color: typeof c.color === 'string' ? c.color : PALETTE[i % PALETTE.length]}));
+}
+function cleanMonth(ym, o){
+  o = o || {};
+  const txns = (Array.isArray(o.txns) ? o.txns : []).filter(t => t && typeof t === 'object' && isFinite(Number(t.amt)) && /^\d{4}-\d{2}-\d{2}$/.test(t.d))
+    .map(t => ({id: String(t.id || newId('t')), d: t.d, cat: String(t.cat || ''), catName: String(t.catName || ''), amt: round2(Number(t.amt)), note: String(t.note || '')}));
+  return {ym: ym, txns: txns};
+}
+function ensureMonth(ym, persist){
+  if (state.months[ym]) return state.months[ym];
+  state.months[ym] = {ym: ym, txns: []};
+  if (persist) touch(ym);
+  return state.months[ym];
+}
+
+/* ---------- persistence: this device + (when available) your account ---------- */
+function persistLocal(key){
+  try {
+    if (key === 'settings') localStorage.setItem(LS + 'settings', JSON.stringify({title: state.title, categories: state.categories}));
+    else if (state.months[key]) localStorage.setItem(LS + 'm.' + key, JSON.stringify(state.months[key]));
+    else localStorage.removeItem(LS + 'm.' + key);
+  } catch(e){}
+}
+function loadLocal(){
+  try {
+    const s = localStorage.getItem(LS + 'settings');
+    if (s) {
+      const o = JSON.parse(s);
+      if (Array.isArray(o.categories)) { state.categories = cleanCats(o.categories); store.localKeys.add('settings'); }
+      if (typeof o.title === 'string' && o.title.trim()) state.title = cleanTitle(o.title);
+    }
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.indexOf(LS + 'm.') === 0) {
+        const ym = k.slice((LS + 'm.').length);
+        state.months[ym] = cleanMonth(ym, JSON.parse(localStorage.getItem(k)));
+        store.localKeys.add(ym);
+      }
+    }
+  } catch(e){}
+}
+function setStatus(kind){
+  const el = $('#sync');
+  el.dataset.s = kind === 'synced' ? 'synced' : kind === 'error' ? 'error' : 'local';
+  el.textContent = {local: 'On this device', syncing: 'Saving\u2026', synced: 'Synced', error: 'Sync failed'}[kind];
+  el.title = {local: 'Saved on this device', syncing: 'Saving\u2026', synced: 'Synced to your account', error: 'Sync failed \u2013 saved on this device'}[kind];
+}
+const docRef = key => store.db.doc('data/users/' + store.uid + '/' + (key === 'settings' ? 'v2-settings' : 'v2-m-' + key));
+function touch(key){ persistLocal(key); queueWrite(key); }
+function queueWrite(key){
+  if (!store.db) return;
+  store.dirty.add(key); setStatus('syncing');
+  clearTimeout(store.timers[key]);
+  store.timers[key] = setTimeout(() => flush(key), 300);
+}
+async function flush(key){
+  clearTimeout(store.timers[key]); store.timers[key] = null;
+  if (!store.db) return;
+  if (store.writing[key]) { store.again[key] = true; return; }
+  store.writing[key] = true;
+  try {
+    do {
+      store.again[key] = false;
+      const ref = docRef(key);
+      if (key === 'settings') await ref.set({v: 2, title: state.title, categories: JSON.parse(JSON.stringify(state.categories))});
+      else if (state.months[key]) await ref.set(JSON.parse(JSON.stringify(state.months[key])));
+      else await ref.delete();
+    } while (store.again[key]);
+    store.dirty.delete(key);
+    setStatus(store.dirty.size ? 'syncing' : 'synced');
+  } catch(e) {
+    setStatus('error');
+  } finally { store.writing[key] = false; }
+}
+function flushAll(){ Object.keys(store.timers).forEach(k => { if (store.timers[k]) flush(k); }); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) flushAll(); });
+
+async function connect(){
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const res = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    const db = res[0], user = res[1];
+    if (!db || !user) return;
+    const uid = await user.id();
+    if (!uid) return;
+    let first = true;
+    db.collection('data/users/' + uid).onSnapshot(snap => {
+      if (first && snap.metadata && snap.metadata.fromCache) return;
+      const remote = {settings: null, months: {}};
+      snap.docs.forEach(d => {
+        const data = d.data() || {};
+        if (d.id === 'v2-settings') remote.settings = data;
+        else { const mm = /^v2-m-(\d{4}-\d{2})$/.exec(d.id); if (mm) remote.months[mm[1]] = cleanMonth(mm[1], data); }
+      });
+      const hasRemote = !!remote.settings || Object.keys(remote.months).length > 0;
+      store.db = db; store.uid = uid;
+      if (first) {
+        first = false;
+        if (!hasRemote) {
+          // nothing in the account yet: recover anything the first version saved, then upload what this device holds
+          if (migrateV1Remote(snap.docs)) render();
+          store.localKeys.forEach(k => { if (k === 'settings' || state.months[k]) queueWrite(k); });
+          if (!store.dirty.size) setStatus('synced');
+          return;
+        }
+      }
+      let changed = false;
+      if (remote.settings && !store.dirty.has('settings')) {
+        const cats = Array.isArray(remote.settings.categories) ? cleanCats(remote.settings.categories) : null;
+        const title = typeof remote.settings.title === 'string' && remote.settings.title.trim() ? cleanTitle(remote.settings.title) : DEFAULT_TITLE;
+        if (cats && (JSON.stringify(cats) !== JSON.stringify(state.categories) || title !== state.title)) { state.categories = cats; state.title = title; persistLocal('settings'); changed = true; }
+      }
+      Object.keys(remote.months).forEach(ym => {
+        if (store.dirty.has(ym)) return;
+        if (JSON.stringify(remote.months[ym]) !== JSON.stringify(state.months[ym])) { state.months[ym] = remote.months[ym]; persistLocal(ym); changed = true; }
+      });
+      Object.keys(state.months).forEach(ym => {
+        if (!remote.months[ym] && !store.dirty.has(ym) && state.months[ym].txns.length) { delete state.months[ym]; persistLocal(ym); changed = true; }
+      });
+      ensureMonth(curYm(), false);
+      if (!state.months[view.ym]) { view.ym = curYm(); setDateDefault(); needScroll = true; changed = true; }
+      if (!catById(entry.cat)) entry.cat = null;
+      setStatus(store.dirty.size ? 'syncing' : 'synced');
+      if (changed) render();
+    }, () => { store.db = null; setStatus('error'); });
+  } catch(e) {}
+}
+
+/* ---------- stats ---------- */
+function stats(ym){
+  const m = state.months[ym], days = daysIn(ym);
+  const cell = {}, catTot = {}, catCnt = {}, dayTot = new Array(days + 1).fill(0), names = {};
+  let total = 0;
+  m.txns.forEach(t => {
+    const day = +t.d.slice(8, 10);
+    if (t.d.slice(0, 7) !== ym || day < 1 || day > days) return;
+    if (!cell[t.cat]) cell[t.cat] = {};
+    cell[t.cat][day] = round2((cell[t.cat][day] || 0) + t.amt);
+    catTot[t.cat] = round2((catTot[t.cat] || 0) + t.amt);
+    catCnt[t.cat] = (catCnt[t.cat] || 0) + 1;
+    dayTot[day] = round2(dayTot[day] + t.amt);
+    total = round2(total + t.amt);
+    if (!names[t.cat]) names[t.cat] = t.catName;
+  });
+  const rows = state.categories.map(c => ({id: c.id, name: c.name, color: c.color, deleted: false}));
+  Object.keys(catTot).forEach(id => { if (!catById(id)) rows.push({id: id, name: (names[id] || 'Deleted category') + ' (deleted)', color: '#8A93A6', deleted: true}); });
+  let max = 0, big = 0, bigV = 0, topId = null, topV = 0;
+  rows.forEach(r => { const row = cell[r.id] || {}; Object.keys(row).forEach(k => { if (row[k] > max) max = row[k]; }); });
+  for (let i = 1; i <= days; i++) if (dayTot[i] > bigV) { bigV = dayTot[i]; big = i; }
+  Object.keys(catTot).forEach(id => { if (catTot[id] > topV) { topV = catTot[id]; topId = id; } });
+  return {days, cell, catTot, catCnt, dayTot, total, rows, max, big, bigV, topId, topV, names};
+}
+
+/* ---------- rendering ---------- */
+function render(){
+  const st = stats(view.ym);
+  renderHead(st); renderChips(); renderPies(st);
+  Array.prototype.forEach.call(document.querySelectorAll('#viewseg button'), b => b.setAttribute('aria-pressed', String(b.dataset.mode === view.mode)));
+  $('#btnToday').hidden = !(view.mode === 'sheet' && view.ym === curYm());
+  if (view.mode === 'sheet') renderGrid(st); else if (view.mode === 'summary') renderSummary(st); else renderLedger();
+  renderTabs();
+  if (needScroll) { needScroll = false; if (view.mode === 'sheet') scrollGrid(); }
+}
+function renderHead(st){
+  $('#brand').textContent = state.title;
+  $('#mtitle').textContent = ymLabel(view.ym);
+  const cur = curYm(), elapsed = view.ym === cur ? +todayStr().slice(8) : (view.ym < cur ? st.days : 0);
+  const avg = elapsed && st.total ? fmt(Math.round(st.total / elapsed)) : '\u2014';
+  const big = st.bigV ? fmt(st.bigV) : '\u2014', bigLbl = st.bigV ? 'Biggest day, ' + dayLabel(view.ym + '-' + pad(st.big)) : 'Biggest day';
+  let top = '\u2014';
+  if (st.topId) { const c = catById(st.topId); top = esc(c ? c.name : (st.names[st.topId] || 'Deleted category')) + ' ' + Math.round(st.topV / st.total * 100) + '%'; }
+  $('#stats').innerHTML =
+    '<div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div>' +
+    '<div class="st"><span>Daily average</span><b>' + avg + '</b></div>' +
+    '<div class="st"><span>' + bigLbl + '</span><b>' + big + '</b></div>' +
+    '<div class="st"><span>Top category</span><b>' + top + '</b></div>';
+}
+function renderChips(){
+  $('#chips').innerHTML = state.categories.map(c =>
+    '<button type="button" class="chip" data-id="' + esc(c.id) + '" aria-pressed="' + (entry.cat === c.id) + '" style="--c:' + esc(c.color) + '"><i class="dot"></i>' + esc(c.name) + '</button>'
+  ).join('') + '<button type="button" class="chip new" data-act="newcat">+ New category</button>';
+  const ok = !!catById(entry.cat);
+  $('#amt').disabled = !ok; $('#addBtn').disabled = !ok;
+  $('#amt').placeholder = ok ? '0' : 'Pick a category first';
+}
+function renderGrid(st){
+  const p = view.ym.split('-').map(Number), days = st.days, today = todayStr();
+  const tday = today.slice(0, 7) === view.ym ? +today.slice(8) : 0;
+  if (!st.rows.length) { $('#sheetBody').innerHTML = '<div class="emptysheet">No categories yet. Use the Categories button to add the first row of your sheet.</div>'; return; }
+  gridFocus.r = Math.min(gridFocus.r, st.rows.length - 1);
+  gridFocus.c = gridFocus.c ? Math.min(gridFocus.c, days) : (tday || 1);
+  const heat = v => (0.13 + 0.30 * Math.sqrt(v / st.max)).toFixed(3);
+  let head = '<tr><th class="corner" scope="col">Category</th>';
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(p[0], p[1] - 1, d).getDay();
+    head += '<th scope="col" class="dcol' + (dow === 0 || dow === 6 ? ' we' : '') + (d === tday ? ' today' : '') + '"><span class="wd">' + WD[dow] + '</span><span class="dn">' + d + '</span></th>';
+  }
+  head += '<th class="rt" scope="col">Total</th></tr>';
+  let body = '';
+  st.rows.forEach((row, ri) => {
+    const rowCells = st.cell[row.id] || {}, tot = st.catTot[row.id] || 0;
+    body += '<tr><th scope="row" class="cat"><span class="cn"><i class="dot" style="--c:' + esc(row.color) + '"></i><span>' + esc(row.name) + '</span></span></th>';
+    for (let d = 1; d <= days; d++) {
+      const dow = new Date(p[0], p[1] - 1, d).getDay(), v = rowCells[d] || 0;
+      const cls = 'c' + (dow === 0 || dow === 6 ? ' we' : '') + (d === tday ? ' today' : '') + (v > 0 ? ' v' : '');
+      const style = v > 0 ? ' style="--c:' + esc(row.color) + ';--h:' + heat(v) + '"' : '';
+      const label = esc(row.name) + ', ' + d + ' ' + MONTHS[p[1] - 1].slice(0, 3) + ': ' + (v > 0 ? fmt(v) : 'empty');
+      body += '<td class="' + cls + '"' + style + '><button type="button" class="cell" tabindex="' + (ri === gridFocus.r && d === gridFocus.c ? 0 : -1) + '" data-r="' + ri + '" data-c="' + d + '" data-cat="' + esc(row.id) + '" aria-label="' + label + '">' + (v > 0 ? fmtN(v) : '') + '</button></td>';
+    }
+    const w = st.topV ? Math.max(4, Math.round(tot / st.topV * 100)) : 0;
+    body += '<td class="rt"><span class="rtbar" style="--c:' + esc(row.color) + ';--w:' + (tot ? w : 0) + '%"></span><b>' + (tot ? fmtN(tot) : '') + '</b></td></tr>';
+  });
+  let foot = '<tr><th class="cat" scope="row">Day total</th>';
+  for (let d = 1; d <= days; d++) {
+    const t = st.dayTot[d], dow = new Date(p[0], p[1] - 1, d).getDay();
+    foot += '<td class="ft' + (d === st.big && t > 0 ? ' big' : '') + '">' + (t ? fmtN(t) : '') + '</td>';
+  }
+  foot += '<td class="rt grand">' + fmtN(st.total) + '</td></tr>';
+  $('#sheetBody').innerHTML = '<div class="gridscroll"><table class="grid"><thead>' + head + '</thead><tbody>' + body + '</tbody><tfoot>' + foot + '</tfoot></table></div>';
+}
+function scrollGrid(){
+  const sc = $('.gridscroll'); if (!sc) return;
+  const th = sc.querySelector('th.today');
+  sc.scrollLeft = th ? Math.max(0, th.offsetLeft - sc.clientWidth / 2 + th.offsetWidth / 2) : 0;
+}
+const openSet = new Set(), seenSet = new Set();
+function groupOpen(key, dflt){ if (!seenSet.has(key)) { seenSet.add(key); if (dflt) openSet.add(key); } return openSet.has(key); }
+function rowHtml(t){
+  const c = catById(t.cat), name = c ? c.name : (t.catName || 'Deleted category') + ' (deleted)', color = c ? c.color : '#8A93A6';
+  return '<li><button type="button" class="row" data-id="' + esc(t.id) + '" aria-label="Edit ' + esc(name) + ' entry">' +
+    '<span><span class="rcat"><i class="dot" style="--c:' + esc(color) + '"></i><span>' + esc(name) + '</span></span>' + (t.note ? '<span class="rnote">' + esc(t.note) + '</span>' : '') + '</span>' +
+    '<span class="ramt">' + fmt(t.amt) + '</span></button></li>';
+}
+function renderLedger(){
+  const m = state.months[view.ym], ym = view.ym, p = ym.split('-').map(Number), days = daysIn(ym), today = todayStr(), mon = MONTHS[p[1] - 1].slice(0, 3);
+  if (!m.txns.length) { $('#sheetBody').innerHTML = '<div class="emptysheet">Nothing in ' + esc(ymLabel(ym)) + ' yet. Pick a category above to add the first expense.</div>'; return; }
+  const byDay = {}, daySum = {};
+  let maxDay = 0;
+  m.txns.forEach(t => { if (t.d.slice(0, 7) !== ym) return; (byDay[t.d] = byDay[t.d] || []).push(t); });
+  Object.keys(byDay).forEach(k => { daySum[k] = round2(byDay[k].reduce((n, t) => n + t.amt, 0)); if (daySum[k] > maxDay) maxDay = daySum[k]; });
+  const weeks = []; let cur = null;
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(p[0], p[1] - 1, d).getDay(), key = ym + '-' + pad(d);
+    if (!cur || dow === 1) { cur = {n: weeks.length + 1, start: d, end: d, dates: [], total: 0, count: 0}; weeks.push(cur); }
+    cur.end = d;
+    if (byDay[key]) { cur.dates.push(key); cur.total = round2(cur.total + daySum[key]); cur.count += byDay[key].length; }
+  }
+  const shown = weeks.filter(w => w.count).reverse();
+  let maxW = 0; shown.forEach(w => { if (w.total > maxW) maxW = w.total; });
+  const plural = n => n + (n === 1 ? ' entry' : ' entries');
+  let html = '<div class="ltool"><button type="button" class="btn sm" data-expand="1">Expand all</button><button type="button" class="btn sm" data-expand="0">Collapse all</button></div>';
+  shown.forEach(w => {
+    const wk = 'w:' + ym + ':' + w.n, first = ym + '-' + pad(w.start), last = ym + '-' + pad(w.end);
+    const complete = last < today, isCur = today >= first && today <= last, open = groupOpen(wk, !complete);
+    const range = w.start === w.end ? w.start + ' ' + mon : w.start + '\u2013' + w.end + ' ' + mon;
+    html += '<section class="grpw"><button type="button" class="grp wgrp" data-gk="' + wk + '" aria-expanded="' + open + '"><span class="chev"></span>' +
+      '<span class="gt"><b>Week ' + w.n + (isCur ? '<span class="tagcur">This week</span>' : '') + '</b><small>' + range + ', ' + plural(w.count) + '</small></span>' +
+      '<span class="gs">' + fmt(w.total) + '</span><span class="gbar"><i style="width:' + Math.max(3, Math.round(w.total / maxW * 100)) + '%"></i></span></button>' +
+      '<div class="gbody"' + (open ? '' : ' hidden') + '>';
+    w.dates.slice().reverse().forEach(dk => {
+      const dd = +dk.slice(8), dopen = groupOpen('d:' + dk, dk === today), list = byDay[dk].slice().sort((a, b) => a.id < b.id ? 1 : -1);
+      html += '<div class="grpd"><button type="button" class="grp dgrp" data-gk="d:' + dk + '" aria-expanded="' + dopen + '"><span class="chev"></span>' +
+        '<span class="gt"><b>' + WD[new Date(p[0], p[1] - 1, dd).getDay()] + ' ' + dd + ' ' + mon + '</b><small>' + plural(list.length) + '</small></span>' +
+        '<span class="gs">' + fmt(daySum[dk]) + '</span><span class="gbar"><i style="width:' + Math.max(3, Math.round(daySum[dk] / maxDay * 100)) + '%"></i></span></button>' +
+        '<ul class="rows gbody"' + (dopen ? '' : ' hidden') + '>' + list.map(rowHtml).join('') + '</ul></div>';
+    });
+    html += '</div></section>';
+  });
+  $('#sheetBody').innerHTML = html;
+}
+/* ---------- by category: weekly (inside the month) or monthly (across the year) ---------- */
+function weekSpans(ym){
+  const p = ym.split('-').map(Number), days = daysIn(ym), out = []; let cur = null;
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(p[0], p[1] - 1, d).getDay();
+    if (!cur || dow === 1) { cur = {n: out.length + 1, start: d, end: d}; out.push(cur); }
+    cur.end = d;
+  }
+  return out;
+}
+function matrixHtml(cols, rows, colTot, grand, footLabel){
+  let maxCell = 0, top = 0;
+  rows.forEach(r => { if (r.total > top) top = r.total; r.vals.forEach(v => { if (v > maxCell) maxCell = v; }); });
+  const heat = v => (0.13 + 0.30 * Math.sqrt(v / maxCell)).toFixed(3);
+  const head = '<tr><th class="corner" scope="col">Category</th><th class="tt" scope="col">Total</th>' + cols.map(c => '<th scope="col" class="dcol' + (c.today ? ' today' : '') + '"><span class="wd">' + esc(c.wd) + '</span><span class="dn">' + esc(c.dn) + '</span></th>').join('') + '</tr>';
+  const body = rows.map(r => '<tr><th scope="row" class="cat"><span class="cn"><i class="dot" style="--c:' + esc(r.color) + '"></i><span>' + esc(r.name) + '</span></span></th>' +
+    '<td class="tt"><span class="rtbar" style="--c:' + esc(r.color) + ';--w:' + Math.max(4, Math.round(r.total / top * 100)) + '%"></span><b>' + fmtN(r.total) + '</b></td>' +
+    r.vals.map((v, i) => v > 0 ? '<td class="sv v' + (cols[i].today ? ' today' : '') + '" style="--c:' + esc(r.color) + ';--h:' + heat(v) + '">' + fmtN(v) + '</td>' : '<td class="sv' + (cols[i].today ? ' today' : '') + '"></td>').join('') + '</tr>').join('');
+  const foot = '<tr><th class="cat" scope="row">' + footLabel + '</th><td class="tt grand">' + fmtN(grand) + '</td>' + colTot.map(t => '<td class="ft">' + (t ? fmtN(t) : '') + '</td>').join('') + '</tr>';
+  return '<div class="gridscroll"><table class="grid"><thead>' + head + '</thead><tbody>' + body + '</tbody><tfoot>' + foot + '</tfoot></table></div>';
+}
+function renderSummary(st){
+  if (view.sumFor !== view.ym) { view.sumYear = null; view.sumFor = view.ym; }
+  const mode = view.sum, today = todayStr();
+  let bar = '<div class="sumbar"><div class="seg" role="group" aria-label="Period"><button type="button" data-sum="week" aria-pressed="' + (mode === 'week') + '">Weekly</button><button type="button" data-sum="month" aria-pressed="' + (mode === 'month') + '">Monthly</button></div>';
+  let cols = [], byCat = {}, colTot = [], names = {}, foot = '';
+  if (mode === 'week') {
+    const ym = view.ym, spans = weekSpans(ym), tw = today.slice(0, 7) === ym ? +today.slice(8) : 0;
+    cols = spans.map(sp => ({wd: sp.start === sp.end ? String(sp.start) : sp.start + '\u2013' + sp.end, dn: 'W' + sp.n, today: tw >= sp.start && tw <= sp.end}));
+    colTot = spans.map(() => 0);
+    state.months[ym].txns.forEach(t => {
+      if (t.d.slice(0, 7) !== ym) return;
+      const d = +t.d.slice(8), wi = spans.findIndex(sp => d >= sp.start && d <= sp.end); if (wi < 0) return;
+      if (!byCat[t.cat]) byCat[t.cat] = spans.map(() => 0);
+      byCat[t.cat][wi] = round2(byCat[t.cat][wi] + t.amt); colTot[wi] = round2(colTot[wi] + t.amt);
+      if (!names[t.cat]) names[t.cat] = t.catName;
+    });
+    foot = 'Week total';
+  } else {
+    const years = Array.from(new Set(ymKeys().map(k => +k.slice(0, 4)))).sort((a, b) => a - b);
+    const y = view.sumYear || +view.ym.slice(0, 4), i = years.indexOf(y);
+    if (years.length > 1) bar += '<div class="yrnav"><button type="button" class="btn sm" data-yr="-1" aria-label="Previous year"' + (i <= 0 ? ' disabled' : '') + '>&#8249;</button><b>' + y + '</b><button type="button" class="btn sm" data-yr="1" aria-label="Next year"' + (i >= years.length - 1 ? ' disabled' : '') + '>&#8250;</button></div>';
+    const keys = ymKeys().filter(k => +k.slice(0, 4) === y);
+    cols = keys.map(k => ({wd: 'Q' + qOf(k), dn: MONTHS[+k.slice(5, 7) - 1].slice(0, 3), today: k === curYm()}));
+    colTot = keys.map(() => 0);
+    keys.forEach((k, ci) => {
+      const s2 = stats(k);
+      Object.keys(s2.catTot).forEach(id => {
+        if (!byCat[id]) byCat[id] = keys.map(() => 0);
+        byCat[id][ci] = s2.catTot[id]; colTot[ci] = round2(colTot[ci] + s2.catTot[id]);
+        if (!names[id]) names[id] = s2.names[id];
+      });
+    });
+    foot = 'Month total';
+  }
+  const rows = Object.keys(byCat).map(id => {
+    const c = catById(id), vals = byCat[id];
+    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? c.color : '#8A93A6', vals: vals, total: round2(vals.reduce((n, v) => n + v, 0))};
+  }).filter(r => r.total > 0).sort((a, b) => b.total - a.total);
+  const grand = round2(colTot.reduce((n, v) => n + v, 0));
+  $('#sheetBody').innerHTML = bar + '</div>' + (rows.length ? matrixHtml(cols, rows, colTot, grand, foot) : '<div class="emptysheet">No spending recorded ' + (mode === 'week' ? 'in ' + esc(ymLabel(view.ym)) : 'this year') + ' yet.</div>');
+}
+
+/* ---------- month tabs: old quarters fold up, and finished years fold into one tab ---------- */
+const tabSet = new Set(), tabSeen = new Set();
+let lastReveal = null;
+const qOf = ym => Math.floor((+ym.slice(5, 7) - 1) / 3) + 1;
+const tabOpen = (key, dflt) => { if (!tabSeen.has(key)) { tabSeen.add(key); if (dflt) tabSet.add(key); } return tabSet.has(key); };
+function tabTree(){
+  const cy = new Date().getFullYear(), cur = curYm(), years = {}, nodes = [];
+  ymKeys().forEach(k => { const y = +k.slice(0, 4), q = qOf(k); if (!years[y]) years[y] = {}; (years[y][q] = years[y][q] || []).push(k); });
+  Object.keys(years).map(Number).sort((a, b) => a - b).forEach(y => {
+    const qs = Object.keys(years[y]).map(Number).sort((a, b) => a - b).map(q => ({q: q, months: years[y][q], complete: y + '-' + pad(q * 3) < cur}));
+    if (y < cy) nodes.push({type: 'year', y: y, quarters: qs}); else qs.forEach(qq => nodes.push({type: 'quarter', y: y, q: qq.q, months: qq.months, complete: qq.complete}));
+  });
+  return {nodes: nodes, cy: cy};
+}
+let tabScroll = false;
+function revealActive(){
+  if (lastReveal === view.ym) return;
+  lastReveal = view.ym; tabScroll = true;
+  const y = +view.ym.slice(0, 4), q = qOf(view.ym), open = key => { tabSeen.add(key); tabSet.add(key); };
+  tabTree().nodes.forEach(n => {
+    if (n.type === 'year' && n.y === y) { open('y:' + y); open('q:' + y + '-' + q); }
+    else if (n.type === 'quarter' && n.y === y && n.q === q && n.complete) open('q:' + y + '-' + q);
+  });
+}
+function renderTabs(){
+  revealActive();
+  const tree = tabTree(), cy = tree.cy, vy = +view.ym.slice(0, 4), vq = qOf(view.ym);
+  const mtab = (k, full) => '<button type="button" class="tab' + (full ? '' : ' sub') + '" data-ym="' + k + '" aria-current="' + (k === view.ym) + '">' + (full ? ymLabel(k, true) : MONTHS[+k.slice(5, 7) - 1].slice(0, 3)) + '</button>';
+  const grp = (key, label, open, has) => '<button type="button" class="tab tgb' + (has ? ' has-active' : '') + '" data-tg="' + key + '" aria-expanded="' + open + '"><span>' + esc(label) + '</span><span class="chev"></span></button>';
+  let html = '';
+  tree.nodes.forEach(n => {
+    if (n.type === 'year') {
+      const yk = 'y:' + n.y, yopen = tabOpen(yk, false);
+      html += grp(yk, String(n.y), yopen, vy === n.y);
+      if (yopen) {
+        html += '<span class="tgrp">';
+        n.quarters.forEach(qq => {
+          const qk = 'q:' + n.y + '-' + qq.q, qopen = tabOpen(qk, false);
+          html += grp(qk, 'Q' + qq.q, qopen, vy === n.y && vq === qq.q);
+          if (qopen) html += '<span class="tgrp">' + qq.months.map(k => mtab(k, false)).join('') + '</span>';
+        });
+        html += '</span>';
+      }
+    } else if (!n.complete) {
+      html += n.months.map(k => mtab(k, true)).join('');
+    } else {
+      const qk = 'q:' + n.y + '-' + n.q, qopen = tabOpen(qk, false);
+      html += grp(qk, 'Q' + n.q + (n.y === cy ? '' : ' ' + n.y), qopen, vy === n.y && vq === n.q);
+      if (qopen) html += '<span class="tgrp">' + n.months.map(k => mtab(k, false)).join('') + '</span>';
+    }
+  });
+  $('#tabs').innerHTML = html + '<button type="button" class="tab add" data-act="addsheet" aria-label="Add a month sheet">+</button>';
+  if (tabScroll) {
+    tabScroll = false;
+    const bar = $('#tabs'), cur = bar.querySelector('.tab[aria-current="true"]');
+    if (cur) bar.scrollLeft = Math.max(0, cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2);
+  }
+}
+function setDateDefault(){
+  const cur = curYm(), ym = view.ym;
+  setDate('dt', ym === cur ? todayStr() : ym < cur ? lastDay(ym) : ym + '-01');
+}
+
+/* ---------- toast & confirm ---------- */
+let toastTimer;
+function hideToast(){ $('#toast').classList.remove('show'); }
+function toast(msg, label, fn){
+  const el = $('#toast');
+  el.innerHTML = '<span>' + esc(msg) + '</span>' + (label ? '<button type="button">' + esc(label) + '</button>' : '');
+  if (label) el.querySelector('button').onclick = () => { fn(); hideToast(); };
+  el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(hideToast, label ? 7000 : 3500);
+}
+function confirmBox(o){
+  return new Promise(res => {
+    const d = $('#dlgConfirm'), ok = $('#cfOk'), cancel = $('#cfCancel');
+    $('#cfTitle').textContent = o.title; $('#cfBody').textContent = o.body; ok.textContent = o.ok || 'Delete';
+    const onOk = () => finish(true), onCancel = () => finish(false), onClose = () => finish(false);
+    function finish(v){ ok.removeEventListener('click', onOk); cancel.removeEventListener('click', onCancel); d.removeEventListener('close', onClose); if (d.open) d.close(); res(v); }
+    ok.addEventListener('click', onOk); cancel.addEventListener('click', onCancel); d.addEventListener('close', onClose);
+    d.showModal();
+  });
+}
+
+/* ---------- entry form ---------- */
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.act === 'newcat') { openCats(true); return; }
+  entry.cat = entry.cat === b.dataset.id ? null : b.dataset.id;
+  $('#formErr').textContent = '';
+  renderChips();
+  if (entry.cat) $('#amt').focus();
+});
+$('#entryForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = $('#formErr'); err.textContent = '';
+  const c = catById(entry.cat);
+  if (!c) { err.textContent = 'Choose a category first.'; return; }
+  const amt = parseAmount($('#amt').value);
+  if (!(amt > 0)) { err.textContent = 'Enter an amount greater than zero.'; $('#amt').focus(); return; }
+  const d = $('#dt').value;
+  if (!validDate(d)) { err.textContent = 'Pick a valid date.'; $('#dt').focus(); return; }
+  const ym = d.slice(0, 7), m = ensureMonth(ym, false);
+  m.txns.push({id: newId('t'), d: d, cat: c.id, catName: c.name, amt: amt, note: $('#note').value.trim()});
+  touch(ym);
+  $('#amt').value = ''; $('#amt').dispatchEvent(new Event('input')); $('#note').value = ''; entry.cat = null;
+  if (ym !== view.ym) { view.ym = ym; needScroll = true; }
+  render();
+  toast(c.name + ' ' + fmt(amt) + ' added to ' + dayLabel(d));
+  const first = $('#chips .chip'); if (first) first.focus();
+});
+
+/* ---------- sheet grid: cells ---------- */
+$('#sheetBody').addEventListener('click', e => {
+  const sb = e.target.closest('[data-sum]');
+  if (sb) { view.sum = sb.dataset.sum; render(); return; }
+  const yb = e.target.closest('[data-yr]');
+  if (yb) {
+    if (yb.disabled) return;
+    const years = Array.from(new Set(ymKeys().map(k => +k.slice(0, 4)))).sort((a, b) => a - b), y = view.sumYear || +view.ym.slice(0, 4), n = years[years.indexOf(y) + Number(yb.dataset.yr)];
+    if (n) { view.sumYear = n; view.sumFor = view.ym; render(); }
+    return;
+  }
+  const g = e.target.closest('[data-gk]');
+  if (g) {
+    const k = g.dataset.gk, willOpen = g.getAttribute('aria-expanded') !== 'true';
+    if (willOpen) openSet.add(k); else openSet.delete(k);
+    g.setAttribute('aria-expanded', String(willOpen));
+    if (g.nextElementSibling) g.nextElementSibling.hidden = !willOpen;
+    return;
+  }
+  const ex = e.target.closest('[data-expand]');
+  if (ex) {
+    const on = ex.dataset.expand === '1';
+    document.querySelectorAll('#sheetBody [data-gk]').forEach(b => {
+      const k = b.dataset.gk; if (on) openSet.add(k); else openSet.delete(k);
+      b.setAttribute('aria-expanded', String(on)); if (b.nextElementSibling) b.nextElementSibling.hidden = !on;
+    });
+    return;
+  }
+  const cell = e.target.closest('.cell');
+  if (cell) { gridFocus = {r: +cell.dataset.r, c: +cell.dataset.c}; openCell(cell.dataset.cat, +cell.dataset.c); return; }
+  const r = e.target.closest('.row'); if (r) openEdit(r.dataset.id);
+});
+$('#sheetBody').addEventListener('keydown', e => {
+  const b = e.target.closest('.cell'); if (!b) return;
+  let r = +b.dataset.r, c = +b.dataset.c;
+  if (e.key === 'ArrowRight') c++; else if (e.key === 'ArrowLeft') c--; else if (e.key === 'ArrowDown') r++; else if (e.key === 'ArrowUp') r--; else return;
+  const n = $('.cell[data-r="' + r + '"][data-c="' + c + '"]'); if (!n) return;
+  e.preventDefault(); b.tabIndex = -1; n.tabIndex = 0; n.focus(); gridFocus = {r: r, c: c};
+});
+$('#viewseg').addEventListener('click', e => {
+  const b = e.target.closest('button[data-mode]'); if (!b) return;
+  view.mode = b.dataset.mode; needScroll = true; render();
+});
+$('#btnToday').addEventListener('click', () => { scrollGrid(); });
+
+let cellCtx = null;
+const cellDate = () => view.ym + '-' + pad(cellCtx.day);
+const cellTxns = () => state.months[view.ym].txns.filter(t => t.cat === cellCtx.cat && t.d === cellDate());
+function openCell(catId, day){
+  cellCtx = {cat: catId, day: day};
+  const c = catById(catId);
+  const any = state.months[view.ym].txns.find(t => t.cat === catId);
+  const p = view.ym.split('-').map(Number);
+  $('#clTitle').textContent = c ? c.name : ((any && any.catName) || 'Deleted category') + ' (deleted)';
+  $('#clSub').textContent = WDL[new Date(p[0], p[1] - 1, day).getDay()] + ', ' + day + ' ' + MONTHS[p[1] - 1] + ' ' + p[0];
+  $('#clForm').hidden = !c; $('#clErr').textContent = '';
+  $('#clAmt').value = ''; $('#clNote').value = '';
+  renderCell();
+  $('#dlgCell').showModal();
+  if (c) $('#clAmt').focus();
+}
+function renderCell(){
+  const list = cellTxns();
+  $('#clList').innerHTML = list.length ? list.map(t =>
+    '<div class="clrow" data-id="' + esc(t.id) + '"><div class="money"><span>\u20B9</span><input class="clamt" inputmode="decimal" value="' + t.amt + '" aria-label="Amount"></div>' +
+    '<input class="clnote" value="' + esc(t.note) + '" maxlength="120" placeholder="Note" aria-label="Note">' +
+    '<button type="button" class="icon-btn danger" data-del aria-label="Delete this entry">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">Nothing here yet.</p>';
+  updateCellTotal();
+}
+function updateCellTotal(){
+  const list = cellTxns(), sum = round2(list.reduce((n, t) => n + t.amt, 0));
+  $('#clTotal').textContent = list.length ? (list.length > 1 ? list.length + ' entries, ' : '') + 'Cell total ' + fmt(sum) : '';
+}
+$('#clList').addEventListener('change', e => {
+  const row = e.target.closest('.clrow'); if (!row) return;
+  const t = state.months[view.ym].txns.find(x => x.id === row.dataset.id); if (!t) return;
+  if (e.target.classList.contains('clamt')) {
+    const v = parseAmount(e.target.value);
+    if (!(v > 0)) { $('#clErr').textContent = 'Amounts must be greater than zero. Use the bin to remove an entry.'; e.target.value = t.amt; return; }
+    $('#clErr').textContent = ''; t.amt = v; e.target.value = v;
+  } else if (e.target.classList.contains('clnote')) t.note = e.target.value.trim();
+  touch(view.ym); updateCellTotal(); render();
+});
+$('#clList').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  const id = b.closest('.clrow').dataset.id, ym = view.ym, m = state.months[ym];
+  const idx = m.txns.findIndex(x => x.id === id); if (idx < 0) return;
+  const t = m.txns.splice(idx, 1)[0];
+  touch(ym); renderCell(); render();
+  toast('Entry deleted', 'Undo', () => { ensureMonth(ym, false).txns.push(t); touch(ym); render(); if ($('#dlgCell').open && ym === view.ym) renderCell(); });
+});
+$('#clForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const c = catById(cellCtx.cat); if (!c) return;
+  const amt = parseAmount($('#clAmt').value);
+  if (!(amt > 0)) { $('#clErr').textContent = 'Enter an amount greater than zero.'; $('#clAmt').focus(); return; }
+  state.months[view.ym].txns.push({id: newId('t'), d: cellDate(), cat: c.id, catName: c.name, amt: amt, note: $('#clNote').value.trim()});
+  touch(view.ym); $('#dlgCell').close(); render();
+  toast(c.name + ' ' + fmt(amt) + ' added to ' + dayLabel(cellDate()));
+});
+$('#dlgCell').addEventListener('close', () => {
+  if (!cellCtx) return;
+  const el = $('.cell[data-cat="' + CSS.escape(cellCtx.cat) + '"][data-c="' + cellCtx.day + '"]'); if (el) el.focus();
+});
+
+/* ---------- entries list: edit / delete ---------- */
+let editing = null;
+function openEdit(id){
+  const m = state.months[view.ym], t = m.txns.find(x => x.id === id); if (!t) return;
+  editing = {ym: view.ym, id: id};
+  let html = state.categories.map(c => '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>').join('');
+  if (!catById(t.cat)) html += '<option value="' + esc(t.cat) + '">' + esc(t.catName || 'Deleted category') + ' (deleted)</option>';
+  $('#eCat').innerHTML = html; $('#eCat').value = t.cat;
+  $('#eAmt').value = t.amt; setDate('eDate', t.d); $('#eNote').value = t.note || ''; $('#eErr').textContent = '';
+  $('#dlgEdit').showModal();
+}
+$('#editForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!editing) return;
+  const amt = parseAmount($('#eAmt').value), d = $('#eDate').value, err = $('#eErr');
+  if (!(amt > 0)) { err.textContent = 'Enter an amount greater than zero.'; return; }
+  if (!validDate(d)) { err.textContent = 'Pick a valid date.'; return; }
+  const oldYm = editing.ym, m = state.months[oldYm];
+  const idx = m.txns.findIndex(x => x.id === editing.id); if (idx < 0) return;
+  const t = m.txns[idx], cid = $('#eCat').value, c = catById(cid);
+  t.cat = cid; if (c) t.catName = c.name;
+  t.amt = amt; t.d = d; t.note = $('#eNote').value.trim();
+  const newYm = d.slice(0, 7);
+  if (newYm !== oldYm) {
+    m.txns.splice(idx, 1); ensureMonth(newYm, false).txns.push(t); touch(oldYm); touch(newYm);
+    $('#dlgEdit').close(); render();
+    toast('Moved to ' + ymLabel(newYm), 'Open sheet', () => { view.ym = newYm; needScroll = true; setDateDefault(); render(); });
+  } else { touch(oldYm); $('#dlgEdit').close(); render(); }
+});
+$('#eDel').addEventListener('click', () => {
+  if (!editing) return;
+  const ym = editing.ym, m = state.months[ym], idx = m.txns.findIndex(x => x.id === editing.id); if (idx < 0) return;
+  const t = m.txns.splice(idx, 1)[0];
+  touch(ym); $('#dlgEdit').close(); render();
+  toast('Entry deleted', 'Undo', () => { ensureMonth(ym, false).txns.push(t); touch(ym); render(); });
+});
+
+/* ---------- month sheets ---------- */
+$('#tabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.act === 'addsheet') { openSheetDialog(); return; }
+  if (b.dataset.tg) {
+    const k = b.dataset.tg; tabSeen.add(k); if (tabSet.has(k)) tabSet.delete(k); else tabSet.add(k);
+    renderTabs();
+    const nb = $('#tabs [data-tg="' + k + '"]'); if (nb && nb.scrollIntoView) nb.scrollIntoView({inline: 'center', block: 'nearest'});
+    return;
+  }
+  view.ym = b.dataset.ym; ensureMonth(view.ym, false); needScroll = true; gridFocus.c = 0; setDateDefault(); $('#formErr').textContent = ''; render();
+  const a = $('.tab[aria-current="true"]'); if (a && a.scrollIntoView) a.scrollIntoView({inline: 'center', block: 'nearest'});
+});
+function openSheetDialog(){
+  const now = new Date(), y = now.getFullYear();
+  $('#shM').innerHTML = MONTHS.map((n, i) => '<option value="' + pad(i + 1) + '">' + n + '</option>').join('');
+  let ys = ''; for (let i = y - 5; i <= y + 3; i++) ys += '<option value="' + i + '">' + i + '</option>';
+  $('#shY').innerHTML = ys;
+  $('#shM').value = pad(now.getMonth() + 1); $('#shY').value = String(y);
+  $('#dlgSheet').showModal();
+}
+$('#sheetForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const ym = $('#shY').value + '-' + $('#shM').value;
+  ensureMonth(ym, true); view.ym = ym; needScroll = true; gridFocus.c = 0; setDateDefault();
+  $('#dlgSheet').close(); render();
+  const a = $('.tab[aria-current="true"]'); if (a && a.scrollIntoView) a.scrollIntoView({inline: 'center', block: 'nearest'});
+});
+/* ---------- categories ---------- */
+let catFromChips = false;
+function openCats(fromChips){
+  catFromChips = !!fromChips;
+  $('#ncErr').textContent = ''; $('#ncName').value = '';
+  renderCats();
+  $('#dlgCats').showModal();
+  $('#ncName').focus();
+}
+function renderCats(){
+  const n = state.categories.length;
+  $('#catList').innerHTML = n ? state.categories.map((c, i) =>
+    '<div class="crow" data-id="' + esc(c.id) + '"><i class="dot" style="--c:' + esc(c.color) + '"></i>' +
+    '<input class="cname" value="' + esc(c.name) + '" maxlength="40" aria-label="Category name">' +
+    '<button type="button" class="icon-btn" data-mv="-1" aria-label="Move ' + esc(c.name) + ' up"' + (i === 0 ? ' disabled' : '') + '>' + UP + '</button>' +
+    '<button type="button" class="icon-btn" data-mv="1" aria-label="Move ' + esc(c.name) + ' down"' + (i === n - 1 ? ' disabled' : '') + '>' + DOWN + '</button>' +
+    '<button type="button" class="icon-btn danger" data-del="' + esc(c.id) + '" aria-label="Delete ' + esc(c.name) + '">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">No categories yet.</p>';
+}
+$('#btnCats').addEventListener('click', () => openCats(false));
+$('#bookTitle').addEventListener('change', e => {
+  state.title = e.target.value.trim() || DEFAULT_TITLE; e.target.value = state.title;
+  touch('settings'); $('#brand').textContent = state.title;
+});
+$('#newCatForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#ncName').value.trim(), err = $('#ncErr'); err.textContent = '';
+  if (!name) { err.textContent = 'Enter a category name.'; return; }
+  if (state.categories.some(c => c.name.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have a category called \u201C' + name + '\u201D.'; return; }
+  const c = {id: newId('c'), name: name, color: nextColor()};
+  state.categories.push(c); touch('settings');
+  $('#ncName').value = '';
+  if (catFromChips) { entry.cat = c.id; $('#dlgCats').close(); render(); $('#amt').focus(); }
+  else { renderCats(); render(); $('#ncName').focus(); }
+});
+$('#catList').addEventListener('change', e => {
+  if (!e.target.classList.contains('cname')) return;
+  const row = e.target.closest('.crow'), c = catById(row.dataset.id); if (!c) return;
+  const name = e.target.value.trim();
+  if (!name) { $('#ncErr').textContent = 'A category needs a name.'; e.target.value = c.name; return; }
+  if (state.categories.some(x => x.id !== c.id && x.name.toLowerCase() === name.toLowerCase())) { $('#ncErr').textContent = '\u201C' + name + '\u201D already exists.'; e.target.value = c.name; return; }
+  $('#ncErr').textContent = ''; c.name = name; touch('settings'); render();
+});
+$('#catList').addEventListener('click', e => {
+  const del = e.target.closest('[data-del]'); if (del) { deleteCat(del.dataset.del); return; }
+  const mv = e.target.closest('[data-mv]'); if (!mv) return;
+  const id = mv.closest('.crow').dataset.id, i = state.categories.findIndex(c => c.id === id), j = i + Number(mv.dataset.mv);
+  if (i < 0 || j < 0 || j >= state.categories.length) return;
+  const tmp = state.categories[i]; state.categories[i] = state.categories[j]; state.categories[j] = tmp;
+  touch('settings'); renderCats(); render();
+  const again = $('.crow[data-id="' + CSS.escape(id) + '"] [data-mv="' + mv.dataset.mv + '"]'); if (again && !again.disabled) again.focus();
+});
+async function deleteCat(id){
+  const c = catById(id); if (!c) return;
+  const n = usage(id);
+  const ok = await confirmBox({
+    title: 'Delete \u201C' + c.name + '\u201D?',
+    body: n ? n + (n === 1 ? ' entry uses' : ' entries use') + ' this category. They stay in your sheets and show as \u201C' + c.name + ' (deleted)\u201D.' : 'No entries use this category.',
+    ok: 'Delete category'
+  });
+  if (!ok) return;
+  Object.keys(state.months).forEach(k => {
+    let changed = false;
+    state.months[k].txns.forEach(t => { if (t.cat === id) { t.catName = c.name; changed = true; } });
+    if (changed) touch(k);
+  });
+  state.categories = state.categories.filter(x => x.id !== id);
+  if (entry.cat === id) entry.cat = null;
+  touch('settings'); renderCats(); render();
+}
+
+/* ---------- import: CSV from this app, or cells copied from a Google Sheet grid ---------- */
+const MON3 = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+const HEAD_RE = /^\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})\s*$/i;
+function parsePaste(text, year){
+  const rows = text.replace(/\r/g, '').split('\n').map(l => l.split('\t')).filter(r => r.some(c => c.trim()));
+  let hi = -1, best = 0;
+  rows.forEach((r, i) => { const n = r.filter(c => HEAD_RE.test(c)).length; if (n > best) { best = n; hi = i; } });
+  if (hi < 0) return {error: 'Couldn\u2019t find the row of dates (like \u201CSeptember 1\u201D). Copy from the month name down to the last category row.'};
+  const cols = [];
+  rows[hi].forEach((c, ci) => { const m = c.match(HEAD_RE); if (m) cols.push({ci: ci, mon: MON3.indexOf(m[1].toLowerCase().slice(0, 3)) + 1, day: +m[2]}); });
+  const firstCol = cols[0].ci, entries = [];
+  let skipped = 0;
+  for (let i = hi + 1; i < rows.length; i++) {
+    const r = rows[i];
+    const label = (r.slice(0, firstCol).find(c => c.trim()) || '').trim();
+    if (!label || /^(grand\s+)?total$/i.test(label)) continue;
+    cols.forEach(col => {
+      const raw = (r[col.ci] || '').replace(/[\u20B9,\s]/g, '');
+      if (!raw) return;
+      const v = parseFloat(raw);
+      if (!isFinite(v) || v === 0) return;
+      const dt = new Date(year, col.mon - 1, col.day);
+      if (v < 0 || dt.getMonth() !== col.mon - 1) { skipped++; return; }
+      entries.push({d: year + '-' + pad(col.mon) + '-' + pad(col.day), label: label, amt: round2(v)});
+    });
+  }
+  return {entries: entries, skipped: skipped};
+}
+function parseCsv(text, delim){
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === delim) { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }
+    else cell += c;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(c => c.trim() !== ''));
+}
+const unCsv = s => String(s == null ? '' : s).replace(/^'(?=[=+\-@\t\r])/, '').trim();
+function parseDateCell(s){
+  s = String(s || '').trim();
+  let m = /^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/.exec(s), y, mo, d;
+  if (m) { y = +m[1]; mo = +m[2]; d = +m[3]; }
+  else { m = /^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/.exec(s); if (!m) return null; d = +m[1]; mo = +m[2]; y = +m[3]; }
+  const dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+  const iso = y + '-' + pad(mo) + '-' + pad(d);
+  return validDate(iso) ? iso : null;
+}
+function parseImport(text, year){
+  const t = String(text).replace(/^\uFEFF/, '');
+  if (!t.trim()) return null;
+  const firstLine = t.split(/\r?\n/, 1)[0];
+  if (firstLine.indexOf('\t') < 0) {
+    const delim = firstLine.split(';').length > firstLine.split(',').length ? ';' : ',';
+    const rows = parseCsv(t, delim);
+    const head = rows.length ? rows[0].map(h => h.trim().toLowerCase()) : [];
+    const iD = head.indexOf('date'), iC = head.indexOf('category'), iA = head.indexOf('amount'), iN = head.indexOf('note');
+    if (iD >= 0 && iC >= 0 && iA >= 0) {
+      const entries = []; let skipped = 0;
+      rows.slice(1).forEach(r => {
+        const d = parseDateCell(r[iD]), label = unCsv(r[iC]), amt = parseFloat(String(r[iA] == null ? '' : r[iA]).replace(/[\u20B9,\s]/g, ''));
+        if (!d || !label || !isFinite(amt) || amt <= 0) { skipped++; return; }
+        entries.push({d: d, label: label, amt: round2(amt), note: iN >= 0 ? unCsv(r[iN]) : ''});
+      });
+      return {kind: 'csv', entries: entries, skipped: skipped};
+    }
+  }
+  const res = parsePaste(t, year);
+  if (res.error) return {error: 'This doesn\u2019t look like a CSV exported from this app (it needs Date, Category and Amount columns) or cells copied from a month grid.'};
+  return {kind: 'sheet', entries: res.entries.map(e => ({d: e.d, label: e.label, amt: e.amt, note: ''})), skipped: res.skipped};
+}
+function runImport(entries, mode, dry){
+  const res = {added: 0, dup: 0, months: {}, fresh: []};
+  const monthKeys = Array.from(new Set(entries.map(e => e.d.slice(0, 7)))).sort();
+  const keyOf = (d, name, amt, note) => d + '|' + String(name).toLowerCase() + '|' + amt + '|' + note;
+  const seen = {};
+  if (mode !== 'replace') monthKeys.forEach(ym => {
+    const m = state.months[ym]; if (!m) return;
+    m.txns.forEach(t => { const c = catById(t.cat), k = keyOf(t.d, c ? c.name : (t.catName || ''), t.amt, t.note || ''); seen[k] = (seen[k] || 0) + 1; });
+  });
+  const plan = [], freshSet = new Set();
+  entries.forEach(en => {
+    if (mode !== 'replace') { const k = keyOf(en.d, en.label, en.amt, en.note || ''); if (seen[k] > 0) { seen[k]--; res.dup++; return; } }
+    plan.push(en);
+    const ym = en.d.slice(0, 7), mo = res.months[ym] || (res.months[ym] = {n: 0, t: 0});
+    mo.n++; mo.t = round2(mo.t + en.amt);
+    const low = en.label.toLowerCase();
+    if (!state.categories.some(c => c.name.toLowerCase() === low) && !freshSet.has(low)) { freshSet.add(low); res.fresh.push(en.label); }
+  });
+  res.added = plan.length;
+  if (dry) return res;
+  const touched = new Set(); let created = false;
+  if (mode === 'replace') monthKeys.forEach(ym => { ensureMonth(ym, false).txns = []; touched.add(ym); });
+  plan.forEach(en => {
+    let c = state.categories.find(x => x.name.toLowerCase() === en.label.toLowerCase());
+    if (!c) { c = {id: newId('c'), name: en.label, color: nextColor()}; state.categories.push(c); created = true; }
+    const ym = en.d.slice(0, 7);
+    ensureMonth(ym, false).txns.push({id: newId('t'), d: en.d, cat: c.id, catName: c.name, amt: en.amt, note: en.note || ''});
+    touched.add(ym);
+  });
+  if (created) touch('settings');
+  touched.forEach(k => touch(k));
+  return res;
+}
+function fillImportYears(){
+  const y = new Date().getFullYear(); let ys = '';
+  for (let i = y - 3; i <= y + 1; i++) ys += '<option value="' + i + '">' + i + '</option>';
+  $('#imY').innerHTML = ys; $('#imY').value = String(y);
+}
+let importParsed = null;
+const importMode = () => { const r = document.querySelector('input[name="imMode"]:checked'); return r ? r.value : 'add'; };
+function refreshImport(){
+  const text = $('#imText').value, err = $('#imErr'), prev = $('#imPrev');
+  err.textContent = ''; importParsed = null; $('#imGo').disabled = true; $('#imYearRow').hidden = true;
+  if (!text.trim()) { prev.textContent = 'Nothing loaded yet.'; return; }
+  const res = parseImport(text, Number($('#imY').value));
+  if (!res) { prev.textContent = 'Nothing loaded yet.'; return; }
+  if (res.error) { prev.textContent = ''; err.textContent = res.error; return; }
+  if (res.kind === 'sheet') $('#imYearRow').hidden = false;
+  if (!res.entries.length) { prev.textContent = 'The text is readable but has no valid entries.'; return; }
+  importParsed = res;
+  const plan = runImport(res.entries, importMode(), true);
+  let html = plan.added ? Object.keys(plan.months).sort().map(ym => '<div><b>' + esc(ymLabel(ym)) + '</b>: ' + plan.months[ym].n + (plan.months[ym].n === 1 ? ' entry' : ' entries') + ', ' + fmt(plan.months[ym].t) + '</div>').join('') : '<div>Everything in this file is already in your sheets.</div>';
+  const notes = [res.kind === 'sheet' ? 'read as cells copied from a Google Sheet' : 'read as CSV'];
+  if (plan.fresh.length) notes.push('new categories: ' + esc(plan.fresh.join(', ')));
+  if (plan.dup) notes.push(plan.dup + (plan.dup === 1 ? ' entry' : ' entries') + ' already here, skipped');
+  if (res.skipped) notes.push(res.skipped + (res.skipped === 1 ? ' row' : ' rows') + ' couldn\u2019t be read');
+  prev.innerHTML = html + '<div class="muted">' + notes.join('; ') + '</div>';
+  $('#imGo').disabled = !plan.added;
+}
+function openImport(){
+  $('#imText').value = ''; $('#imFile').textContent = 'No file chosen'; $('#imFileInput').value = '';
+  fillImportYears(); refreshImport(); $('#dlgImport').showModal();
+}
+$('#imPick').addEventListener('click', () => $('#imFileInput').click());
+$('#imFileInput').addEventListener('change', e => {
+  const f = e.target.files && e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => { $('#imText').value = String(rd.result || ''); $('#imFile').textContent = f.name; refreshImport(); };
+  rd.onerror = () => { $('#imErr').textContent = 'Couldn\u2019t read that file.'; };
+  rd.readAsText(f);
+});
+$('#imText').addEventListener('input', refreshImport);
+$('#imY').addEventListener('change', refreshImport);
+document.querySelectorAll('input[name="imMode"]').forEach(r => r.addEventListener('change', refreshImport));
+$('#imGo').addEventListener('click', () => {
+  if (!importParsed) return;
+  const res = runImport(importParsed.entries, importMode(), false), keys = Object.keys(res.months).sort();
+  if (keys.length) { view.ym = keys[keys.length - 1]; view.mode = 'sheet'; needScroll = true; gridFocus.c = 0; setDateDefault(); }
+  $('#dlgImport').close(); if ($('#dlgSettings').open) $('#dlgSettings').close();
+  render();
+  toast('Imported ' + res.added + (res.added === 1 ? ' entry' : ' entries') + (res.dup ? ', skipped ' + res.dup + ' already here' : ''));
+});
+
+/* ---------- export: works in the browser, as an installed web app, and inside Claude ---------- */
+function csvCell(v){ let s = String(v == null ? '' : v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function buildCsv(){
+  const rows = [['Date', 'Sheet', 'Category', 'Amount', 'Note']];
+  ymKeys().forEach(ym => {
+    state.months[ym].txns.slice().sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0).forEach(t => {
+      const c = catById(t.cat);
+      rows.push([t.d, ymLabel(ym), c ? c.name : (t.catName || 'Deleted category'), t.amt, t.note || '']);
+    });
+  });
+  return rows.map(r => r.map(csvCell).join(',')).join('\r\n');
+}
+async function exportCsv(){
+  const csv = '\uFEFF' + buildCsv(), fname = 'expenses-' + todayStr() + '.csv';
+  const done = () => { try { localStorage.setItem('bgt.lastExport', String(Date.now())); } catch(e) {} const n = $('#backupNote'); if (n) n.textContent = lastExportText(); };
+  if (window.AndroidBridge && window.AndroidBridge.saveCsv) { window.AndroidBridge.saveCsv(fname, csv); done(); return; }
+  if (window.claude && window.claude.use) {
+    let dl = null; try { dl = await window.claude.use('downloads'); } catch(e) {}
+    if (dl) {
+      try { await dl.save({filename: fname, data: csv}); done(); }
+      catch(err) { if (!err || err.code !== 'declined') toast('Couldn\u2019t save the file.'); }
+      return;
+    }
+  }
+  try {
+    const file = new File([csv], fname, {type: 'text/csv'});
+    const ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ios && navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: fname}); done(); return; }
+    const url = URL.createObjectURL(file), a = document.createElement('a');
+    a.href = url; a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000); done();
+  } catch(err) { if (!err || err.name !== 'AbortError') toast('Couldn\u2019t save the file.'); }
+}
+
+/* ---------- settings: title, appearance, data, month sheets ---------- */
+const THEME_KEY = 'bgt.theme', rootEl = document.documentElement, initialTheme = rootEl.getAttribute('data-th0') || '';
+function getTheme(){ try { const v = localStorage.getItem(THEME_KEY); return v === 'light' || v === 'dark' ? v : 'auto'; } catch(e) { return 'auto'; } }
+function applyTheme(mode){
+  if (mode === 'light' || mode === 'dark') rootEl.setAttribute('data-theme', mode);
+  else if (initialTheme) rootEl.setAttribute('data-theme', initialTheme);
+  else rootEl.removeAttribute('data-theme');
+}
+function renderThemeSeg(){ const t = getTheme(); document.querySelectorAll('#themeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.th === t))); }
+function lastExportText(){
+  let t = null; try { t = localStorage.getItem('bgt.lastExport'); } catch(e) {}
+  if (!t) return 'You haven\u2019t exported yet. Export a CSV now and then so you always have a copy of your entries.';
+  const d = new Date(Number(t));
+  return 'Last exported ' + d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() + '. Import that file any time to restore your entries.';
+}
+function renderSheetList(){
+  const keys = ymKeys().slice().reverse();
+  $('#sheetList').innerHTML = keys.length ? keys.map(k => {
+    const m = state.months[k], n = m.txns.length, t = round2(m.txns.reduce((x, y) => x + y.amt, 0));
+    return '<div class="shrow"><div class="shinfo"><b>' + esc(ymLabel(k)) + '</b><small>' + (n ? n + (n === 1 ? ' entry' : ' entries') + ', ' + fmt(t) : 'Empty') + '</small></div>' +
+      '<button type="button" class="btn danger sm" data-delsheet="' + k + '" aria-label="Delete ' + esc(ymLabel(k)) + '">Delete</button></div>';
+  }).join('') : '<p class="muted small">No sheets yet.</p>';
+}
+function openSettings(){
+  $('#verLine').textContent = 'Version ' + APP_VERSION + ' (' + APP_BUILD + ')';
+  $('#bookTitle').value = state.title; renderThemeSeg(); $('#backupNote').textContent = lastExportText(); renderSheetList();
+  $('#dlgSettings').showModal();
+}
+async function deleteSheet(ym){
+  const m = state.months[ym]; if (!m) return;
+  const n = m.txns.length;
+  const ok = await confirmBox({
+    title: 'Delete ' + ymLabel(ym) + '?',
+    body: n ? 'This removes the sheet and its ' + n + (n === 1 ? ' entry' : ' entries') + '. This can\u2019t be undone, so export a CSV first if you want a copy.' : 'This removes the empty sheet.',
+    ok: 'Delete sheet'
+  });
+  if (!ok) return;
+  delete state.months[ym]; touch(ym);
+  ensureMonth(curYm(), false);
+  if (ym === view.ym || !state.months[view.ym]) { view.ym = curYm(); needScroll = true; gridFocus.c = 0; setDateDefault(); }
+  render();
+}
+function initSettings(){
+  applyTheme(getTheme());
+  $('#btnSettings').addEventListener('click', openSettings);
+  $('#themeSeg').addEventListener('click', e => {
+    const b = e.target.closest('button[data-th]'); if (!b) return;
+    try { if (b.dataset.th === 'auto') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, b.dataset.th); } catch(err) {}
+    applyTheme(b.dataset.th); renderThemeSeg();
+  });
+  $('#setExport').addEventListener('click', exportCsv);
+  $('#setImport').addEventListener('click', openImport);
+  $('#sheetList').addEventListener('click', async e => { const b = e.target.closest('[data-delsheet]'); if (!b) return; await deleteSheet(b.dataset.delsheet); renderSheetList(); });
+}
+
+/* ---------- recover entries saved by the first version of the app (old storage names) ---------- */
+function convertV1(v1cats, v1months){
+  const byId = {}, map = {}; let moved = 0, income = 0;
+  (Array.isArray(v1cats) ? v1cats : []).forEach(c => { if (c && c.id) byId[c.id] = c; });
+  const catFor = (id, name) => {
+    if (map[id]) return map[id];
+    const nm = String(name || '').trim(); if (!nm) return null;
+    let c = state.categories.find(x => x.name.toLowerCase() === nm.toLowerCase());
+    if (!c) { c = {id: newId('c'), name: nm, color: nextColor()}; state.categories.push(c); touch('settings'); }
+    return (map[id] = c);
+  };
+  Object.keys(v1months).sort().forEach(ym => {
+    if (!/^\d{4}-\d{2}$/.test(ym)) return;
+    if (state.months[ym] && state.months[ym].txns.length) return;
+    const src = v1months[ym] || {}, out = [];
+    (Array.isArray(src.txns) ? src.txns : []).forEach(t => {
+      if (!t || !/^\d{4}-\d{2}-\d{2}$/.test(t.d) || !(Number(t.amt) > 0)) return;
+      const oc = byId[t.cat];
+      if (t.type === 'income' || (oc && oc.type === 'income')) { income++; return; }
+      const c = catFor(t.cat, oc ? oc.name : t.catName); if (!c) return;
+      out.push({id: newId('t'), d: t.d, cat: c.id, catName: c.name, amt: round2(Number(t.amt)), note: String(t.note || '')}); moved++;
+    });
+    if (out.length) { ensureMonth(ym, false).txns = out; touch(ym); }
+  });
+  return {moved: moved, income: income};
+}
+function recoveredToast(r){ if (r.moved) toast('Recovered ' + r.moved + (r.moved === 1 ? ' entry' : ' entries') + ' saved by an earlier version' + (r.income ? ' (' + r.income + ' income entries skipped)' : '')); }
+function migrateV1Local(){
+  try {
+    if (localStorage.getItem('bgt.v2.mig1')) return;
+    localStorage.setItem('bgt.v2.mig1', '1');
+    if (Object.keys(state.months).some(k => state.months[k].txns.length)) return;
+    const raw = localStorage.getItem('bgt.v1.settings'), cats = raw ? (JSON.parse(raw).categories || []) : [], months = {};
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf('bgt.v1.m.') === 0) months[k.slice(9)] = JSON.parse(localStorage.getItem(k)); }
+    if (!Object.keys(months).length) return;
+    const r = convertV1(cats, months);
+    if (r.moved) setTimeout(() => recoveredToast(r), 700);
+  } catch(e) {}
+}
+function migrateV1Remote(docs){
+  try {
+    if (localStorage.getItem('bgt.v2.mig1r')) return 0;
+    localStorage.setItem('bgt.v2.mig1r', '1');
+    let cats = [], months = {};
+    docs.forEach(d => {
+      const data = d.data() || {};
+      if (d.id === 'settings') cats = data.categories || [];
+      else { const mm = /^m-(\d{4}-\d{2})$/.exec(d.id); if (mm) months[mm[1]] = data; }
+    });
+    if (!Object.keys(months).length) return 0;
+    const r = convertV1(cats, months);
+    if (r.moved) setTimeout(() => recoveredToast(r), 700);
+    return r.moved;
+  } catch(e) { return 0; }
+}
+
+/* ---------- dialogs: close buttons & backdrop ---------- */
+document.addEventListener('click', e => {
+  const c = e.target.closest('[data-close]'); if (c) { const d = c.closest('dialog'); if (d) d.close(); return; }
+  if (e.target.tagName === 'DIALOG' && e.target.id !== 'dlgConfirm') e.target.close();
+});
+
+/* ---------- calculator keys for amount fields ---------- */
+function initMath(){
+  const KEYS = [['+', 'Plus'], ['\u2212', 'Minus'], ['\u00D7', 'Multiply'], ['\u00F7', 'Divide'], ['(', 'Open bracket'], [')', 'Close bracket'], ['back', 'Backspace']];
+  [['amt', 'mbAmt'], ['clAmt', 'mbCell'], ['eAmt', 'mbEdit']].forEach(pair => {
+    const inp = $('#' + pair[0]), bar = $('#' + pair[1]), calc = bar.querySelector('.calc');
+    bar.querySelector('.keys').innerHTML = KEYS.map(k => '<button type="button" data-k="' + k[0] + '" aria-label="' + k[1] + '">' + (k[0] === 'back' ? '\u232B' : k[0]) + '</button>').join('');
+    const upd = () => {
+      if (!hasOp(inp.value)) { calc.textContent = ''; return; }
+      const v = evalExpr(inp.value); calc.textContent = isFinite(v) ? '= ' + fmt(round2(v)) : '';
+    };
+    inp.addEventListener('focus', () => {
+      bar.hidden = false; upd();
+      setTimeout(() => { const r = bar.getBoundingClientRect(), vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight; if (!bar.hidden && r.bottom > vh - 8 && bar.scrollIntoView) bar.scrollIntoView({block: 'end', behavior: 'smooth'}); }, 280);
+    });
+    inp.addEventListener('blur', () => { bar.hidden = true; });
+    inp.addEventListener('input', upd);
+    inp.addEventListener('change', () => {
+      if (hasOp(inp.value)) { const v = evalExpr(inp.value); if (isFinite(v) && v > 0) inp.value = String(round2(v)); }
+      upd();
+    });
+    bar.addEventListener('mousedown', e => e.preventDefault());
+    bar.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      const k = b.dataset.k; if (!k) return; inp.focus();
+      const a = inp.selectionStart == null ? inp.value.length : inp.selectionStart, z = inp.selectionEnd == null ? a : inp.selectionEnd;
+      if (k === 'back') { if (a !== z) inp.setRangeText('', a, z, 'end'); else if (a > 0) inp.setRangeText('', a - 1, a, 'end'); }
+      else inp.setRangeText(k, a, z, 'end');
+      inp.dispatchEvent(new Event('input', {bubbles: true}));
+    });
+  });
+}
+
+/* ---------- date picker: tapping a day sets it straight away ---------- */
+const CAL_ICON = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+const fmtLong = d => { const p = d.split('-').map(Number); return WD[new Date(p[0], p[1] - 1, p[2]).getDay()] + ', ' + p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3) + ' ' + p[0]; };
+const fmtBtn = d => { const p = d.split('-').map(Number); return WD[new Date(p[0], p[1] - 1, p[2]).getDay()] + ' ' + p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3) + (p[0] !== new Date().getFullYear() ? ' ' + p[0] : ''); };
+function setDate(id, v){ $('#' + id).value = v; $('#' + id + 'Btn').innerHTML = CAL_ICON + '<span>' + fmtBtn(v) + '</span>'; }
+const dp = {id: null, y: 0, m: 0};
+function openDatePicker(id){
+  dp.id = id;
+  const p = ($('#' + id).value || todayStr()).split('-').map(Number);
+  dp.y = p[0]; dp.m = p[1];
+  renderDp(); $('#dlgDate').showModal();
+}
+function renderDp(){
+  const sel = $('#' + dp.id).value, today = todayStr(), ny = new Date().getFullYear();
+  $('#dpM').innerHTML = MONTHS.map((n, i) => '<option value="' + (i + 1) + '">' + n.slice(0, 3) + '</option>').join(''); $('#dpM').value = String(dp.m);
+  let ys = ''; for (let y = Math.min(ny - 6, dp.y); y <= Math.max(ny + 4, dp.y); y++) ys += '<option value="' + y + '">' + y + '</option>';
+  $('#dpY').innerHTML = ys; $('#dpY').value = String(dp.y);
+  const lead = (new Date(dp.y, dp.m - 1, 1).getDay() + 6) % 7, n = new Date(dp.y, dp.m, 0).getDate();
+  let g = ''; for (let i = 0; i < lead; i++) g += '<span></span>';
+  for (let d = 1; d <= n; d++) {
+    const iso = dp.y + '-' + pad(dp.m) + '-' + pad(d);
+    g += '<button type="button" class="dpd' + (iso === sel ? ' sel' : '') + (iso === today ? ' today' : '') + '" data-d="' + iso + '" aria-label="' + d + ' ' + MONTHS[dp.m - 1] + ' ' + dp.y + '"' + (iso === sel ? ' aria-pressed="true"' : '') + '>' + d + '</button>';
+  }
+  $('#dpGrid').innerHTML = g;
+}
+function chooseDate(iso){
+  const id = dp.id; setDate(id, iso); $('#dlgDate').close();
+  $('#' + id).dispatchEvent(new Event('change', {bubbles: true}));
+  const b = $('#' + id + 'Btn'); if (b) b.focus();
+}
+function shiftMonth(delta){ dp.m += delta; if (dp.m < 1) { dp.m = 12; dp.y--; } if (dp.m > 12) { dp.m = 1; dp.y++; } renderDp(); }
+function initDatePicker(){
+  document.querySelectorAll('.datebtn').forEach(b => b.addEventListener('click', () => openDatePicker(b.dataset.for)));
+  $('#dpGrid').addEventListener('click', e => { const b = e.target.closest('.dpd'); if (b) chooseDate(b.dataset.d); });
+  $('#dpToday').addEventListener('click', () => chooseDate(todayStr()));
+  $('#dpPrev').addEventListener('click', () => shiftMonth(-1));
+  $('#dpNext').addEventListener('click', () => shiftMonth(1));
+  $('#dpM').addEventListener('change', e => { dp.m = Number(e.target.value); renderDp(); });
+  $('#dpY').addEventListener('change', e => { dp.y = Number(e.target.value); renderDp(); });
+}
+
+/* ---------- pie charts: details appear only on hover or tap ---------- */
+const pies = {};
+function arcPath(r0, r1, a0, a1){
+  if (a1 - a0 >= Math.PI * 2 - 1e-4) a1 = a0 + Math.PI * 2 - 1e-4;
+  const large = (a1 - a0) > Math.PI ? 1 : 0;
+  const pt = (r, a) => (100 + r * Math.cos(a)).toFixed(2) + ' ' + (100 + r * Math.sin(a)).toFixed(2);
+  return 'M' + pt(r1, a0) + 'A' + r1 + ' ' + r1 + ' 0 ' + large + ' 1 ' + pt(r1, a1) + 'L' + pt(r0, a1) + 'A' + r0 + ' ' + r0 + ' 0 ' + large + ' 0 ' + pt(r0, a0) + 'Z';
+}
+function itemsFrom(catTot, catCnt, names){
+  return Object.keys(catTot).map(id => {
+    const c = catById(id);
+    return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? c.color : '#8A93A6', value: catTot[id], n: catCnt[id] || 0};
+  }).filter(x => x.value > 0).sort((a, b) => b.value - a.value);
+}
+function renderPies(st){
+  renderPie('pieMonth', ymLabel(view.ym), 'by category', itemsFrom(st.catTot, st.catCnt, st.names));
+  const agg = {catTot: {}, catCnt: {}, names: {}}; let sheets = 0;
+  Object.keys(state.months).forEach(k => {
+    const m = state.months[k]; if (!m.txns.length) return; sheets++;
+    m.txns.forEach(t => { agg.catTot[t.cat] = round2((agg.catTot[t.cat] || 0) + t.amt); agg.catCnt[t.cat] = (agg.catCnt[t.cat] || 0) + 1; if (!agg.names[t.cat]) agg.names[t.cat] = t.catName; });
+  });
+  renderPie('pieApp', 'All months', sheets + (sheets === 1 ? ' sheet' : ' sheets') + ', by category', itemsFrom(agg.catTot, agg.catCnt, agg.names));
+}
+function renderPie(id, title, sub, items){
+  const root = $('#' + id); if (!root) return;
+  const p = pies[id] || (pies[id] = {open: true, pinned: null, hover: null, focus: null});
+  const total = round2(items.reduce((n, i) => n + i.value, 0));
+  if (p.pinned && !items.some(i => i.id === p.pinned)) p.pinned = null;
+  p.hover = null; p.focus = null;
+  let body = '';
+  if (p.open) {
+    let svg;
+    if (total > 0) {
+      let a = -Math.PI / 2, sl = '';
+      items.forEach(it => {
+        const a1 = a + it.value / total * Math.PI * 2, mid = (a + a1) / 2;
+        sl += '<path class="slice" d="' + arcPath(52, 88, a, a1) + '" fill="' + esc(it.color) + '" data-id="' + esc(it.id) + '" style="--dx:' + (Math.cos(mid) * 6).toFixed(2) + 'px;--dy:' + (Math.sin(mid) * 6).toFixed(2) + 'px" tabindex="0" role="button" aria-label="' + esc(it.name) + ': ' + fmt(it.value) + ', ' + (it.value / total * 100).toFixed(1) + ' percent"></path>';
+        a = a1;
+      });
+      svg = '<svg class="pie" viewBox="0 0 200 200" role="group" aria-label="Pie chart of spending by category">' + sl + '<circle class="hole" cx="100" cy="100" r="50"></circle></svg>';
+    } else svg = '<svg class="pie empty" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="70" fill="none" stroke-width="36"></circle></svg>';
+    body = '<div class="pbody">' + svg + '<div class="pdet" aria-live="polite"></div></div>';
+  }
+  root.innerHTML = '<button type="button" class="pchead" data-pie="' + id + '" aria-expanded="' + p.open + '"><span class="chev"></span><b>' + esc(title) + '</b><small>' + esc(sub) + '</small></button>' + body;
+  root._items = items; root._total = total; paintPie(root);
+}
+function paintPie(root){
+  const p = pies[root.id]; if (!p || !p.open) return;
+  const act = p.hover || p.focus || p.pinned, it = root._items.find(i => i.id === act);
+  const svg = root.querySelector('.pie'), det = root.querySelector('.pdet');
+  root.querySelectorAll('.slice').forEach(sl => sl.classList.toggle('on', !!it && sl.dataset.id === it.id));
+  if (svg) svg.classList.toggle('sel', !!it);
+  det.innerHTML = it
+    ? '<div class="pd-name"><i class="dot" style="--c:' + esc(it.color) + '"></i><span>' + esc(it.name) + '</span></div><div class="pd-amt">' + fmt(it.value) + '</div><div class="pd-sub">' + (it.value / root._total * 100).toFixed(1) + '% of ' + fmt(root._total) + ', ' + it.n + (it.n === 1 ? ' entry' : ' entries') + '</div>'
+    : '<div class="pd-hint">' + (root._total > 0 ? 'Hover over or tap a slice to see the details.' : 'No spending recorded yet.') + '</div>';
+}
+const pieRoot = el => el.closest && el.closest('#pieApp, #pieMonth');
+document.addEventListener('pointerover', e => {
+  if (e.pointerType !== 'mouse') return;
+  const sl = e.target.closest && e.target.closest('.slice'); if (!sl) return;
+  const r = pieRoot(sl); if (!r || !pies[r.id]) return; pies[r.id].hover = sl.dataset.id; paintPie(r);
+});
+document.addEventListener('pointerout', e => {
+  if (e.pointerType !== 'mouse') return;
+  const sl = e.target.closest && e.target.closest('.slice'); if (!sl) return;
+  const to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('.slice') : null;
+  if (to && to.dataset.id === sl.dataset.id) return;
+  const r = pieRoot(sl); if (!r || !pies[r.id]) return; pies[r.id].hover = null; paintPie(r);
+});
+document.addEventListener('focusin', e => {
+  const sl = e.target.closest && e.target.closest('.slice'); if (!sl) return;
+  let vis = true; try { vis = sl.matches(':focus-visible'); } catch(err) {}
+  if (!vis) return;
+  const r = pieRoot(sl); if (!r || !pies[r.id]) return; pies[r.id].focus = sl.dataset.id; paintPie(r);
+});
+document.addEventListener('focusout', e => {
+  const sl = e.target.closest && e.target.closest('.slice'); if (!sl) return;
+  const r = pieRoot(sl); if (!r || !pies[r.id]) return; pies[r.id].focus = null; paintPie(r);
+});
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('slice')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles: true})); }
+});
+document.addEventListener('click', e => {
+  const head = e.target.closest && e.target.closest('[data-pie]');
+  if (head) { const p = pies[head.dataset.pie]; if (p) { p.open = !p.open; renderPies(stats(view.ym)); } return; }
+  const r = pieRoot(e.target); if (!r || !pies[r.id]) return;
+  const p = pies[r.id], sl = e.target.closest('.slice');
+  if (sl) { p.pinned = p.pinned === sl.dataset.id ? null : sl.dataset.id; paintPie(r); return; }
+  if (e.target.closest('.hole')) { p.pinned = null; paintPie(r); }
+});
+
+/* ---------- start ---------- */
+loadLocal();
+migrateV1Local();
+initMath();
+initDatePicker();
+ensureMonth(view.ym, false);
+setDateDefault();
+render();
+setStatus('local');
+initSettings();
+if (!window.claude && navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+connect();
+})();
+</script>
+<script>if ('serviceWorker' in navigator && location.protocol !== 'file:') { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); }); }</script>
+</body>
+</html>
