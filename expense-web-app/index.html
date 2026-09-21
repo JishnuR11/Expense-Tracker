@@ -9,7 +9,7 @@ var K=['bg','surface','ink','ink-2','line','band','band-ink','gold','on-gold','p
 var X=['wk','ink-3','line-2','band-ink-2','gold-text','focus'];
 var GL=['glow-text','glow-box','glow-tab'];
 var BASE=["#3B5BDB", "#0891B2", "#C2334D", "#D69E1F", "#C2703D", "#8B5CF6", "#0E9F7E", "#64748B", "#D946A8", "#5B8C2A", "#0F766E", "#7C3AED"];
-var S={"midnight":{"n":"Midnight gold","L":["#F4F5FA","#FFFFFF","#151A33","#4F5873","#DFE2EE","#1A1E4A","#F5F2E9","#DDB35A","#2B2106","#1A1E4A","#FFFFFF","#FBF3DC"],"D":["#0B0E22","#141937","#EEF0FA","#AEB5D3","#2A3160","#1B2160","#F5F2E9","#E0B85C","#2B2106","#7F90FF","#0B0E22","#3A3018"],"c":["#3B5BDB","#0891B2","#C2334D","#D69E1F","#C2703D","#8B5CF6","#0E9F7E","#64748B","#D946A8","#5B8C2A","#0F766E","#7C3AED"]},"forest":{"h":"weave","n":"Forest brass","L":["#F2F5F2","#FFFFFF","#14211B","#4A5F55","#DCE5DE","#12352B","#F3F1E6","#C9A86A","#2A2110","#12352B","#FFFFFF","#F6EEDC"],"D":["#0A1410","#111F19","#E8F0EA","#A6BBB0","#22382E","#174236","#F3F1E6","#D4B57A","#2A2110","#86D6B0","#0A1410","#2E2818"],"c":["#2F7D5B","#3A8FA8","#B5483A","#C9962B","#9A6B3F","#7A6BB5","#5FA37A","#6B7C74","#B0567A","#7A9A3C","#2E6B5E","#8F6FC0"]},"graphite":{"h":"dots","n":"Graphite copper","L":["#F4F4F3","#FFFFFF","#1E2024","#5A5F66","#E2E2E0","#24272C","#F1EEE9","#C98254","#2A1608","#24272C","#FFFFFF","#F7E9DE"],"D":["#0E0F11","#191B1F","#ECECEA","#A9ADB3","#2C3036","#292D33","#F1EEE9","#D9946A","#2A1608","#C9CDD4","#0E0F11","#382619"],"c":["#4F6D8F","#5B9A9A","#B5523F","#C8973A","#B0704A","#8A6FA8","#6F9A7A","#7C848E","#B0577F","#8A9A4A","#3E7C80","#6F5FA0"]},"bordeaux":{"h":"chalk","n":"Bordeaux rose","L":["#F8F3F3","#FFFFFF","#2A1218","#6A4A52","#EBDDE0","#4A1626","#F8EEEE","#DDA893","#3A170D","#4A1626","#FFFFFF","#F8E8E1"],"D":["#150A0E","#22131A","#F3E9EB","#C2A5AD","#3A222B","#5A1C30","#F8EEEE","#E3B09C","#3A170D","#E3B09C","#2A0F18","#3D2620"],"c":["#A83252","#2F7F8C","#CC7A32","#6F8F4E","#8A5FA8","#5470B8","#B85C7A","#7C8A8F","#C2547E","#9A8F3C","#3F7A70","#6A4F9A"]},"sage":{"n":"Sage linen","L":["#F3F5F1","#FFFFFF","#1F2A22","#56655B","#DFE5DC","#DDE6D8","#1F2A22","#2F5A41","#FFFFFF","#2F5A41","#FFFFFF","#E4EEDF"],"D":["#0F1511","#172019","#E7EEE8","#A6B5AA","#2A382E","#1E2B22","#E7EEE8","#9BCB9E","#0F1A12","#9BCB9E","#0F1A12","#24332A"],"c":["#4F7F5F","#3F7F8F","#B8593C","#C89A32","#9A7B4F","#7C6BAE","#6E9E6A","#7A857D","#B0607F","#8F9C45","#367A72","#6B5F9F"]},"aubergine":{"h":"pearl","n":"Aubergine pearl","L":["#F6F3F8","#FFFFFF","#241A2E","#5F5170","#E4DDEB","#34213F","#F6F1F8","#C8B4E6","#2A1840","#34213F","#FFFFFF","#EFE7F8"],"D":["#120C18","#1D1426","#F0EAF5","#B9AAC8","#33264A","#432B54","#F6F1F8","#D2C0EE","#2A1840","#C8B4E6","#1A0F26","#352548"],"c":["#6B4FA8","#3D8A9A","#C0475E","#CFA23E","#B5704A","#4F7FC0","#8A6FC0","#7B7A90","#B04F8F","#7FA05A","#3C8A82","#5A46A0"]},"luxe":{"n":"Midnight gold luxe","fx":"luxe","L":["#F3F4F9","#FFFFFF","#141A33","#4D5672","#DEE1EC","#12173F","#F7F1E1","#D9AE4A","#2A1E04","#12173F","#F0D27A","#FAF0D2"],"D":["#090C1F","#121736","#EEF0FA","#ADB4D2","#29305E","#10154A","#F7F1E1","#E6BF58","#2A1E04","#E3BC55","#1B1400","#3A2F12"],"c":["#3D5CE0","#0FA3B8","#C7364F","#DDAE3A","#C97A4A","#8E63E6","#12A38A","#6A7899","#D14FA5","#68A03A","#177F86","#7A55E0"]},"silver":{"h":"brushed","n":"Midnight silver","L":["#F3F5F8","#FFFFFF","#111C33","#4A5670","#DDE2EA","#14213D","#F1F4F9","#C3CBD8","#14213D","#14213D","#FFFFFF","#E6EBF3"],"D":["#080D1A","#101830","#EAEFF7","#A7B2C8","#25304D","#182A52","#F1F4F9","#D2D9E5","#0F1A33","#AFC4F5","#080D1A","#22304F"],"c":["#3E63DD","#0EA5B7","#D0455F","#D9A441","#C27B4E","#8B6BE6","#12A594","#6B7A93","#D24FA0","#6EA13B","#1B8A8F","#6A57D6"]},"onyx":{"h":"quilt","n":"Onyx gold","L":["#F5F4F1","#FFFFFF","#16130C","#5A5445","#E5E1D6","#15130F","#F7F2E4","#D4AF37","#241A02","#15130F","#FFFFFF","#F9F0D2"],"D":["#0A0907","#15130F","#F4EFE2","#B5AC96","#2D2A21","#1C1A14","#F7F2E4","#E2BC4B","#241A02","#E2BC4B","#1A1200","#3A3010"],"c":["#3F6FB0","#2A8C82","#B5453A","#D4AF37","#A8683A","#8467B5","#5C9A4E","#7A7565","#B0578A","#8C9A3C","#2E7A6E","#6B5AA8"]},"espresso":{"h":"grain","n":"Espresso bronze","L":["#F6F2EE","#FFFFFF","#241812","#6A5648","#E8DED4","#2B1D16","#F6EDE3","#C9964B","#2A1804","#2B1D16","#FFFFFF","#F7E9D5"],"D":["#120C09","#1F1510","#F3EAE0","#C0AC9A","#3A2A20","#3A271C","#F6EDE3","#D9A65C","#2A1804","#D9A65C","#1F1004","#40301C"],"c":["#5B7BA6","#4E9A8F","#B84A3C","#D09A38","#A66A3E","#8A6BA8","#6B9A55","#8A7A6A","#B5567F","#98A03E","#3E8078","#7A5FA0"]},"ocean":{"h":"ripple","n":"Ocean amber","L":["#F1F5F7","#FFFFFF","#0C2530","#45606B","#D8E3E8","#0B2E3B","#EDF5F7","#F0A83A","#2B1A00","#0B2E3B","#FFFFFF","#FDEFD6"],"D":["#061419","#0C222B","#E7F1F4","#9CB8C1","#1C3A46","#0F3C4D","#EDF5F7","#F4B44E","#2B1A00","#7FD0DE","#061419","#3A2E12"],"c":["#1F86A6","#2EA58B","#D45A45","#E0A030","#B57040","#7B6FC4","#5FA55A","#5F8391","#C8578F","#9BA640","#2A8A80","#5F6CC0"]},"neon":{"h":"scan","n":"Neon nights","g":1,"L":["#F4F1FB","#FFFFFF","#1A1030","#5B4C7A","#E3DCF2","#190B33","#F6EEFF","#FF2BD6","#16002B","#2A0F5C","#FFFFFF","#FCE3F8"],"D":["#07030F","#120A24","#F2EAFF","#B3A3D6","#2A1B4D","#1A0B3D","#F6EEFF","#FF3DE0","#12001F","#22E5FF","#001318","#2B1046"],"c":["#7C3AED","#06B6D4","#F0369E","#F5B700","#FF6B3D","#8B5CF6","#10D9A0","#6C6F9C","#E11DEB","#7EE021","#00A3B4","#5B5BFF"]},"laser":{"h":"grid","n":"Laser lime","g":1,"L":["#F2F7F2","#FFFFFF","#0A1A10","#3F5F4A","#D8E6DB","#05110A","#EAFBEF","#39FF14","#032008","#0A2B14","#FFFFFF","#E1FBD9"],"D":["#030806","#0A140E","#E8FFEE","#8FBF9E","#163524","#0B2415","#EAFBEF","#39FF14","#032008","#39FF14","#032008","#123A1E"],"c":["#16C172","#00B8D9","#FF3D71","#FFC400","#FF7A00","#B24BFF","#00E5A0","#6B8F7A","#FF4FD8","#A6E22E","#00A896","#5B7CFF"]}};
+var S={"midnight":{"n":"Midnight gold","L":["#F4F5FA","#FFFFFF","#151A33","#4F5873","#DFE2EE","#1A1E4A","#F5F2E9","#DDB35A","#2B2106","#1A1E4A","#FFFFFF","#FBF3DC"],"D":["#0B0E22","#141937","#EEF0FA","#AEB5D3","#2A3160","#1B2160","#F5F2E9","#E0B85C","#2B2106","#7F90FF","#0B0E22","#3A3018"],"c":["#3B5BDB","#0891B2","#C2334D","#D69E1F","#C2703D","#8B5CF6","#0E9F7E","#64748B","#D946A8","#5B8C2A","#0F766E","#7C3AED"]},"forest":{"h":"weave","n":"Forest brass","L":["#F2F5F2","#FFFFFF","#14211B","#4A5F55","#DCE5DE","#12352B","#F3F1E6","#C9A86A","#2A2110","#12352B","#FFFFFF","#F6EEDC"],"D":["#0A1410","#111F19","#E8F0EA","#A6BBB0","#22382E","#174236","#F3F1E6","#D4B57A","#2A2110","#86D6B0","#0A1410","#2E2818"],"c":["#2F7D5B","#3A8FA8","#B5483A","#C9962B","#9A6B3F","#7A6BB5","#5FA37A","#6B7C74","#B0567A","#7A9A3C","#2E6B5E","#8F6FC0"]},"graphite":{"h":"dots","n":"Graphite copper","L":["#F4F4F3","#FFFFFF","#1E2024","#5A5F66","#E2E2E0","#24272C","#F1EEE9","#C98254","#2A1608","#24272C","#FFFFFF","#F7E9DE"],"D":["#0E0F11","#191B1F","#ECECEA","#A9ADB3","#2C3036","#292D33","#F1EEE9","#D9946A","#2A1608","#C9CDD4","#0E0F11","#382619"],"c":["#4F6D8F","#5B9A9A","#B5523F","#C8973A","#B0704A","#8A6FA8","#6F9A7A","#7C848E","#B0577F","#8A9A4A","#3E7C80","#6F5FA0"]},"bordeaux":{"h":"chalk","n":"Bordeaux rose","L":["#F8F3F3","#FFFFFF","#2A1218","#6A4A52","#EBDDE0","#4A1626","#F8EEEE","#DDA893","#3A170D","#4A1626","#FFFFFF","#F8E8E1"],"D":["#150A0E","#22131A","#F3E9EB","#C2A5AD","#3A222B","#5A1C30","#F8EEEE","#E3B09C","#3A170D","#E3B09C","#2A0F18","#3D2620"],"c":["#A83252","#2F7F8C","#CC7A32","#6F8F4E","#8A5FA8","#5470B8","#B85C7A","#7C8A8F","#C2547E","#9A8F3C","#3F7A70","#6A4F9A"]},"sage":{"n":"Sage linen","L":["#F3F5F1","#FFFFFF","#1F2A22","#56655B","#DFE5DC","#DDE6D8","#1F2A22","#2F5A41","#FFFFFF","#2F5A41","#FFFFFF","#E4EEDF"],"D":["#0F1511","#172019","#E7EEE8","#A6B5AA","#2A382E","#1E2B22","#E7EEE8","#9BCB9E","#0F1A12","#9BCB9E","#0F1A12","#24332A"],"c":["#4F7F5F","#3F7F8F","#B8593C","#C89A32","#9A7B4F","#7C6BAE","#6E9E6A","#7A857D","#B0607F","#8F9C45","#367A72","#6B5F9F"]},"aubergine":{"h":"pearl","n":"Aubergine pearl","L":["#F6F3F8","#FFFFFF","#241A2E","#5F5170","#E4DDEB","#34213F","#F6F1F8","#C8B4E6","#2A1840","#34213F","#FFFFFF","#EFE7F8"],"D":["#120C18","#1D1426","#F0EAF5","#B9AAC8","#33264A","#432B54","#F6F1F8","#D2C0EE","#2A1840","#C8B4E6","#1A0F26","#352548"],"c":["#6B4FA8","#3D8A9A","#C0475E","#CFA23E","#B5704A","#4F7FC0","#8A6FC0","#7B7A90","#B04F8F","#7FA05A","#3C8A82","#5A46A0"]},"luxe":{"n":"Midnight gold luxe","fx":"luxe","L":["#F3F4F9","#FFFFFF","#141A33","#4D5672","#DEE1EC","#12173F","#F7F1E1","#D9AE4A","#2A1E04","#12173F","#F0D27A","#FAF0D2"],"D":["#090C1F","#121736","#EEF0FA","#ADB4D2","#29305E","#10154A","#F7F1E1","#E6BF58","#2A1E04","#E3BC55","#1B1400","#3A2F12"],"c":["#3D5CE0","#0FA3B8","#C7364F","#DDAE3A","#C97A4A","#8E63E6","#12A38A","#6A7899","#D14FA5","#68A03A","#177F86","#7A55E0"]},"silver":{"h":"brushed","n":"Midnight silver","L":["#F3F5F8","#FFFFFF","#111C33","#4A5670","#DDE2EA","#14213D","#F1F4F9","#C3CBD8","#14213D","#14213D","#FFFFFF","#E6EBF3"],"D":["#080D1A","#101830","#EAEFF7","#A7B2C8","#25304D","#182A52","#F1F4F9","#D2D9E5","#0F1A33","#AFC4F5","#080D1A","#22304F"],"c":["#3E63DD","#0EA5B7","#D0455F","#D9A441","#C27B4E","#8B6BE6","#12A594","#6B7A93","#D24FA0","#6EA13B","#1B8A8F","#6A57D6"]},"onyx":{"h":"quilt","n":"Onyx gold","L":["#F5F4F1","#FFFFFF","#16130C","#5A5445","#E5E1D6","#15130F","#F7F2E4","#D4AF37","#241A02","#15130F","#FFFFFF","#F9F0D2"],"D":["#0A0907","#15130F","#F4EFE2","#B5AC96","#2D2A21","#1C1A14","#F7F2E4","#E2BC4B","#241A02","#E2BC4B","#1A1200","#3A3010"],"c":["#3F6FB0","#2A8C82","#B5453A","#D4AF37","#A8683A","#8467B5","#5C9A4E","#7A7565","#B0578A","#8C9A3C","#2E7A6E","#6B5AA8"]},"ocean":{"h":"ripple","n":"Ocean amber","L":["#F1F5F7","#FFFFFF","#0C2530","#45606B","#D8E3E8","#0B2E3B","#EDF5F7","#F0A83A","#2B1A00","#0B2E3B","#FFFFFF","#FDEFD6"],"D":["#061419","#0C222B","#E7F1F4","#9CB8C1","#1C3A46","#0F3C4D","#EDF5F7","#F4B44E","#2B1A00","#7FD0DE","#061419","#3A2E12"],"c":["#1F86A6","#2EA58B","#D45A45","#E0A030","#B57040","#7B6FC4","#5FA55A","#5F8391","#C8578F","#9BA640","#2A8A80","#5F6CC0"]},"neon":{"h":"scan","n":"Neon nights","g":1,"L":["#F4F1FB","#FFFFFF","#1A1030","#5B4C7A","#E3DCF2","#190B33","#F6EEFF","#FF2BD6","#16002B","#2A0F5C","#FFFFFF","#FCE3F8"],"D":["#07030F","#120A24","#F2EAFF","#B3A3D6","#2A1B4D","#1A0B3D","#F6EEFF","#FF3DE0","#12001F","#22E5FF","#001318","#2B1046"],"c":["#7C3AED","#06B6D4","#F0369E","#F5B700","#FF6B3D","#8B5CF6","#10D9A0","#6C6F9C","#E11DEB","#7EE021","#00A3B4","#5B5BFF"]},"laser":{"h":"grid","n":"Laser lime","g":1,"L":["#F2F7F2","#FFFFFF","#0A1A10","#3F5F4A","#D8E6DB","#05110A","#EAFBEF","#39FF14","#032008","#0A2B14","#FFFFFF","#E1FBD9"],"D":["#030806","#0A140E","#E8FFEE","#8FBF9E","#163524","#0B2415","#EAFBEF","#39FF14","#032008","#39FF14","#032008","#123A1E"],"c":["#16C172","#00B8D9","#FF3D71","#FFC400","#FF7A00","#B24BFF","#00E5A0","#6B8F7A","#FF4FD8","#A6E22E","#00A896","#5B7CFF"]},"neonred":{"n":"Neon red","g":1,"h":"chalk","L":["#FBF2F3","#FFFFFF","#240A0E","#6B3E45","#F0DADD","#1A0508","#FFEFF0","#FF2D46","#1F0004","#3A0A12","#FFFFFF","#FFE1E5"],"D":["#0A0304","#1A0A0D","#FFEDEF","#C9A0A6","#3D171D","#2A0A10","#FFEFF0","#FF3B52","#1F0004","#FF3B52","#1F0004","#3A1219"],"c":["#FF3B52","#00C2FF","#FFB020","#B24BFF","#FF7A3D","#22D3A0","#FF4FA8","#8A98B0","#7EE021","#3D7BFF","#00B8A0","#FFD23F"]},"neonblue":{"n":"Neon blue","g":1,"h":"ripple","L":["#F0F5FF","#FFFFFF","#0A1430","#3F4F7A","#D9E3F8","#050B22","#EAF1FF","#38A7FF","#00122E","#0B1F5C","#FFFFFF","#DCEBFF"],"D":["#030713","#0A1230","#E8F0FF","#9FB2E0","#1B2A5C","#07123D","#EAF1FF","#3DA9FF","#00122E","#3DA9FF","#00122E","#10254F"],"c":["#3DA9FF","#22D3EE","#FF4D8D","#FFC933","#FF7A3D","#9B6BFF","#2EE6A6","#8FA0C8","#E03BFF","#7ED957","#2AA5B8","#5B7CFF"]},"neonsilver":{"n":"Neon silver","g":1,"h":"brushed","L":["#F3F5F8","#FFFFFF","#10141C","#4A5262","#DEE2EA","#0B0E14","#F2F6FF","#DCE6F7","#0B0E14","#171C28","#FFFFFF","#E8EDF6"],"D":["#050608","#0E1118","#F2F6FF","#A9B3C6","#232A38","#141925","#F2F6FF","#EAF2FF","#0B0E14","#EAF2FF","#0B0E14","#1B2232"],"c":["#8FB4FF","#5CE1E6","#FF6B9A","#FFD166","#FF9E5E","#B69CFF","#6EE7B7","#98A2B8","#F472D0","#A3E635","#38BDF8","#7C8CFF"]},"neongold":{"n":"Neon gold","g":1,"h":"quilt","L":["#FBF7EA","#FFFFFF","#221A03","#6A5A2A","#EFE6C8","#120E02","#FFF8DC","#FFC61A","#2A1E00","#2A2005","#FFE58A","#FFF0B8"],"D":["#080600","#151105","#FFF6D6","#C9B57A","#3A300E","#211A05","#FFF8DC","#FFD21F","#2A1E00","#FFD21F","#2A1E00","#3A2F08"],"c":["#FFC61A","#22D3EE","#FF4D6D","#3DDC97","#FF8A3D","#A78BFA","#7DD3FC","#A8A08A","#FF6BD6","#A3E635","#2DD4BF","#60A5FA"]}};
 var B={skins:S,base:BASE,cur:'midnight'};
 B.dark=function(){var a=r.getAttribute('data-theme');return a==='dark'||(a!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);};
 B.apply=function(name){
@@ -641,13 +641,25 @@ html{scroll-padding-bottom:76px}
     linear-gradient(90deg,color-mix(in srgb,var(--gold) 10%,transparent) 1px,transparent 1px) 0 0/24px 24px;
   -webkit-mask-image:radial-gradient(120% 120% at 100% 0%,#000,rgba(0,0,0,.3) 60%,transparent);mask-image:radial-gradient(120% 120% at 100% 0%,#000,rgba(0,0,0,.3) 60%,transparent);
 }
+
+/* ===== v10: settings tabs, sheets, yearly ===== */
+.brandbtn{display:flex;align-items:center;gap:8px;min-width:0;background:none;border:0;color:inherit;padding:6px 8px;margin:-6px -8px;border-radius:8px;text-align:left;min-height:40px}
+.brandbtn:hover{background:color-mix(in srgb,var(--band-ink) 10%,transparent)}
+.brandbtn .chev{border-color:var(--band-ink-2);transform:rotate(45deg);margin:-3px 0 0}
+.stabs{padding:12px 18px 0}
+.bkrow .shinfo b{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.bkact{display:flex;gap:6px;flex:none}
+.yrstats{display:flex;flex-wrap:wrap;gap:10px 28px;padding:12px 14px;border-bottom:1px solid var(--line-2)}
+.yrstats span{display:block;font-size:13px;color:var(--ink-2)}
+.yrstats b{display:block;font-weight:600;font-size:16px}
+.yrstats small{display:block;font-size:13px;color:var(--ink-2)}
 </style>
 </head>
 <body>
 <div class="band">
   <div class="wrap">
     <header class="top">
-      <div class="brandrow"><span class="logo" aria-hidden="true">₹</span><span class="brand" id="brand"></span></div>
+      <div class="brandrow"><span class="logo" aria-hidden="true">₹</span><button type="button" class="brandbtn" id="brandBtn" aria-haspopup="dialog" title="Switch or start a sheet"><span class="brand" id="brand"></span><span class="chev" aria-hidden="true"></span></button></div>
       <div class="actions">
         <span class="sync" id="sync" data-s="local" role="status" title="Saved on this device">On this device</span>
         <button class="btn" id="btnCats" type="button" aria-label="Categories"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span class="lbl">Categories</span></button>
@@ -762,13 +774,30 @@ html{scroll-padding-bottom:76px}
 
 <dialog id="dlgSettings" aria-labelledby="stTitle">
   <div class="dh"><h2 id="stTitle">Settings</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
-  <div class="db">
+  <div class="stabs"><div class="seg wide" id="setTabs" role="group" aria-label="Settings sections">
+    <button type="button" data-st="general" aria-pressed="true">General</button>
+    <button type="button" data-st="themes" aria-pressed="false">Themes</button>
+  </div></div>
+  <div class="db" id="stGeneral">
     <label>Sheet title<input id="bookTitle" maxlength="60" autocomplete="off"></label>
     <div class="setgrp">
-      <div class="setlbl">Colour theme</div>
-      <div class="skins" id="skinList" role="group" aria-label="Colour theme"></div>
+      <div class="setlbl">Your sheets</div>
+      <p class="muted small" id="bookNote"></p>
+      <button type="button" class="btn" id="btnBooks">Switch or start a new sheet</button>
     </div>
     <div class="setgrp">
+      <div class="setlbl">Data in this sheet</div>
+      <div class="setrow"><button type="button" class="btn" id="setImport">Import CSV</button><button type="button" class="btn" id="setExport">Export CSV</button></div>
+      <p class="muted small" id="backupNote"></p>
+    </div>
+    <div class="setgrp">
+      <div class="setlbl">Months in this sheet</div>
+      <div id="sheetList"></div>
+    </div>
+    <p class="muted small" id="verLine"></p>
+  </div>
+  <div class="db" id="stThemes" hidden>
+    <div class="setgrp" style="border-top:0;padding-top:0">
       <div class="setlbl">Appearance</div>
       <div class="seg wide" id="themeSeg" role="group" aria-label="Appearance">
         <button type="button" data-th="auto" aria-pressed="true">System</button>
@@ -777,17 +806,39 @@ html{scroll-padding-bottom:76px}
       </div>
     </div>
     <div class="setgrp">
-      <div class="setlbl">Data</div>
-      <div class="setrow"><button type="button" class="btn" id="setImport">Import CSV</button><button type="button" class="btn" id="setExport">Export CSV</button></div>
-      <p class="muted small" id="backupNote"></p>
+      <div class="setlbl">Colour theme</div>
+      <div class="seg wide" id="themeGroups" role="group" aria-label="Theme collections">
+        <button type="button" data-grp="premium" aria-pressed="false">Premium</button>
+        <button type="button" data-grp="simple" aria-pressed="false">Simple</button>
+        <button type="button" data-grp="pastel" aria-pressed="false">Pastel</button>
+        <button type="button" data-grp="neon" aria-pressed="false">Neon</button>
+      </div>
+      <div id="skinList" role="group" aria-label="Colour theme"></div>
     </div>
-    <div class="setgrp">
-      <div class="setlbl">Month sheets</div>
-      <div id="sheetList"></div>
-    </div>
-    <p class="muted small" id="verLine"></p>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgBooks" aria-labelledby="bkTitle">
+  <div class="dh"><h2 id="bkTitle">Your sheets</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <p class="muted small">Each sheet keeps its own entries and categories. Starting a new sheet never touches the others; a sheet stays saved until you delete it.</p>
+    <div id="bookList"></div>
+  </div>
+  <div class="df"><button type="button" class="btn" data-close>Close</button><button type="button" class="btn primary" id="bkNew">New sheet</button></div>
+</dialog>
+
+<dialog id="dlgNewBook" aria-labelledby="nbTitle">
+  <form id="newBookForm" novalidate>
+    <div class="dh"><h2 id="nbTitle">Start a new sheet</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+    <div class="db">
+      <label>Name<input id="nbName" maxlength="60" autocomplete="off"></label>
+      <label class="chk"><input type="checkbox" id="nbKeep" checked> Keep my categories (entries start empty)</label>
+      <p class="muted small">The sheet you have open now stays saved. Switch back any time by tapping the title at the top.</p>
+      <div class="err" id="nbErr" role="alert"></div>
+    </div>
+    <div class="df"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Start new sheet</button></div>
+  </form>
 </dialog>
 
 <dialog id="dlgImport" aria-labelledby="imTitle">
@@ -834,7 +885,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.7', APP_BUILD = '20 Sep 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.8', APP_BUILD = '20 Sep 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -878,16 +929,17 @@ const newId = p => p + Date.now().toString(36) + Math.random().toString(36).slic
 const validDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= '2000-01-01' && d <= '2100-12-31';
 
 /* ---------- state ---------- */
+const defaultCats = () => DEFAULTS.map((a, i) => ({id: a[0], name: a[1], color: PALETTE[i % PALETTE.length]}));
 const state = {
   title: DEFAULT_TITLE,
-  categories: DEFAULTS.map((a, i) => ({id: a[0], name: a[1], color: PALETTE[i % PALETTE.length]})),
+  categories: defaultCats(),
   months: {}
 };
 const view = {ym: curYm(), mode: 'sheet', sum: 'week', sumYear: null, sumFor: null};
 const entry = {cat: null};
 let needScroll = true;
 let gridFocus = {r: 0, c: 0};
-const store = {db: null, uid: null, timers: {}, writing: {}, again: {}, dirty: new Set(), localKeys: new Set()};
+const store = {db: null, uid: null, timers: {}, pending: {}, writing: {}, dirty: new Set(), lastDocs: []};
 
 const catById = id => state.categories.find(c => c.id === id);
 const ymKeys = () => Object.keys(state.months).sort();
@@ -911,30 +963,78 @@ function ensureMonth(ym, persist){
 }
 
 /* ---------- persistence: this device + (when available) your account ---------- */
+/* A "sheet" is a whole expense book (its own title, categories and months). The original one is always "main",
+   and keeps the storage names it has always had, so nothing saved earlier moves or gets lost. */
+const BOOKS_KEY = LS + 'books', ACTIVE_KEY = LS + 'active';
+let books = [];
+let activeBook = 'main';
+const lsPrefix = id => id === 'main' ? LS : LS + 'w.' + id + '.';
+const lsKeyFor = (id, key) => key === 'settings' ? lsPrefix(id) + 'settings' : lsPrefix(id) + 'm.' + key;
+const docIdFor = (id, key) => id === 'main' ? (key === 'settings' ? 'v2-settings' : 'v2-m-' + key) : 'v2w-' + id + '-' + (key === 'settings' ? 'settings' : 'm-' + key);
+const settingsPayload = () => ({v: 2, title: state.title, categories: state.categories});
+function classifyDoc(id){
+  let m;
+  if (id === 'v2-books') return {registry: true};
+  if (id === 'v2-settings') return {book: 'main', kind: 'settings'};
+  if ((m = /^v2-m-(\d{4}-\d{2})$/.exec(id))) return {book: 'main', kind: 'month', ym: m[1]};
+  if ((m = /^v2w-([A-Za-z0-9_]+)-settings$/.exec(id))) return {book: m[1], kind: 'settings'};
+  if ((m = /^v2w-([A-Za-z0-9_]+)-m-(\d{4}-\d{2})$/.exec(id))) return {book: m[1], kind: 'month', ym: m[2]};
+  return null;
+}
+function cleanBooks(list){
+  return (Array.isArray(list) ? list : []).filter(b => b && /^[A-Za-z0-9_]+$/.test(String(b.id || ''))).map(b => ({id: String(b.id), title: cleanTitle(b.title), created: Number(b.created) || Date.now()}));
+}
 function persistLocal(key){
   try {
-    if (key === 'settings') localStorage.setItem(LS + 'settings', JSON.stringify({title: state.title, categories: state.categories}));
-    else if (state.months[key]) localStorage.setItem(LS + 'm.' + key, JSON.stringify(state.months[key]));
-    else localStorage.removeItem(LS + 'm.' + key);
+    const k = lsKeyFor(activeBook, key);
+    if (key === 'settings') localStorage.setItem(k, JSON.stringify({title: state.title, categories: state.categories}));
+    else if (state.months[key]) localStorage.setItem(k, JSON.stringify(state.months[key]));
+    else localStorage.removeItem(k);
   } catch(e){}
 }
-function loadLocal(){
+function persistBooks(){ try { localStorage.setItem(BOOKS_KEY, JSON.stringify({books: books})); } catch(e){} }
+function readBook(id){
+  const out = {title: null, categories: null, months: {}};
   try {
-    const s = localStorage.getItem(LS + 'settings');
-    if (s) {
-      const o = JSON.parse(s);
-      if (Array.isArray(o.categories)) { state.categories = cleanCats(o.categories); store.localKeys.add('settings'); }
-      if (typeof o.title === 'string' && o.title.trim()) state.title = cleanTitle(o.title);
+    const p = lsPrefix(id), st = localStorage.getItem(p + 'settings');
+    if (st) {
+      const o = JSON.parse(st);
+      if (Array.isArray(o.categories)) out.categories = cleanCats(o.categories);
+      if (typeof o.title === 'string' && o.title.trim()) out.title = cleanTitle(o.title);
     }
+    const mp = p + 'm.';
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.indexOf(LS + 'm.') === 0) {
-        const ym = k.slice((LS + 'm.').length);
-        state.months[ym] = cleanMonth(ym, JSON.parse(localStorage.getItem(k)));
-        store.localKeys.add(ym);
-      }
+      if (k && k.indexOf(mp) === 0) { const ym = k.slice(mp.length); if (/^\d{4}-\d{2}$/.test(ym)) out.months[ym] = cleanMonth(ym, JSON.parse(localStorage.getItem(k))); }
     }
   } catch(e){}
+  return out;
+}
+function removeBookLocal(id){
+  try {
+    const p = lsPrefix(id), rm = [];
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k === p + 'settings' || k.indexOf(p + 'm.') === 0)) rm.push(k); }
+    rm.forEach(k => localStorage.removeItem(k));
+  } catch(e){}
+}
+function loadBookIntoState(id){
+  const rb = readBook(id), be = books.find(b => b.id === id);
+  state.title = be ? be.title : (rb.title || DEFAULT_TITLE);
+  state.categories = rb.categories || defaultCats();
+  state.months = rb.months;
+}
+function loadLocal(){
+  try { const rb = localStorage.getItem(BOOKS_KEY); if (rb) books = cleanBooks(JSON.parse(rb).books); } catch(e){}
+  if (!books.length) {
+    const legacy = readBook('main');
+    books = [{id: 'main', title: legacy.title || DEFAULT_TITLE, created: Date.now()}];
+    persistBooks();
+  }
+  let act = 'main';
+  try { act = localStorage.getItem(ACTIVE_KEY) || 'main'; } catch(e){}
+  if (!books.some(b => b.id === act)) act = books[0].id;
+  activeBook = act;
+  loadBookIntoState(act);
 }
 function setStatus(kind){
   const el = $('#sync');
@@ -942,35 +1042,104 @@ function setStatus(kind){
   el.textContent = {local: 'On this device', syncing: 'Saving\u2026', synced: 'Synced', error: 'Sync failed'}[kind];
   el.title = {local: 'Saved on this device', syncing: 'Saving\u2026', synced: 'Synced to your account', error: 'Sync failed \u2013 saved on this device'}[kind];
 }
-const docRef = key => store.db.doc('data/users/' + store.uid + '/' + (key === 'settings' ? 'v2-settings' : 'v2-m-' + key));
-function touch(key){ persistLocal(key); queueWrite(key); }
-function queueWrite(key){
+/* account writes: the data to write is copied at the moment of the change, so switching sheets can never write one sheet's data into another */
+function queueDoc(docId, payload){
   if (!store.db) return;
-  store.dirty.add(key); setStatus('syncing');
-  clearTimeout(store.timers[key]);
-  store.timers[key] = setTimeout(() => flush(key), 300);
+  store.pending[docId] = payload === null ? null : JSON.parse(JSON.stringify(payload));
+  store.dirty.add(docId); setStatus('syncing');
+  clearTimeout(store.timers[docId]);
+  store.timers[docId] = setTimeout(() => flushDoc(docId), 300);
 }
-async function flush(key){
-  clearTimeout(store.timers[key]); store.timers[key] = null;
-  if (!store.db) return;
-  if (store.writing[key]) { store.again[key] = true; return; }
-  store.writing[key] = true;
+async function flushDoc(docId){
+  clearTimeout(store.timers[docId]); store.timers[docId] = null;
+  if (!store.db || store.writing[docId]) return;
+  store.writing[docId] = true;
   try {
-    do {
-      store.again[key] = false;
-      const ref = docRef(key);
-      if (key === 'settings') await ref.set({v: 2, title: state.title, categories: JSON.parse(JSON.stringify(state.categories))});
-      else if (state.months[key]) await ref.set(JSON.parse(JSON.stringify(state.months[key])));
-      else await ref.delete();
-    } while (store.again[key]);
-    store.dirty.delete(key);
+    while (Object.prototype.hasOwnProperty.call(store.pending, docId)) {
+      const payload = store.pending[docId]; delete store.pending[docId];
+      const ref = store.db.doc('data/users/' + store.uid + '/' + docId);
+      if (payload === null) await ref.delete(); else await ref.set(payload);
+    }
+    store.dirty.delete(docId);
     setStatus(store.dirty.size ? 'syncing' : 'synced');
   } catch(e) {
     setStatus('error');
-  } finally { store.writing[key] = false; }
+  } finally { store.writing[docId] = false; }
 }
-function flushAll(){ Object.keys(store.timers).forEach(k => { if (store.timers[k]) flush(k); }); }
+function flushAll(){ Object.keys(store.timers).forEach(k => { if (store.timers[k]) flushDoc(k); }); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) flushAll(); });
+function queueWrite(key){ queueDoc(docIdFor(activeBook, key), key === 'settings' ? settingsPayload() : (state.months[key] || null)); }
+function touch(key){ persistLocal(key); queueWrite(key); }
+function saveBooks(){ persistBooks(); queueDoc('v2-books', {v: 1, books: books}); }
+
+function uploadEverything(){
+  queueDoc('v2-books', {v: 1, books: books});
+  books.forEach(b => {
+    const rb = readBook(b.id);
+    try { if (localStorage.getItem(lsKeyFor(b.id, 'settings'))) queueDoc(docIdFor(b.id, 'settings'), {v: 2, title: b.title, categories: rb.categories || defaultCats()}); } catch(e){}
+    Object.keys(rb.months).forEach(ym => queueDoc(docIdFor(b.id, ym), rb.months[ym]));
+  });
+}
+function parseRemote(docs){
+  const out = {registry: null, books: {}};
+  docs.forEach(d => {
+    const c = classifyDoc(d.id), data = d.data || {};
+    if (!c) return;
+    if (c.registry) { out.registry = cleanBooks(data.books); return; }
+    const b = out.books[c.book] || (out.books[c.book] = {settings: null, months: {}});
+    if (c.kind === 'settings') b.settings = data; else b.months[c.ym] = cleanMonth(c.ym, data);
+  });
+  return out;
+}
+function applyRemote(remote){
+  let changed = false;
+  if (remote.registry && remote.registry.length && !store.dirty.has('v2-books')) {
+    if (JSON.stringify(remote.registry) !== JSON.stringify(books)) {
+      const gone = books.filter(b => !remote.registry.some(r => r.id === b.id));
+      books = remote.registry; persistBooks(); changed = true;
+      gone.forEach(b => removeBookLocal(b.id));
+      if (!books.some(b => b.id === activeBook)) { switchBook(books[0].id); return true; }
+    }
+    const be = books.find(b => b.id === activeBook);
+    if (be && be.title !== state.title) { state.title = be.title; changed = true; }
+  }
+  Object.keys(remote.books).forEach(id => {
+    if (!books.some(b => b.id === id)) return;
+    const rb = remote.books[id];
+    const sDoc = docIdFor(id, 'settings');
+    if (id === activeBook) {
+      if (rb.settings && !store.dirty.has(sDoc)) {
+        const cats = Array.isArray(rb.settings.categories) ? cleanCats(rb.settings.categories) : null;
+        if (cats && JSON.stringify(cats) !== JSON.stringify(state.categories)) { state.categories = cats; persistLocal('settings'); changed = true; }
+        if (!remote.registry && typeof rb.settings.title === 'string' && rb.settings.title.trim()) {
+          const t = cleanTitle(rb.settings.title);
+          if (t !== state.title) { state.title = t; const be = books.find(b => b.id === id); if (be) { be.title = t; persistBooks(); } changed = true; }
+        }
+      }
+      Object.keys(rb.months).forEach(ym => {
+        if (store.dirty.has(docIdFor(id, ym))) return;
+        if (JSON.stringify(rb.months[ym]) !== JSON.stringify(state.months[ym])) { state.months[ym] = rb.months[ym]; persistLocal(ym); changed = true; }
+      });
+      Object.keys(state.months).forEach(ym => {
+        if (!rb.months[ym] && !store.dirty.has(docIdFor(id, ym)) && state.months[ym].txns.length) { delete state.months[ym]; persistLocal(ym); changed = true; }
+      });
+    } else {
+      // other sheets are kept in this device's storage too, so switching to them is instant and works offline
+      try {
+        if (rb.settings && !store.dirty.has(sDoc) && Array.isArray(rb.settings.categories)) {
+          const b = books.find(x => x.id === id), val = JSON.stringify({title: b.title, categories: cleanCats(rb.settings.categories)});
+          if (localStorage.getItem(lsKeyFor(id, 'settings')) !== val) localStorage.setItem(lsKeyFor(id, 'settings'), val);
+        }
+        Object.keys(rb.months).forEach(ym => {
+          if (store.dirty.has(docIdFor(id, ym))) return;
+          const val = JSON.stringify(rb.months[ym]);
+          if (localStorage.getItem(lsKeyFor(id, ym)) !== val) localStorage.setItem(lsKeyFor(id, ym), val);
+        });
+      } catch(e){}
+    }
+  });
+  return changed;
+}
 
 async function connect(){
   try {
@@ -983,37 +1152,23 @@ async function connect(){
     let first = true;
     db.collection('data/users/' + uid).onSnapshot(snap => {
       if (first && snap.metadata && snap.metadata.fromCache) return;
-      const remote = {settings: null, months: {}};
-      snap.docs.forEach(d => {
-        const data = d.data() || {};
-        if (d.id === 'v2-settings') remote.settings = data;
-        else { const mm = /^v2-m-(\d{4}-\d{2})$/.exec(d.id); if (mm) remote.months[mm[1]] = cleanMonth(mm[1], data); }
-      });
-      const hasRemote = !!remote.settings || Object.keys(remote.months).length > 0;
       store.db = db; store.uid = uid;
+      const docs = snap.docs.map(d => ({id: d.id, data: d.data() || {}}));
+      store.lastDocs = docs;
+      const remote = parseRemote(docs);
+      const hasRemote = !!remote.registry || Object.keys(remote.books).length > 0;
       if (first) {
         first = false;
         if (!hasRemote) {
           // nothing in the account yet: recover anything the first version saved, then upload what this device holds
           if (migrateV1Remote(snap.docs)) render();
-          store.localKeys.forEach(k => { if (k === 'settings' || state.months[k]) queueWrite(k); });
+          uploadEverything();
           if (!store.dirty.size) setStatus('synced');
           return;
         }
       }
-      let changed = false;
-      if (remote.settings && !store.dirty.has('settings')) {
-        const cats = Array.isArray(remote.settings.categories) ? cleanCats(remote.settings.categories) : null;
-        const title = typeof remote.settings.title === 'string' && remote.settings.title.trim() ? cleanTitle(remote.settings.title) : DEFAULT_TITLE;
-        if (cats && (JSON.stringify(cats) !== JSON.stringify(state.categories) || title !== state.title)) { state.categories = cats; state.title = title; persistLocal('settings'); changed = true; }
-      }
-      Object.keys(remote.months).forEach(ym => {
-        if (store.dirty.has(ym)) return;
-        if (JSON.stringify(remote.months[ym]) !== JSON.stringify(state.months[ym])) { state.months[ym] = remote.months[ym]; persistLocal(ym); changed = true; }
-      });
-      Object.keys(state.months).forEach(ym => {
-        if (!remote.months[ym] && !store.dirty.has(ym) && state.months[ym].txns.length) { delete state.months[ym]; persistLocal(ym); changed = true; }
-      });
+      let changed = applyRemote(remote);
+      if (!remote.registry && !store.dirty.has('v2-books')) queueDoc('v2-books', {v: 1, books: books});
       ensureMonth(curYm(), false);
       if (!state.months[view.ym]) { view.ym = curYm(); setDateDefault(); needScroll = true; changed = true; }
       if (!catById(entry.cat)) entry.cat = null;
@@ -1186,11 +1341,22 @@ function matrixHtml(cols, rows, colTot, grand, footLabel){
   const foot = '<tr><th class="cat" scope="row">' + footLabel + '</th><td class="tt grand">' + fmtN(grand) + '</td>' + colTot.map(t => '<td class="ft">' + (t ? fmtN(t) : '') + '</td>').join('') + '</tr>';
   return '<div class="gridscroll"><table class="grid"><thead>' + head + '</thead><tbody>' + body + '</tbody><tfoot>' + foot + '</tfoot></table></div>';
 }
+function endedYears(){
+  const cy = new Date().getFullYear();
+  return Array.from(new Set(ymKeys().filter(k => state.months[k].txns.length && +k.slice(0, 4) < cy).map(k => +k.slice(0, 4)))).sort((a, b) => a - b);
+}
+/* Yearly appears once the calendar year the sheet was started in has ended, and stays until a newer sheet is started */
+function yearlyVisible(){
+  const b = books.find(x => x.id === activeBook); if (!b) return false;
+  return new Date().getFullYear() > new Date(b.created).getFullYear() && books.every(x => x.created <= b.created);
+}
 function renderSummary(st){
   if (view.sumFor !== view.ym) { view.sumYear = null; view.sumFor = view.ym; }
+  const showYearly = yearlyVisible();
+  if (view.sum === 'year' && !showYearly) view.sum = 'week';
   const mode = view.sum, today = todayStr();
-  let bar = '<div class="sumbar"><div class="seg" role="group" aria-label="Period"><button type="button" data-sum="week" aria-pressed="' + (mode === 'week') + '">Weekly</button><button type="button" data-sum="month" aria-pressed="' + (mode === 'month') + '">Monthly</button></div>';
-  let cols = [], byCat = {}, colTot = [], names = {}, foot = '';
+  let bar = '<div class="sumbar"><div class="seg" role="group" aria-label="Period"><button type="button" data-sum="week" aria-pressed="' + (mode === 'week') + '">Weekly</button><button type="button" data-sum="month" aria-pressed="' + (mode === 'month') + '">Monthly</button>' + (showYearly ? '<button type="button" data-sum="year" aria-pressed="' + (mode === 'year') + '">Yearly</button>' : '') + '</div>';
+  let cols = [], byCat = {}, colTot = [], names = {}, foot = '', extra = '';
   if (mode === 'week') {
     const ym = view.ym, spans = weekSpans(ym), tw = today.slice(0, 7) === ym ? +today.slice(8) : 0;
     cols = spans.map(sp => ({wd: sp.start === sp.end ? String(sp.start) : sp.start + '\u2013' + sp.end, dn: 'W' + sp.n, today: tw >= sp.start && tw <= sp.end}));
@@ -1203,6 +1369,28 @@ function renderSummary(st){
       if (!names[t.cat]) names[t.cat] = t.catName;
     });
     foot = 'Week total';
+  } else if (mode === 'year') {
+    const yrs = endedYears(), y = yrs.indexOf(view.sumYear) >= 0 ? view.sumYear : yrs[yrs.length - 1], i = yrs.indexOf(y);
+    if (yrs.length > 1) bar += '<div class="yrnav"><button type="button" class="btn sm" data-yr="-1" aria-label="Previous year"' + (i <= 0 ? ' disabled' : '') + '>&#8249;</button><b>' + y + '</b><button type="button" class="btn sm" data-yr="1" aria-label="Next year"' + (i >= yrs.length - 1 ? ' disabled' : '') + '>&#8250;</button></div>';
+    else if (yrs.length === 1) bar += '<div class="yrnav"><b>' + y + '</b></div>';
+    cols = [['Jan\u2013Mar', 'Q1'], ['Apr\u2013Jun', 'Q2'], ['Jul\u2013Sep', 'Q3'], ['Oct\u2013Dec', 'Q4']].map(q => ({wd: q[0], dn: q[1], today: false}));
+    colTot = [0, 0, 0, 0];
+    const monthTot = {};
+    if (y !== undefined) ymKeys().filter(k => +k.slice(0, 4) === y).forEach(k => {
+      const s2 = stats(k), qi = qOf(k) - 1;
+      monthTot[k] = s2.total;
+      Object.keys(s2.catTot).forEach(id => {
+        if (!byCat[id]) byCat[id] = [0, 0, 0, 0];
+        byCat[id][qi] = round2(byCat[id][qi] + s2.catTot[id]); colTot[qi] = round2(colTot[qi] + s2.catTot[id]);
+        if (!names[id]) names[id] = s2.names[id];
+      });
+    });
+    const mk = Object.keys(monthTot).filter(k => monthTot[k] > 0), yTotal = round2(mk.reduce((n, k) => n + monthTot[k], 0));
+    if (mk.length) {
+      const best = mk.slice().sort((a, b) => monthTot[b] - monthTot[a])[0];
+      extra = '<div class="yrstats"><div><span>' + y + ' total</span><b>' + fmt(yTotal) + '</b></div><div><span>Monthly average</span><b>' + fmt(Math.round(yTotal / mk.length)) + '</b></div><div><span>Busiest month</span><b>' + MONTHS[+best.slice(5, 7) - 1] + '</b><small>' + fmt(monthTot[best]) + '</small></div></div>';
+    }
+    foot = 'Quarter total';
   } else {
     const years = Array.from(new Set(ymKeys().map(k => +k.slice(0, 4)))).sort((a, b) => a - b);
     const y = view.sumYear || +view.ym.slice(0, 4), i = years.indexOf(y);
@@ -1225,7 +1413,7 @@ function renderSummary(st){
     return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? cc(c.color) : '#8A93A6', vals: vals, total: round2(vals.reduce((n, v) => n + v, 0))};
   }).filter(r => r.total > 0).sort((a, b) => b.total - a.total);
   const grand = round2(colTot.reduce((n, v) => n + v, 0));
-  $('#sheetBody').innerHTML = bar + '</div>' + (rows.length ? matrixHtml(cols, rows, colTot, grand, foot) : '<div class="emptysheet">No spending recorded ' + (mode === 'week' ? 'in ' + esc(ymLabel(view.ym)) : 'this year') + ' yet.</div>');
+  $('#sheetBody').innerHTML = bar + '</div>' + extra + (rows.length ? matrixHtml(cols, rows, colTot, grand, foot) : '<div class="emptysheet">No spending recorded ' + (mode === 'week' ? 'in ' + esc(ymLabel(view.ym)) : mode === 'year' ? 'in a completed year' : 'this year') + ' yet.</div>');
 }
 
 /* ---------- month tabs: old quarters fold up, and finished years fold into one tab ---------- */
@@ -1346,7 +1534,8 @@ $('#sheetBody').addEventListener('click', e => {
   const yb = e.target.closest('[data-yr]');
   if (yb) {
     if (yb.disabled) return;
-    const years = Array.from(new Set(ymKeys().map(k => +k.slice(0, 4)))).sort((a, b) => a - b), y = view.sumYear || +view.ym.slice(0, 4), n = years[years.indexOf(y) + Number(yb.dataset.yr)];
+    const years = view.sum === 'year' ? endedYears() : Array.from(new Set(ymKeys().map(k => +k.slice(0, 4)))).sort((a, b) => a - b);
+    const y = years.indexOf(view.sumYear) >= 0 ? view.sumYear : (view.sum === 'year' ? years[years.length - 1] : +view.ym.slice(0, 4)), n = years[years.indexOf(y) + Number(yb.dataset.yr)];
     if (n) { view.sumYear = n; view.sumFor = view.ym; render(); }
     return;
   }
@@ -1533,6 +1722,7 @@ $('#btnCats').addEventListener('click', () => openCats(false));
 $('#bookTitle').addEventListener('change', e => {
   state.title = e.target.value.trim() || DEFAULT_TITLE; e.target.value = state.title;
   touch('settings'); $('#brand').textContent = state.title;
+  const be = books.find(b => b.id === activeBook); if (be) { be.title = state.title; saveBooks(); }
 });
 $('#newCatForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -1752,7 +1942,7 @@ function buildCsv(){
   return rows.map(r => r.map(csvCell).join(',')).join('\r\n');
 }
 async function exportCsv(){
-  const csv = '\uFEFF' + buildCsv(), fname = 'expenses-' + todayStr() + '.csv';
+  const csv = '\uFEFF' + buildCsv(), fname = (String(state.title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'expenses') + '-' + todayStr() + '.csv';
   const done = () => { try { localStorage.setItem('bgt.lastExport', String(Date.now())); } catch(e) {} const n = $('#backupNote'); if (n) n.textContent = lastExportText(); };
   if (window.AndroidBridge && window.AndroidBridge.saveCsv) { window.AndroidBridge.saveCsv(fname, csv); done(); return; }
   if (window.claude && window.claude.use) {
@@ -1783,16 +1973,24 @@ function applyTheme(mode){
   if (window.BGT) window.BGT.apply();
 }
 function renderThemeSeg(){ const t = getTheme(); document.querySelectorAll('#themeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.th === t))); renderSkins(); }
-const SKIN_ORDER = ['midnight', 'luxe', 'silver', 'onyx', 'espresso', 'ocean', 'forest', 'graphite', 'bordeaux', 'aubergine', 'sage', '#Neon (looks best in dark mode)', 'neon', 'laser'];
+const SKIN_GROUPS = [['premium', ['luxe']], ['simple', ['midnight', 'silver', 'onyx', 'ocean', 'forest', 'graphite', 'bordeaux', 'aubergine']], ['pastel', ['sage']], ['neon', ['neon', 'laser', 'neonred', 'neonblue', 'neonsilver', 'neongold']]];
+let themeTab = null, settingsTab = 'general';
+const skinGroupOf = k => { const g = SKIN_GROUPS.find(x => x[1].indexOf(k) >= 0); return g ? g[0] : 'simple'; };
+function skinTile(k, dark){
+  const B = window.BGT, sk = B.skins[k]; if (!sk) return '';
+  const p = dark ? sk.D : sk.L;
+  return '<button type="button" class="skin" data-skin="' + k + '" aria-pressed="' + (B.cur === k) + '"><span class="sksw"><i style="background:' + p[5] + '"></i><i style="background:' + (sk.fx ? 'linear-gradient(135deg,#8F6B1C,#F8E7A2 38%,#B78725 68%,#F0CF72)' : p[7]) + '"></i><i style="background:' + sk.c[0] + '"></i><i style="background:' + sk.c[1] + '"></i><i style="background:' + sk.c[2] + '"></i></span><span class="skn">' + esc(sk.n) + '</span></button>';
+}
 function renderSkins(){
   const B = window.BGT, box = $('#skinList'); if (!B || !box) return;
-  const dark = B.dark();
-  box.innerHTML = SKIN_ORDER.map(k => {
-    if (k.charAt(0) === '#') return '<div class="skhead">' + esc(k.slice(1)) + '</div>';
-    const sk = B.skins[k]; if (!sk) return '';
-    const p = dark ? sk.D : sk.L;
-    return '<button type="button" class="skin" data-skin="' + k + '" aria-pressed="' + (B.cur === k) + '"><span class="sksw"><i style="background:' + p[5] + '"></i><i style="background:' + (sk.fx ? 'linear-gradient(135deg,#8F6B1C,#F8E7A2 38%,#B78725 68%,#F0CF72)' : p[7]) + '"></i><i style="background:' + sk.c[0] + '"></i><i style="background:' + sk.c[1] + '"></i><i style="background:' + sk.c[2] + '"></i></span><span class="skn">' + esc(sk.n) + '</span></button>';
-  }).join('');
+  const dark = B.dark(); if (!themeTab) themeTab = skinGroupOf(B.cur);
+  box.innerHTML = SKIN_GROUPS.map(g => '<div class="skins" data-grp="' + g[0] + '"' + (g[0] === themeTab ? '' : ' hidden') + '>' + (g[0] === 'neon' ? '<div class="skhead">Neon themes look best in dark mode.</div>' : '') + g[1].map(k => skinTile(k, dark)).join('') + '</div>').join('');
+  document.querySelectorAll('#themeGroups button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.grp === themeTab)));
+}
+function showSettingsTab(t){
+  settingsTab = t;
+  $('#stGeneral').hidden = t !== 'general'; $('#stThemes').hidden = t !== 'themes';
+  document.querySelectorAll('#setTabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.st === t)));
 }
 function lastExportText(){
   let t = null; try { t = localStorage.getItem('bgt.lastExport'); } catch(e) {}
@@ -1810,9 +2008,75 @@ function renderSheetList(){
 }
 function openSettings(){
   $('#verLine').textContent = 'Version ' + APP_VERSION + ' (' + APP_BUILD + ')';
-  $('#bookTitle').value = state.title; renderThemeSeg(); $('#backupNote').textContent = lastExportText(); renderSheetList();
+  themeTab = null; showSettingsTab('general');
+  $('#bookTitle').value = state.title; renderThemeSeg(); $('#backupNote').textContent = lastExportText(); renderSheetList(); renderBookNote();
   $('#dlgSettings').showModal();
 }
+/* ---------- sheets: several expense books, each kept until deleted ---------- */
+const newBookId = () => 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5).replace(/[^a-z0-9]/g, 'x');
+function setActive(id){ activeBook = id; try { localStorage.setItem(ACTIVE_KEY, id); } catch(e){} }
+function switchBook(id){
+  if (!books.some(b => b.id === id)) return;
+  setActive(id); loadBookIntoState(id);
+  ensureMonth(curYm(), false);
+  view.ym = curYm(); view.mode = 'sheet'; view.sumYear = null; view.sumFor = null; entry.cat = null; gridFocus = {r: 0, c: 0}; needScroll = true;
+  openSet.clear(); seenSet.clear(); tabSet.clear(); tabSeen.clear(); lastReveal = null;
+  Object.keys(pies).forEach(k => { pies[k].pinned = null; });
+  $('#formErr').textContent = ''; setDateDefault(); render();
+}
+function bookStats(id){
+  const months = id === activeBook ? state.months : readBook(id).months;
+  let n = 0, t = 0;
+  Object.keys(months).forEach(k => months[k].txns.forEach(x => { n++; t += x.amt; }));
+  return {n: n, t: round2(t)};
+}
+function renderBookNote(){
+  const be = books.find(b => b.id === activeBook);
+  $('#bookNote').textContent = books.length === 1 ? 'You have one sheet: “' + (be ? be.title : state.title) + '”.' : 'You have ' + books.length + ' sheets. Open now: “' + (be ? be.title : state.title) + '”.';
+}
+function renderBooks(){
+  const list = books.slice().sort((a, b) => b.created - a.created);
+  $('#bookList').innerHTML = list.map(b => {
+    const st = bookStats(b.id), act = b.id === activeBook, d = new Date(b.created);
+    return '<div class="shrow bkrow"><div class="shinfo"><b>' + esc(b.title) + (act ? '<span class="tagcur">Open now</span>' : '') + '</b><small>Started ' + d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() + ', ' + (st.n ? st.n + (st.n === 1 ? ' entry' : ' entries') + ', ' + fmt(st.t) : 'no entries yet') + '</small></div>' +
+      '<div class="bkact">' + (act ? '' : '<button type="button" class="btn sm" data-open="' + b.id + '">Open</button>') +
+      '<button type="button" class="btn danger sm" data-delbook="' + b.id + '"' + (books.length <= 1 ? ' disabled title="You need at least one sheet"' : '') + ' aria-label="Delete ' + esc(b.title) + '">Delete</button></div></div>';
+  }).join('');
+}
+function openBooks(){ renderBooks(); $('#dlgBooks').showModal(); }
+function suggestBookName(){
+  const cy = new Date().getFullYear(); let n = DEFAULT_TITLE + ' ' + cy;
+  if (books.some(b => b.title === n)) n = DEFAULT_TITLE + ' ' + (books.length + 1);
+  return n;
+}
+function createBook(title, keepCats){
+  const id = newBookId(), entryB = {id: id, title: cleanTitle(title), created: Date.now()};
+  books.push(entryB); saveBooks();
+  const cats = keepCats ? JSON.parse(JSON.stringify(state.categories)) : defaultCats();
+  try { localStorage.setItem(lsKeyFor(id, 'settings'), JSON.stringify({title: entryB.title, categories: cats})); } catch(e){}
+  queueDoc(docIdFor(id, 'settings'), {v: 2, title: entryB.title, categories: cats});
+  switchBook(id);
+  return entryB;
+}
+async function deleteBook(id){
+  const b = books.find(x => x.id === id); if (!b || books.length <= 1) return;
+  const st = bookStats(id);
+  const ok = await confirmBox({
+    title: 'Delete \u201C' + b.title + '\u201D?',
+    body: (st.n ? 'This removes the sheet with its ' + st.n + (st.n === 1 ? ' entry' : ' entries') + ' and its categories. ' : 'This removes the empty sheet. ') + 'This can\u2019t be undone. To keep a copy, open it and use Export CSV first.',
+    ok: 'Delete sheet'
+  });
+  if (!ok) return;
+  const docIds = new Set();
+  store.lastDocs.forEach(d => { const c = classifyDoc(d.id); if (c && c.book === id) docIds.add(d.id); });
+  const rb = readBook(id);
+  docIds.add(docIdFor(id, 'settings')); Object.keys(rb.months).forEach(ym => docIds.add(docIdFor(id, ym)));
+  removeBookLocal(id);
+  books = books.filter(x => x.id !== id); saveBooks();
+  docIds.forEach(dId => queueDoc(dId, null));
+  if (activeBook === id) switchBook(books.slice().sort((x, y) => y.created - x.created)[0].id); else render();
+}
+
 async function deleteSheet(ym){
   const m = state.months[ym]; if (!m) return;
   const n = m.txns.length;
@@ -1834,6 +2098,25 @@ function initSettings(){
     const b = e.target.closest('button[data-th]'); if (!b) return;
     try { if (b.dataset.th === 'auto') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, b.dataset.th); } catch(err) {}
     applyTheme(b.dataset.th); renderThemeSeg();
+  });
+  $('#setTabs').addEventListener('click', e => { const b = e.target.closest('button[data-st]'); if (b) showSettingsTab(b.dataset.st); });
+  $('#themeGroups').addEventListener('click', e => { const b = e.target.closest('button[data-grp]'); if (b) { themeTab = b.dataset.grp; renderSkins(); } });
+  $('#brandBtn').addEventListener('click', openBooks);
+  $('#btnBooks').addEventListener('click', openBooks);
+  $('#bookList').addEventListener('click', async e => {
+    const o = e.target.closest('[data-open]'), d = e.target.closest('[data-delbook]');
+    if (o) { $('#dlgBooks').close(); if ($('#dlgSettings').open) $('#dlgSettings').close(); switchBook(o.dataset.open); toast('Opened \u201C' + state.title + '\u201D'); return; }
+    if (d && !d.disabled) { await deleteBook(d.dataset.delbook); renderBooks(); renderBookNote(); }
+  });
+  $('#bkNew').addEventListener('click', () => { $('#nbName').value = suggestBookName(); $('#nbKeep').checked = true; $('#nbErr').textContent = ''; $('#dlgNewBook').showModal(); $('#nbName').select(); });
+  $('#newBookForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#nbName').value.trim();
+    if (!name) { $('#nbErr').textContent = 'Give the new sheet a name.'; return; }
+    const kept = $('#nbKeep').checked;
+    $('#dlgNewBook').close(); $('#dlgBooks').close(); if ($('#dlgSettings').open) $('#dlgSettings').close();
+    const nb = createBook(name, kept);
+    toast('Started \u201C' + nb.title + '\u201D. Your other sheet is saved under the title at the top.');
   });
   $('#skinList').addEventListener('click', e => {
     const b = e.target.closest('[data-skin]'); if (!b || !window.BGT) return;
@@ -1875,6 +2158,7 @@ function convertV1(v1cats, v1months){
 function recoveredToast(r){ if (r.moved) toast('Recovered ' + r.moved + (r.moved === 1 ? ' entry' : ' entries') + ' saved by an earlier version' + (r.income ? ' (' + r.income + ' income entries skipped)' : '')); }
 function migrateV1Local(){
   try {
+    if (activeBook !== 'main') return;
     if (localStorage.getItem('bgt.v2.mig1')) return;
     localStorage.setItem('bgt.v2.mig1', '1');
     if (Object.keys(state.months).some(k => state.months[k].txns.length)) return;
@@ -1887,6 +2171,7 @@ function migrateV1Local(){
 }
 function migrateV1Remote(docs){
   try {
+    if (activeBook !== 'main') return 0;
     if (localStorage.getItem('bgt.v2.mig1r')) return 0;
     localStorage.setItem('bgt.v2.mig1r', '1');
     let cats = [], months = {};
