@@ -653,9 +653,30 @@ html{scroll-padding-bottom:76px}
 .yrstats span{display:block;font-size:13px;color:var(--ink-2)}
 .yrstats b{display:block;font-weight:600;font-size:16px}
 .yrstats small{display:block;font-size:13px;color:var(--ink-2)}
+
+/* ===== set aside (reserves) tab ===== */
+.screenbar{background:var(--surface);border-bottom:1px solid var(--line);padding:10px 0}
+.rrow{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line-2)}
+.rrow:last-child{border-bottom:0}
+.rmain{flex:1;min-width:0;cursor:pointer;border-radius:8px;padding:2px 4px;margin:-2px -4px}
+.rmain:hover{background:var(--line-2)}
+.rname{font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rbadge{font-size:11px;font-weight:400;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);flex:none}
+.rsub{font-size:13px;color:var(--ink-2);margin-top:2px}
+.ramt{font-weight:700;white-space:nowrap;flex:none;text-align:right}
+.ramt .rmo{font-weight:400;color:var(--ink-2);font-size:13px}
 </style>
 </head>
 <body>
+<div class="screenbar">
+  <div class="wrap">
+    <div class="seg wide" id="screenSeg" role="group" aria-label="Screen">
+      <button type="button" data-screen="book" aria-pressed="true">Expenses</button>
+      <button type="button" data-screen="reserve" aria-pressed="false">Set Aside</button>
+    </div>
+  </div>
+</div>
+<div id="screenBook">
 <div class="band">
   <div class="wrap">
     <header class="top">
@@ -706,6 +727,40 @@ html{scroll-padding-bottom:76px}
 </div>
 
 <nav class="tabs" id="tabs" aria-label="Month sheets"></nav>
+</div>
+
+<div id="screenReserve" hidden>
+  <div class="band">
+    <div class="wrap">
+      <h1>Set Aside</h1>
+      <div class="stats" id="resStats"></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <form class="entry" id="resForm" novalidate>
+      <h2 id="resFormTitle">Add a subscription or EMI</h2>
+      <div class="seg wide" id="resKindSeg" role="group" aria-label="Type">
+        <button type="button" data-kind="sub" aria-pressed="true">Subscription</button>
+        <button type="button" data-kind="emi" aria-pressed="false">EMI</button>
+      </div>
+      <label>Name<input id="resName" maxlength="40" autocomplete="off" placeholder="e.g. Spotify"></label>
+      <label>Amount per payment<div class="money"><span>₹</span><input id="resAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+      <label>Repeats every (months)<input id="resEvery" inputmode="numeric" value="1"></label>
+      <label id="resMonthsRow" hidden>Months remaining<input id="resMonths" inputmode="numeric" placeholder="12"></label>
+      <div class="err" id="resErr" role="alert"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn primary" type="submit" id="resSubmitBtn">Add</button>
+        <button class="btn" type="button" id="resCancelEdit" hidden>Cancel</button>
+      </div>
+    </form>
+
+    <section class="sheetcard" aria-label="Your subscriptions and EMIs">
+      <div class="sh"><b>Your subscriptions &amp; EMIs</b></div>
+      <div id="resList"></div>
+    </section>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <dialog id="dlgCell" aria-labelledby="clTitle">
@@ -975,6 +1030,7 @@ const settingsPayload = () => ({v: 2, title: state.title, categories: state.cate
 function classifyDoc(id){
   let m;
   if (id === 'v2-books') return {registry: true};
+  if (id === 'v2-reserves') return {reserves: true};
   if (id === 'v2-settings') return {book: 'main', kind: 'settings'};
   if ((m = /^v2-m-(\d{4}-\d{2})$/.exec(id))) return {book: 'main', kind: 'month', ym: m[1]};
   if ((m = /^v2w-([A-Za-z0-9_]+)-settings$/.exec(id))) return {book: m[1], kind: 'settings'};
@@ -1074,6 +1130,7 @@ function saveBooks(){ persistBooks(); queueDoc('v2-books', {v: 1, books: books})
 
 function uploadEverything(){
   queueDoc('v2-books', {v: 1, books: books});
+  queueDoc('v2-reserves', {v: 1, reserves: reserves});
   books.forEach(b => {
     const rb = readBook(b.id);
     try { if (localStorage.getItem(lsKeyFor(b.id, 'settings'))) queueDoc(docIdFor(b.id, 'settings'), {v: 2, title: b.title, categories: rb.categories || defaultCats()}); } catch(e){}
@@ -1081,11 +1138,12 @@ function uploadEverything(){
   });
 }
 function parseRemote(docs){
-  const out = {registry: null, books: {}};
+  const out = {registry: null, reserves: null, books: {}};
   docs.forEach(d => {
     const c = classifyDoc(d.id), data = d.data || {};
     if (!c) return;
     if (c.registry) { out.registry = cleanBooks(data.books); return; }
+    if (c.reserves) { out.reserves = cleanReserves(data.reserves); return; }
     const b = out.books[c.book] || (out.books[c.book] = {settings: null, months: {}});
     if (c.kind === 'settings') b.settings = data; else b.months[c.ym] = cleanMonth(c.ym, data);
   });
@@ -1093,6 +1151,9 @@ function parseRemote(docs){
 }
 function applyRemote(remote){
   let changed = false;
+  if (remote.reserves && !store.dirty.has('v2-reserves')) {
+    if (JSON.stringify(remote.reserves) !== JSON.stringify(reserves)) { reserves = remote.reserves; persistReservesLocal(); changed = true; }
+  }
   if (remote.registry && remote.registry.length && !store.dirty.has('v2-books')) {
     if (JSON.stringify(remote.registry) !== JSON.stringify(books)) {
       const gone = books.filter(b => !remote.registry.some(r => r.id === b.id));
@@ -1173,9 +1234,39 @@ async function connect(){
       if (!state.months[view.ym]) { view.ym = curYm(); setDateDefault(); needScroll = true; changed = true; }
       if (!catById(entry.cat)) entry.cat = null;
       setStatus(store.dirty.size ? 'syncing' : 'synced');
-      if (changed) render();
+      if (changed) { render(); if (screen === 'reserve') renderReserve(); }
     }, () => { store.db = null; setStatus('error'); });
   } catch(e) {}
+}
+
+/* ---------- set aside: recurring subscriptions/EMIs, global across every sheet ---------- */
+const RES_KEY = LS + 'reserves';
+let reserves = [];
+function cleanReserves(list){
+  return (Array.isArray(list) ? list : []).filter(r => r && typeof r === 'object' && r.id && r.name)
+    .map(r => ({
+      id: String(r.id),
+      name: String(r.name).trim().slice(0, 40),
+      kind: r.kind === 'emi' ? 'emi' : 'sub',
+      amount: isFinite(Number(r.amount)) ? round2(Number(r.amount)) : 0,
+      every: Math.max(1, Math.round(Number(r.every)) || 1),
+      end: (r.kind === 'emi' && /^\d{4}-\d{2}$/.test(r.end)) ? r.end : null
+    }))
+    .filter(r => r.name && r.amount > 0 && (r.kind !== 'emi' || r.end));
+}
+function persistReservesLocal(){ try { localStorage.setItem(RES_KEY, JSON.stringify({v: 1, reserves: reserves})); } catch(e){} }
+function loadReserves(){ try { const raw = localStorage.getItem(RES_KEY); if (raw) reserves = cleanReserves(JSON.parse(raw).reserves); } catch(e){} }
+function queueReserves(){ persistReservesLocal(); queueDoc('v2-reserves', {v: 1, reserves: reserves}); }
+function addMonths(ym, n){
+  const p = ym.split('-').map(Number); let m = p[1] - 1 + n, y = p[0] + Math.floor(m / 12);
+  m = ((m % 12) + 12) % 12; return y + '-' + pad(m + 1);
+}
+function monthsBetween(a, b){ const pa = a.split('-').map(Number), pb = b.split('-').map(Number); return (pb[0] - pa[0]) * 12 + (pb[1] - pa[1]); }
+const reserveMonthly = r => Math.ceil(r.amount / r.every);
+function pruneExpiredReserves(){
+  const cur = curYm(), before = reserves.length;
+  reserves = reserves.filter(r => r.kind !== 'emi' || r.end >= cur);
+  if (reserves.length !== before) queueReserves();
 }
 
 /* ---------- stats ---------- */
@@ -2357,8 +2448,117 @@ document.addEventListener('click', e => {
   if (e.target.closest('.hole')) { p.pinned = null; paintPie(r); }
 });
 
+/* ---------- screens: Expenses vs Set Aside ---------- */
+let screen = 'book';
+function setScreen(s){
+  screen = s;
+  $('#screenBook').hidden = s !== 'book';
+  $('#screenReserve').hidden = s !== 'reserve';
+  Array.prototype.forEach.call(document.querySelectorAll('#screenSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.screen === s)));
+  if (s === 'reserve') { pruneExpiredReserves(); renderReserve(); }
+}
+$('#screenSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setScreen(b.dataset.screen); });
+
+/* ---------- set aside: add/edit form ---------- */
+let resEditId = null, resKind = 'sub';
+function setResKind(k){
+  resKind = k;
+  Array.prototype.forEach.call(document.querySelectorAll('#resKindSeg button'), x => x.setAttribute('aria-pressed', String(x.dataset.kind === k)));
+  $('#resMonthsRow').hidden = k !== 'emi';
+}
+$('#resKindSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setResKind(b.dataset.kind); });
+function resetResForm(){
+  resEditId = null;
+  $('#resName').value = ''; $('#resAmt').value = ''; $('#resEvery').value = '1'; $('#resMonths').value = '';
+  setResKind('sub');
+  $('#resErr').textContent = '';
+  $('#resFormTitle').textContent = 'Add a subscription or EMI';
+  $('#resSubmitBtn').textContent = 'Add';
+  $('#resCancelEdit').hidden = true;
+}
+function fillResForm(r){
+  resEditId = r.id;
+  $('#resName').value = r.name;
+  $('#resAmt').value = fmtN(r.amount);
+  $('#resEvery').value = String(r.every);
+  setResKind(r.kind);
+  $('#resMonths').value = r.kind === 'emi' ? String(monthsBetween(curYm(), r.end) + 1) : '';
+  $('#resErr').textContent = '';
+  $('#resFormTitle').textContent = 'Edit \u201C' + r.name + '\u201D';
+  $('#resSubmitBtn').textContent = 'Save changes';
+  $('#resCancelEdit').hidden = false;
+  $('#resName').focus();
+}
+$('#resCancelEdit').addEventListener('click', resetResForm);
+$('#resForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = $('#resErr'); err.textContent = '';
+  const name = $('#resName').value.trim();
+  if (!name) { err.textContent = 'Enter a name.'; return; }
+  const amt = parseAmount($('#resAmt').value);
+  if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter a valid amount.'; return; }
+  const every = Math.round(Number($('#resEvery').value));
+  if (!isFinite(every) || every < 1) { err.textContent = 'Repeat interval must be at least 1 month.'; return; }
+  let end = null;
+  if (resKind === 'emi') {
+    const months = Math.round(Number($('#resMonths').value));
+    if (!isFinite(months) || months < 1) { err.textContent = 'Enter how many months remain.'; return; }
+    end = addMonths(curYm(), months - 1);
+  }
+  if (resEditId) {
+    const r = reserves.find(x => x.id === resEditId);
+    if (r) { r.name = name; r.kind = resKind; r.amount = round2(amt); r.every = every; r.end = end; }
+  } else {
+    reserves.push({id: newId('r'), name: name, kind: resKind, amount: round2(amt), every: every, end: end});
+  }
+  queueReserves(); resetResForm(); renderReserve();
+});
+
+/* ---------- set aside: list + delete ---------- */
+function renderReserve(){
+  const cur = curYm();
+  const subs = reserves.filter(r => r.kind === 'sub').length, emis = reserves.filter(r => r.kind === 'emi').length;
+  const total = reserves.reduce((s, r) => s + reserveMonthly(r), 0);
+  $('#resStats').innerHTML =
+    '<div class="st main"><span>Set aside monthly</span><b>' + fmt(total) + '</b></div>' +
+    '<div class="st"><span>Subscriptions</span><b>' + subs + '</b></div>' +
+    '<div class="st"><span>EMIs</span><b>' + emis + '</b></div>';
+  $('#resList').innerHTML = reserves.length ? reserves.map(r => {
+    const every = r.every === 1 ? 'every month' : 'every ' + r.every + ' months';
+    let sub = fmt(r.amount) + ' ' + every;
+    if (r.kind === 'emi') { const left = monthsBetween(cur, r.end) + 1; sub += ' \u00b7 ' + left + (left === 1 ? ' month left' : ' months left'); }
+    return '<div class="rrow" data-id="' + esc(r.id) + '">' +
+      '<div class="rmain" data-open="' + esc(r.id) + '" role="button" tabindex="0">' +
+        '<div class="rname"><span>' + esc(r.name) + '</span><span class="rbadge">' + (r.kind === 'emi' ? 'EMI' : 'Subscription') + '</span></div>' +
+        '<div class="rsub">' + esc(sub) + '</div>' +
+      '</div>' +
+      '<div class="ramt">' + fmt(reserveMonthly(r)) + '<span class="rmo">/mo</span></div>' +
+      '<button type="button" class="icon-btn danger" data-del="' + esc(r.id) + '" aria-label="Delete ' + esc(r.name) + '">' + TRASH + '</button>' +
+    '</div>';
+  }).join('') : '<div class="emptysheet">Nothing yet. Add your subscriptions and EMIs above.</div>';
+}
+$('#resList').addEventListener('click', e => {
+  const del = e.target.closest('[data-del]');
+  if (del) { deleteReserve(del.dataset.del); return; }
+  const open = e.target.closest('[data-open]');
+  if (open) { const r = reserves.find(x => x.id === open.dataset.open); if (r) fillResForm(r); }
+});
+$('#resList').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-open]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles: true})); }
+});
+async function deleteReserve(id){
+  const r = reserves.find(x => x.id === id); if (!r) return;
+  const ok = await confirmBox({title: 'Delete \u201C' + r.name + '\u201D?', body: 'This removes it from your Set Aside total.', ok: 'Delete'});
+  if (!ok) return;
+  reserves = reserves.filter(x => x.id !== id);
+  if (resEditId === id) resetResForm();
+  queueReserves(); renderReserve();
+}
+
 /* ---------- start ---------- */
 loadLocal();
+loadReserves();
+pruneExpiredReserves();
 migrateV1Local();
 initMath();
 initDatePicker();
