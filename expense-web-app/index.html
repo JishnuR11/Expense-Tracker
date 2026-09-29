@@ -129,10 +129,12 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
   --line:#DFE2EE; --line-2:#ECEEF6;
   --band:#1A1E4A; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
   --gold:#DDB35A; --on-gold:#2B2106; --gold-soft:#FBF3DC; --gold-text:#8A6413;
+  --warn:#C97A26; --warn-soft:#FBEEDC; --neg-soft:#FBE4E1;
   --primary:#1A1E4A; --on-primary:#FFFFFF; --focus:#3B5BDB;
   --pos:#0F7B5A; --neg:#C22F1F;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -141,8 +143,10 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
     --line:#2A3160; --line-2:#1E2447;
     --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
     --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
+    --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714;
     --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
     --pos:#4FCB9E; --neg:#FF8272;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
@@ -151,8 +155,10 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
   --line:#2A3160; --line-2:#1E2447;
   --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
   --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
+  --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714;
   --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
   --pos:#4FCB9E; --neg:#FF8272;
+  color-scheme: dark;
 }
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -274,8 +280,11 @@ table.grid{border-collapse:separate;border-spacing:0;font-size:14px;min-width:10
 .tab.add{font-size:22px}
 
 /* ---------- dialogs ---------- */
-dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(580px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(580px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1000}
+dialog:not([open]){display:none}
 dialog::backdrop{background:rgba(8,10,30,.6)}
+#modalBackdrop{position:fixed;inset:0;background:rgba(8,10,30,.6);z-index:999}
+#modalBackdrop[hidden]{display:none}
 .dh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
 .dh h2{margin:0;font:600 17px var(--body)}
 .dh p{margin:0;font-size:13px}
@@ -412,8 +421,8 @@ input,select,textarea{font-size:16px}
   .pbody{gap:14px;padding:2px 14px 14px}
   .pd-amt{font-size:22px}
   .gbody .row{padding-left:40px}
-  dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 20px);margin:10px auto auto}
-  #dlgDate,#dlgConfirm{margin:auto auto 8px}
+  dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 20px)}
+  #dlgDate,#dlgConfirm{top:auto;bottom:8px;transform:translateX(-50%)}
 }
 @media (pointer:coarse){
   .btn{min-height:44px}
@@ -665,6 +674,25 @@ html{scroll-padding-bottom:76px}
 .rsub{font-size:13px;color:var(--ink-2);margin-top:2px}
 .ramt{font-weight:700;white-space:nowrap;flex:none;text-align:right}
 .ramt .rmo{font-weight:400;color:var(--ink-2);font-size:13px}
+.racts{display:flex;gap:4px;flex:none}
+.icon-btn.ok{color:var(--pos)}
+#resTabSeg{margin-top:18px}
+.dategrid{display:grid;grid-template-columns:64px 1fr 84px;gap:8px}
+.band .seg{background:color-mix(in srgb, var(--band-ink) 14%, transparent)}
+.band .seg button{color:var(--band-ink-2)}
+.band .seg button[aria-pressed="true"]{background:var(--band-ink);color:var(--band);font-weight:600}
+.rrow.due-orange{background:var(--warn-soft);border-left:3px solid var(--warn);padding-left:11px}
+.rrow.due-red{background:var(--neg-soft);border-left:3px solid var(--neg);padding-left:11px}
+
+/* ===== due-date glow ===== */
+@keyframes glowOrange{0%,100%{box-shadow:0 0 0 0 rgba(201,122,38,0)}50%{box-shadow:0 0 0 6px rgba(201,122,38,.35)}}
+@keyframes glowRed{0%,100%{box-shadow:0 0 0 0 rgba(194,47,31,0)}50%{box-shadow:0 0 0 6px rgba(194,47,31,.4)}}
+.glow-orange{animation:glowOrange 1.8s ease-in-out infinite;border-radius:999px}
+.glow-red{animation:glowRed 1.4s ease-in-out infinite;border-radius:999px}
+@media (prefers-reduced-motion: reduce){
+  .glow-orange{animation:none;box-shadow:0 0 0 3px rgba(201,122,38,.35)}
+  .glow-red{animation:none;box-shadow:0 0 0 3px rgba(194,47,31,.4)}
+}
 </style>
 </head>
 <body>
@@ -734,34 +762,78 @@ html{scroll-padding-bottom:76px}
     <div class="wrap">
       <h1>Set Aside</h1>
       <div class="stats" id="resStats"></div>
+      <div class="seg wide" id="resTabSeg" role="group" aria-label="Set Aside section">
+        <button type="button" data-restab="subs" aria-pressed="true">Subscriptions &amp; EMIs</button>
+        <button type="button" data-restab="cc" aria-pressed="false">CC Bills</button>
+        <button type="button" data-restab="history" aria-pressed="false">History</button>
+      </div>
     </div>
   </div>
   <div class="wrap">
-    <form class="entry" id="resForm" novalidate>
-      <h2 id="resFormTitle">Add a subscription or EMI</h2>
-      <div class="seg wide" id="resKindSeg" role="group" aria-label="Type">
-        <button type="button" data-kind="sub" aria-pressed="true">Subscription</button>
-        <button type="button" data-kind="emi" aria-pressed="false">EMI</button>
-      </div>
-      <label>Name<input id="resName" maxlength="40" autocomplete="off" placeholder="e.g. Spotify"></label>
-      <label>Amount per payment<div class="money"><span>₹</span><input id="resAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
-      <label>Repeats every (months)<input id="resEvery" inputmode="numeric" value="1"></label>
-      <label id="resMonthsRow" hidden>Months remaining<input id="resMonths" inputmode="numeric" placeholder="12"></label>
-      <div class="err" id="resErr" role="alert"></div>
-      <div style="display:flex;gap:8px">
-        <button class="btn primary" type="submit" id="resSubmitBtn">Add</button>
-        <button class="btn" type="button" id="resCancelEdit" hidden>Cancel</button>
-      </div>
-    </form>
+    <div id="resPanelSubs">
+      <form class="entry" id="resForm" novalidate>
+        <h2 id="resFormTitle">Add a subscription or EMI</h2>
+        <div class="seg wide" id="resKindSeg" role="group" aria-label="Type">
+          <button type="button" data-kind="sub" aria-pressed="true">Subscription</button>
+          <button type="button" data-kind="emi" aria-pressed="false">EMI</button>
+        </div>
+        <label>Name<input id="resName" maxlength="40" autocomplete="off" placeholder="e.g. Spotify"></label>
+        <label>Amount per payment<div class="money"><span>₹</span><input id="resAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+        <label>Repeats every (months)<input id="resEvery" inputmode="numeric" value="1"></label>
+        <label id="resDayRow">Renews on day (optional — logs it to your ledger automatically)<input id="resDay" inputmode="numeric" maxlength="2" placeholder="e.g. 30"></label>
+        <label id="resLastPayRow" hidden>Last payment deducted (optional — helps time the next one correctly)<input id="resLastPay" type="month" placeholder="YYYY-MM"></label>
+        <label id="resMonthsRow" hidden>Months remaining<input id="resMonths" inputmode="numeric" placeholder="12"></label>
+        <div class="err" id="resErr" role="alert"></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn primary" type="submit" id="resSubmitBtn">Add</button>
+          <button class="btn" type="button" id="resCancelEdit" hidden>Cancel</button>
+        </div>
+      </form>
 
-    <section class="sheetcard" aria-label="Your subscriptions and EMIs">
-      <div class="sh"><b>Your subscriptions &amp; EMIs</b></div>
-      <div id="resList"></div>
-    </section>
+      <section class="sheetcard" aria-label="Your subscriptions and EMIs">
+        <div class="sh"><b>Your subscriptions &amp; EMIs</b></div>
+        <div id="resList"></div>
+      </section>
+    </div>
+
+    <div id="resPanelCC" hidden>
+      <form class="entry" id="ccForm" novalidate>
+        <h2 id="ccFormTitle">Add a credit card bill</h2>
+        <div class="chips" id="cardChips" role="group" aria-label="Choose a card"></div>
+        <label>Bill amount<div class="money"><span>₹</span><input id="ccAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+        <div class="fld">
+          <span class="lbl" id="ccDueLbl">Due date</span>
+          <div class="dategrid">
+            <input id="ccDueDay" inputmode="numeric" maxlength="2" placeholder="DD" aria-labelledby="ccDueLbl" aria-label="Day">
+            <select id="ccDueMonth" aria-labelledby="ccDueLbl" aria-label="Month"><option value="">Month</option></select>
+            <input id="ccDueYear" inputmode="numeric" maxlength="4" placeholder="YYYY" aria-labelledby="ccDueLbl" aria-label="Year">
+          </div>
+        </div>
+        <div class="err" id="ccErr" role="alert"></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn primary" type="submit" id="ccSubmitBtn">Add</button>
+          <button class="btn" type="button" id="ccCancelEdit" hidden>Cancel</button>
+        </div>
+      </form>
+
+      <section class="sheetcard" aria-label="Your credit card bills">
+        <div class="sh"><b>Your credit card bills</b></div>
+        <div id="ccList"></div>
+      </section>
+    </div>
+
+    <div id="resPanelHistory" hidden>
+      <section class="sheetcard" aria-label="Payment history">
+        <div class="sh"><b>Payment history</b></div>
+        <div id="historyList"></div>
+      </section>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div id="modalBackdrop" hidden aria-hidden="true"></div>
 
 <dialog id="dlgCell" aria-labelledby="clTitle">
   <div class="dh"><div><h2 id="clTitle"></h2><p class="muted" id="clSub"></p></div><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
@@ -788,6 +860,20 @@ html{scroll-padding-bottom:76px}
     </form>
     <div class="err" id="ncErr" role="alert"></div>
     <div id="catList"></div>
+  </div>
+  <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgCards" aria-labelledby="cardTitle">
+  <div class="dh"><h2 id="cardTitle">Your cards</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <p class="muted" style="margin:0">Add each card once, then just pick it when logging a bill.</p>
+    <form id="newCardForm" class="newcat">
+      <input id="ncCardName" maxlength="40" placeholder="New card name" aria-label="New card name" autocomplete="off">
+      <button class="btn primary" type="submit">Add</button>
+    </form>
+    <div class="err" id="ncCardErr" role="alert"></div>
+    <div id="cardList"></div>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
 </dialog>
@@ -937,10 +1023,15 @@ html{scroll-padding-bottom:76px}
 'use strict';
 const $ = (s, r) => (r || document).querySelector(s);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function openDialog(el){
+  if (typeof el === 'string') el = $(el);
+  if (!el) return;
+  try { el.showModal(); } catch(e) { el.setAttribute('open', ''); }
+}
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.8', APP_BUILD = '20 Sep 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9', APP_BUILD = '28 Sep 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -948,6 +1039,7 @@ const WDL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturd
 const PALETTE = ['#3B5BDB','#0891B2','#C2334D','#D69E1F','#C2703D','#8B5CF6','#0E9F7E','#64748B','#D946A8','#5B8C2A','#0F766E','#7C3AED'];
 const DEFAULTS = [['d-utilities','Utilities'],['d-travel','Travel'],['d-outside','Outside Food'],['d-breakfast','Breakfast'],['d-snacks','Snacks'],['d-shopping','Shopping']];
 const TRASH = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 10v6M14 10v6"/></svg>';
+const CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>';
 const UP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
 const DOWN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 
@@ -988,7 +1080,9 @@ const defaultCats = () => DEFAULTS.map((a, i) => ({id: a[0], name: a[1], color: 
 const state = {
   title: DEFAULT_TITLE,
   categories: defaultCats(),
-  months: {}
+  months: {},
+  subsCategoryId: null,
+  emiCategoryId: null
 };
 const view = {ym: curYm(), mode: 'sheet', sum: 'week', sumYear: null, sumFor: null};
 const entry = {cat: null};
@@ -997,6 +1091,16 @@ let gridFocus = {r: 0, c: 0};
 const store = {db: null, uid: null, timers: {}, pending: {}, writing: {}, dirty: new Set(), lastDocs: []};
 
 const catById = id => state.categories.find(c => c.id === id);
+function ensureAutoCategory(refKey, defaultName){
+  let c = state[refKey] ? catById(state[refKey]) : null;
+  if (!c) {
+    c = {id: newId('c'), name: defaultName, color: nextColor()};
+    state.categories.push(c);
+    state[refKey] = c.id;
+    touch('settings');
+  }
+  return c;
+}
 const ymKeys = () => Object.keys(state.months).sort();
 const nextColor = () => { const used = state.categories.map(c => c.color); return PALETTE.find(c => used.indexOf(c) < 0) || PALETTE[state.categories.length % PALETTE.length]; };
 const usage = id => Object.keys(state.months).reduce((n, k) => n + state.months[k].txns.filter(t => t.cat === id).length, 0);
@@ -1026,11 +1130,14 @@ let activeBook = 'main';
 const lsPrefix = id => id === 'main' ? LS : LS + 'w.' + id + '.';
 const lsKeyFor = (id, key) => key === 'settings' ? lsPrefix(id) + 'settings' : lsPrefix(id) + 'm.' + key;
 const docIdFor = (id, key) => id === 'main' ? (key === 'settings' ? 'v2-settings' : 'v2-m-' + key) : 'v2w-' + id + '-' + (key === 'settings' ? 'settings' : 'm-' + key);
-const settingsPayload = () => ({v: 2, title: state.title, categories: state.categories});
+const settingsPayload = () => ({v: 2, title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null});
 function classifyDoc(id){
   let m;
   if (id === 'v2-books') return {registry: true};
   if (id === 'v2-reserves') return {reserves: true};
+  if (id === 'v2-cards') return {cards: true};
+  if (id === 'v2-ccbills') return {ccbills: true};
+  if (id === 'v2-history') return {history: true};
   if (id === 'v2-settings') return {book: 'main', kind: 'settings'};
   if ((m = /^v2-m-(\d{4}-\d{2})$/.exec(id))) return {book: 'main', kind: 'month', ym: m[1]};
   if ((m = /^v2w-([A-Za-z0-9_]+)-settings$/.exec(id))) return {book: m[1], kind: 'settings'};
@@ -1043,20 +1150,22 @@ function cleanBooks(list){
 function persistLocal(key){
   try {
     const k = lsKeyFor(activeBook, key);
-    if (key === 'settings') localStorage.setItem(k, JSON.stringify({title: state.title, categories: state.categories}));
+    if (key === 'settings') localStorage.setItem(k, JSON.stringify({title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null}));
     else if (state.months[key]) localStorage.setItem(k, JSON.stringify(state.months[key]));
     else localStorage.removeItem(k);
   } catch(e){}
 }
 function persistBooks(){ try { localStorage.setItem(BOOKS_KEY, JSON.stringify({books: books})); } catch(e){} }
 function readBook(id){
-  const out = {title: null, categories: null, months: {}};
+  const out = {title: null, categories: null, months: {}, subsCategoryId: null, emiCategoryId: null};
   try {
     const p = lsPrefix(id), st = localStorage.getItem(p + 'settings');
     if (st) {
       const o = JSON.parse(st);
       if (Array.isArray(o.categories)) out.categories = cleanCats(o.categories);
       if (typeof o.title === 'string' && o.title.trim()) out.title = cleanTitle(o.title);
+      if (typeof o.subsCategoryId === 'string') out.subsCategoryId = o.subsCategoryId;
+      if (typeof o.emiCategoryId === 'string') out.emiCategoryId = o.emiCategoryId;
     }
     const mp = p + 'm.';
     for (let i = 0; i < localStorage.length; i++) {
@@ -1078,6 +1187,8 @@ function loadBookIntoState(id){
   state.title = be ? be.title : (rb.title || DEFAULT_TITLE);
   state.categories = rb.categories || defaultCats();
   state.months = rb.months;
+  state.subsCategoryId = rb.subsCategoryId || null;
+  state.emiCategoryId = rb.emiCategoryId || null;
 }
 function loadLocal(){
   try { const rb = localStorage.getItem(BOOKS_KEY); if (rb) books = cleanBooks(JSON.parse(rb).books); } catch(e){}
@@ -1131,6 +1242,9 @@ function saveBooks(){ persistBooks(); queueDoc('v2-books', {v: 1, books: books})
 function uploadEverything(){
   queueDoc('v2-books', {v: 1, books: books});
   queueDoc('v2-reserves', {v: 1, reserves: reserves});
+  queueDoc('v2-cards', {v: 1, cards: cards});
+  queueDoc('v2-ccbills', {v: 1, ccbills: ccbills});
+  queueDoc('v2-history', {v: 1, history: history});
   books.forEach(b => {
     const rb = readBook(b.id);
     try { if (localStorage.getItem(lsKeyFor(b.id, 'settings'))) queueDoc(docIdFor(b.id, 'settings'), {v: 2, title: b.title, categories: rb.categories || defaultCats()}); } catch(e){}
@@ -1138,12 +1252,15 @@ function uploadEverything(){
   });
 }
 function parseRemote(docs){
-  const out = {registry: null, reserves: null, books: {}};
+  const out = {registry: null, reserves: null, cards: null, ccbills: null, history: null, books: {}};
   docs.forEach(d => {
     const c = classifyDoc(d.id), data = d.data || {};
     if (!c) return;
     if (c.registry) { out.registry = cleanBooks(data.books); return; }
     if (c.reserves) { out.reserves = cleanReserves(data.reserves); return; }
+    if (c.cards) { out.cards = cleanCards(data.cards); return; }
+    if (c.ccbills) { out.ccbills = cleanCCBills(data.ccbills); return; }
+    if (c.history) { out.history = cleanHistory(data.history); return; }
     const b = out.books[c.book] || (out.books[c.book] = {settings: null, months: {}});
     if (c.kind === 'settings') b.settings = data; else b.months[c.ym] = cleanMonth(c.ym, data);
   });
@@ -1153,6 +1270,15 @@ function applyRemote(remote){
   let changed = false;
   if (remote.reserves && !store.dirty.has('v2-reserves')) {
     if (JSON.stringify(remote.reserves) !== JSON.stringify(reserves)) { reserves = remote.reserves; persistReservesLocal(); changed = true; }
+  }
+  if (remote.cards && !store.dirty.has('v2-cards')) {
+    if (JSON.stringify(remote.cards) !== JSON.stringify(cards)) { cards = remote.cards; persistCardsLocal(); changed = true; }
+  }
+  if (remote.ccbills && !store.dirty.has('v2-ccbills')) {
+    if (JSON.stringify(remote.ccbills) !== JSON.stringify(ccbills)) { ccbills = remote.ccbills; persistCCLocal(); changed = true; }
+  }
+  if (remote.history && !store.dirty.has('v2-history')) {
+    if (JSON.stringify(remote.history) !== JSON.stringify(history)) { history = remote.history; persistHistoryLocal(); changed = true; }
   }
   if (remote.registry && remote.registry.length && !store.dirty.has('v2-books')) {
     if (JSON.stringify(remote.registry) !== JSON.stringify(books)) {
@@ -1172,6 +1298,8 @@ function applyRemote(remote){
       if (rb.settings && !store.dirty.has(sDoc)) {
         const cats = Array.isArray(rb.settings.categories) ? cleanCats(rb.settings.categories) : null;
         if (cats && JSON.stringify(cats) !== JSON.stringify(state.categories)) { state.categories = cats; persistLocal('settings'); changed = true; }
+        if (typeof rb.settings.subsCategoryId === 'string' && rb.settings.subsCategoryId !== state.subsCategoryId) { state.subsCategoryId = rb.settings.subsCategoryId; persistLocal('settings'); changed = true; }
+        if (typeof rb.settings.emiCategoryId === 'string' && rb.settings.emiCategoryId !== state.emiCategoryId) { state.emiCategoryId = rb.settings.emiCategoryId; persistLocal('settings'); changed = true; }
         if (!remote.registry && typeof rb.settings.title === 'string' && rb.settings.title.trim()) {
           const t = cleanTitle(rb.settings.title);
           if (t !== state.title) { state.title = t; const be = books.find(b => b.id === id); if (be) { be.title = t; persistBooks(); } changed = true; }
@@ -1234,7 +1362,7 @@ async function connect(){
       if (!state.months[view.ym]) { view.ym = curYm(); setDateDefault(); needScroll = true; changed = true; }
       if (!catById(entry.cat)) entry.cat = null;
       setStatus(store.dirty.size ? 'syncing' : 'synced');
-      if (changed) { render(); if (screen === 'reserve') renderReserve(); }
+      if (changed) { render(); applyCCGlow(); if (screen === 'reserve') { renderReserve(); renderCC(); renderCardChips(); renderHistory(); } }
     }, () => { store.db = null; setStatus('error'); });
   } catch(e) {}
 }
@@ -1250,7 +1378,11 @@ function cleanReserves(list){
       kind: r.kind === 'emi' ? 'emi' : 'sub',
       amount: isFinite(Number(r.amount)) ? round2(Number(r.amount)) : 0,
       every: Math.max(1, Math.round(Number(r.every)) || 1),
-      end: (r.kind === 'emi' && /^\d{4}-\d{2}$/.test(r.end)) ? r.end : null
+      end: (r.kind === 'emi' && /^\d{4}-\d{2}$/.test(r.end)) ? r.end : null,
+      day: (r.kind !== 'emi' && Number.isInteger(r.day) && r.day >= 1 && r.day <= 31) ? r.day : null,
+      anchor: (r.kind !== 'emi' && /^\d{4}-\d{2}$/.test(r.anchor)) ? r.anchor : null,
+      lastLogged: (r.kind !== 'emi' && /^\d{4}-\d{2}$/.test(r.lastLogged)) ? r.lastLogged : null,
+      lastPaid: (r.kind === 'emi' && /^\d{4}-\d{2}$/.test(r.lastPaid)) ? r.lastPaid : null
     }))
     .filter(r => r.name && r.amount > 0 && (r.kind !== 'emi' || r.end));
 }
@@ -1263,10 +1395,128 @@ function addMonths(ym, n){
 }
 function monthsBetween(a, b){ const pa = a.split('-').map(Number), pb = b.split('-').map(Number); return (pb[0] - pa[0]) * 12 + (pb[1] - pa[1]); }
 const reserveMonthly = r => Math.ceil(r.amount / r.every);
+const daysInMonth = (y, m) => new Date(y, m, 0).getDate();
+function clampDay(ym, day){ const p = ym.split('-').map(Number); return Math.min(day, daysInMonth(p[0], p[1])); }
+function renewalDateStr(ym, day){ return ym + '-' + pad(clampDay(ym, day)); }
+function pendingRenewal(r){
+  if (!r.day || !r.anchor) return null;
+  const cur = curYm(), today = todayStr();
+  let ym = r.anchor, best = null;
+  while (ym <= cur) {
+    if (renewalDateStr(ym, r.day) <= today) best = ym; else break;
+    ym = addMonths(ym, r.every);
+  }
+  return (best && best !== r.lastLogged) ? best : null;
+}
 function pruneExpiredReserves(){
   const cur = curYm(), before = reserves.length;
   reserves = reserves.filter(r => r.kind !== 'emi' || r.end >= cur);
   if (reserves.length !== before) queueReserves();
+}
+
+/* ---------- set aside: registered cards (add once, pick each time) ---------- */
+const CARD_KEY = LS + 'cards';
+let cards = [];
+function cleanCards(list){
+  return (Array.isArray(list) ? list : []).filter(k => k && typeof k === 'object' && k.id && k.name)
+    .map(k => ({id: String(k.id), name: String(k.name).trim().slice(0, 40)}))
+    .filter(k => k.name);
+}
+function persistCardsLocal(){ try { localStorage.setItem(CARD_KEY, JSON.stringify({v: 1, cards: cards})); } catch(e){} }
+function loadCards(){ try { const raw = localStorage.getItem(CARD_KEY); if (raw) cards = cleanCards(JSON.parse(raw).cards); } catch(e){} }
+function queueCards(){ persistCardsLocal(); queueDoc('v2-cards', {v: 1, cards: cards}); }
+function cardById(id){ return cards.find(k => k.id === id); }
+
+/* ---------- set aside: credit card bills, global across every sheet ---------- */
+const CC_KEY = LS + 'ccbills';
+let ccbills = [];
+function cleanCCBills(list){
+  return (Array.isArray(list) ? list : []).filter(c => c && typeof c === 'object' && c.id && c.card)
+    .map(c => ({
+      id: String(c.id),
+      cardId: c.cardId ? String(c.cardId) : null,
+      card: String(c.card).trim().slice(0, 40),
+      amount: isFinite(Number(c.amount)) ? round2(Number(c.amount)) : 0,
+      due: /^\d{4}-\d{2}-\d{2}$/.test(c.due) ? c.due : null,
+      seenOn: /^\d{4}-\d{2}-\d{2}$/.test(c.seenOn) ? c.seenOn : null
+    }))
+    .filter(c => c.card && c.amount > 0 && c.due);
+}
+function persistCCLocal(){ try { localStorage.setItem(CC_KEY, JSON.stringify({v: 1, ccbills: ccbills})); } catch(e){} }
+function loadCCBills(){ try { const raw = localStorage.getItem(CC_KEY); if (raw) ccbills = cleanCCBills(JSON.parse(raw).ccbills); } catch(e){} }
+function queueCC(){ persistCCLocal(); queueDoc('v2-ccbills', {v: 1, ccbills: ccbills}); }
+function daysUntil(dateStr){
+  const p = dateStr.split('-').map(Number), due = Date.UTC(p[0], p[1] - 1, p[2]);
+  const t = todayStr().split('-').map(Number), today = Date.UTC(t[0], t[1] - 1, t[2]);
+  return Math.round((due - today) / 86400000);
+}
+function ccDueLabel(due){
+  const p = due.split('-').map(Number), dm = p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3), days = daysUntil(due);
+  if (days === 0) return 'Due today \u00b7 ' + dm;
+  if (days === 1) return 'Due tomorrow \u00b7 ' + dm;
+  if (days > 1) return 'Due ' + dm + ' \u00b7 in ' + days + ' days';
+  return 'Due ' + dm;
+}
+function ccUrgency(due){ const d = daysUntil(due); if (d === 0 || d === 1) return 'red'; if (d === 2 || d === 3) return 'orange'; return ''; }
+// Orange (3 and 2 days out) nudges once per day; red (1 day out and due day) nudges every time the app is opened.
+// "Seen" for red lives only in memory, so every fresh open (or return to the app) nudges again until it is checked.
+const ccSeenSession = new Set();
+function ccNeedsNudge(c){
+  const u = ccUrgency(c.due);
+  if (u === 'red') return !ccSeenSession.has(c.id);
+  if (u === 'orange') return c.seenOn !== todayStr();
+  return false;
+}
+function ccGlowUrgency(){
+  let has = '';
+  ccbills.forEach(c => {
+    if (!ccNeedsNudge(c)) return;
+    if (ccUrgency(c.due) === 'red') has = 'red'; else if (has !== 'red') has = 'orange';
+  });
+  return has;
+}
+function markCCUrgencySeen(){
+  const t = todayStr(); let changed = false;
+  ccbills.forEach(c => {
+    const u = ccUrgency(c.due);
+    if (u === 'red') ccSeenSession.add(c.id);
+    else if (u === 'orange' && c.seenOn !== t) { c.seenOn = t; changed = true; }
+  });
+  if (changed) queueCC();
+}
+function pruneExpiredCCBills(){
+  const t = todayStr(), before = ccbills.length;
+  ccbills = ccbills.filter(c => c.due >= t);
+  if (ccbills.length !== before) queueCC();
+}
+function applyCCGlow(){
+  const u = ccGlowUrgency();
+  const setGlow = el => { if (!el) return; el.classList.remove('glow-orange', 'glow-red'); if (u) el.classList.add('glow-' + u); };
+  setGlow($('#screenSeg button[data-screen="reserve"]'));
+  setGlow($('#resTabSeg button[data-restab="cc"]'));
+}
+
+/* ---------- set aside: payment history (subscriptions, EMIs, CC bills), global across every sheet ---------- */
+const HIST_KEY = LS + 'history';
+let history = [];
+function cleanHistory(list){
+  return (Array.isArray(list) ? list : []).filter(h => h && typeof h === 'object' && h.id && h.name && h.date)
+    .map(h => ({
+      id: String(h.id),
+      kind: ['sub', 'emi', 'cc'].indexOf(h.kind) >= 0 ? h.kind : 'sub',
+      name: String(h.name).trim().slice(0, 40),
+      amount: isFinite(Number(h.amount)) ? round2(Number(h.amount)) : 0,
+      date: /^\d{4}-\d{2}-\d{2}$/.test(h.date) ? h.date : null
+    }))
+    .filter(h => h.name && h.amount > 0 && h.date);
+}
+function persistHistoryLocal(){ try { localStorage.setItem(HIST_KEY, JSON.stringify({v: 1, history: history})); } catch(e){} }
+function loadHistory(){ try { const raw = localStorage.getItem(HIST_KEY); if (raw) history = cleanHistory(JSON.parse(raw).history); } catch(e){} }
+function queueHistory(){ persistHistoryLocal(); queueDoc('v2-history', {v: 1, history: history}); }
+function addHistory(kind, name, amount, date){
+  history.unshift({id: newId('h'), kind: kind, name: name, amount: round2(amount), date: date});
+  if (history.length > 500) history.length = 500;
+  queueHistory();
 }
 
 /* ---------- stats ---------- */
@@ -1586,7 +1836,7 @@ function confirmBox(o){
     const onOk = () => finish(true), onCancel = () => finish(false), onClose = () => finish(false);
     function finish(v){ ok.removeEventListener('click', onOk); cancel.removeEventListener('click', onCancel); d.removeEventListener('close', onClose); if (d.open) d.close(); res(v); }
     ok.addEventListener('click', onOk); cancel.addEventListener('click', onCancel); d.addEventListener('close', onClose);
-    d.showModal();
+    openDialog(d);
   });
 }
 
@@ -1677,7 +1927,7 @@ function openCell(catId, day){
   $('#clForm').hidden = !c; $('#clErr').textContent = '';
   $('#clAmt').value = ''; $('#clNote').value = '';
   renderCell();
-  $('#dlgCell').showModal();
+  openDialog('#dlgCell');
   if (c) $('#clAmt').focus();
 }
 function renderCell(){
@@ -1734,7 +1984,7 @@ function openEdit(id){
   if (!catById(t.cat)) html += '<option value="' + esc(t.cat) + '">' + esc(t.catName || 'Deleted category') + ' (deleted)</option>';
   $('#eCat').innerHTML = html; $('#eCat').value = t.cat;
   $('#eAmt').value = t.amt; setDate('eDate', t.d); $('#eNote').value = t.note || ''; $('#eErr').textContent = '';
-  $('#dlgEdit').showModal();
+  openDialog('#dlgEdit');
 }
 $('#editForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -1781,7 +2031,7 @@ function openSheetDialog(){
   let ys = ''; for (let i = y - 5; i <= y + 3; i++) ys += '<option value="' + i + '">' + i + '</option>';
   $('#shY').innerHTML = ys;
   $('#shM').value = pad(now.getMonth() + 1); $('#shY').value = String(y);
-  $('#dlgSheet').showModal();
+  openDialog('#dlgSheet');
 }
 $('#sheetForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -1796,7 +2046,7 @@ function openCats(fromChips){
   catFromChips = !!fromChips;
   $('#ncErr').textContent = ''; $('#ncName').value = '';
   renderCats();
-  $('#dlgCats').showModal();
+  openDialog('#dlgCats');
   $('#ncName').focus();
 }
 function renderCats(){
@@ -1998,7 +2248,7 @@ function refreshImport(){
 }
 function openImport(){
   $('#imText').value = ''; $('#imFile').textContent = 'No file chosen'; $('#imFileInput').value = '';
-  fillImportYears(); refreshImport(); $('#dlgImport').showModal();
+  fillImportYears(); refreshImport(); openDialog('#dlgImport');
 }
 $('#imPick').addEventListener('click', () => $('#imFileInput').click());
 $('#imFileInput').addEventListener('change', e => {
@@ -2101,7 +2351,7 @@ function openSettings(){
   $('#verLine').textContent = 'Version ' + APP_VERSION + ' (' + APP_BUILD + ')';
   themeTab = null; showSettingsTab('general');
   $('#bookTitle').value = state.title; renderThemeSeg(); $('#backupNote').textContent = lastExportText(); renderSheetList(); renderBookNote();
-  $('#dlgSettings').showModal();
+  openDialog('#dlgSettings');
 }
 /* ---------- sheets: several expense books, each kept until deleted ---------- */
 const newBookId = () => 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5).replace(/[^a-z0-9]/g, 'x');
@@ -2134,7 +2384,7 @@ function renderBooks(){
       '<button type="button" class="btn danger sm" data-delbook="' + b.id + '"' + (books.length <= 1 ? ' disabled title="You need at least one sheet"' : '') + ' aria-label="Delete ' + esc(b.title) + '">Delete</button></div></div>';
   }).join('');
 }
-function openBooks(){ renderBooks(); $('#dlgBooks').showModal(); }
+function openBooks(){ renderBooks(); openDialog('#dlgBooks'); }
 function suggestBookName(){
   const cy = new Date().getFullYear(); let n = DEFAULT_TITLE + ' ' + cy;
   if (books.some(b => b.title === n)) n = DEFAULT_TITLE + ' ' + (books.length + 1);
@@ -2199,7 +2449,7 @@ function initSettings(){
     if (o) { $('#dlgBooks').close(); if ($('#dlgSettings').open) $('#dlgSettings').close(); switchBook(o.dataset.open); toast('Opened \u201C' + state.title + '\u201D'); return; }
     if (d && !d.disabled) { await deleteBook(d.dataset.delbook); renderBooks(); renderBookNote(); }
   });
-  $('#bkNew').addEventListener('click', () => { $('#nbName').value = suggestBookName(); $('#nbKeep').checked = true; $('#nbErr').textContent = ''; $('#dlgNewBook').showModal(); $('#nbName').select(); });
+  $('#bkNew').addEventListener('click', () => { $('#nbName').value = suggestBookName(); $('#nbKeep').checked = true; $('#nbErr').textContent = ''; openDialog('#dlgNewBook'); $('#nbName').select(); });
   $('#newBookForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = $('#nbName').value.trim();
@@ -2326,7 +2576,7 @@ function openDatePicker(id){
   dp.id = id;
   const p = ($('#' + id).value || todayStr()).split('-').map(Number);
   dp.y = p[0]; dp.m = p[1];
-  renderDp(); $('#dlgDate').showModal();
+  renderDp(); openDialog('#dlgDate');
 }
 function renderDp(){
   const sel = $('#' + dp.id).value, today = todayStr(), ny = new Date().getFullYear();
@@ -2455,21 +2705,44 @@ function setScreen(s){
   $('#screenBook').hidden = s !== 'book';
   $('#screenReserve').hidden = s !== 'reserve';
   Array.prototype.forEach.call(document.querySelectorAll('#screenSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.screen === s)));
-  if (s === 'reserve') { pruneExpiredReserves(); renderReserve(); }
+  if (s === 'reserve') {
+    pruneExpiredReserves(); pruneExpiredCCBills(); applyCCGlow(); runSubscriptionAutoLog();
+    setResTab(ccGlowUrgency() ? 'cc' : resTab);
+    renderReserve(); renderCC();
+  }
 }
 $('#screenSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setScreen(b.dataset.screen); });
 
+/* ---------- set aside: inner tab switcher ---------- */
+let resTab = 'subs';
+function setResTab(t){
+  resTab = t;
+  $('#resPanelSubs').hidden = t !== 'subs';
+  $('#resPanelCC').hidden = t !== 'cc';
+  $('#resPanelHistory').hidden = t !== 'history';
+  Array.prototype.forEach.call(document.querySelectorAll('#resTabSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.restab === t)));
+  if (t === 'history') renderHistory();
+  if (t === 'cc') { markCCUrgencySeen(); applyCCGlow(); }
+}
+$('#resTabSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setResTab(b.dataset.restab); });
+
 /* ---------- set aside: add/edit form ---------- */
 let resEditId = null, resKind = 'sub';
+function updateResLastPayVisibility(){
+  $('#resLastPayRow').hidden = !(resKind === 'sub' && Math.round(Number($('#resEvery').value)) > 1);
+}
 function setResKind(k){
   resKind = k;
   Array.prototype.forEach.call(document.querySelectorAll('#resKindSeg button'), x => x.setAttribute('aria-pressed', String(x.dataset.kind === k)));
   $('#resMonthsRow').hidden = k !== 'emi';
+  $('#resDayRow').hidden = k !== 'sub';
+  updateResLastPayVisibility();
 }
 $('#resKindSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setResKind(b.dataset.kind); });
+$('#resEvery').addEventListener('input', updateResLastPayVisibility);
 function resetResForm(){
   resEditId = null;
-  $('#resName').value = ''; $('#resAmt').value = ''; $('#resEvery').value = '1'; $('#resMonths').value = '';
+  $('#resName').value = ''; $('#resAmt').value = ''; $('#resEvery').value = '1'; $('#resMonths').value = ''; $('#resDay').value = ''; $('#resLastPay').value = '';
   setResKind('sub');
   $('#resErr').textContent = '';
   $('#resFormTitle').textContent = 'Add a subscription or EMI';
@@ -2483,6 +2756,8 @@ function fillResForm(r){
   $('#resEvery').value = String(r.every);
   setResKind(r.kind);
   $('#resMonths').value = r.kind === 'emi' ? String(monthsBetween(curYm(), r.end) + 1) : '';
+  $('#resDay').value = r.day ? String(r.day) : '';
+  $('#resLastPay').value = r.anchor || '';
   $('#resErr').textContent = '';
   $('#resFormTitle').textContent = 'Edit \u201C' + r.name + '\u201D';
   $('#resSubmitBtn').textContent = 'Save changes';
@@ -2505,16 +2780,34 @@ $('#resForm').addEventListener('submit', e => {
     if (!isFinite(months) || months < 1) { err.textContent = 'Enter how many months remain.'; return; }
     end = addMonths(curYm(), months - 1);
   }
-  if (resEditId) {
-    const r = reserves.find(x => x.id === resEditId);
-    if (r) { r.name = name; r.kind = resKind; r.amount = round2(amt); r.every = every; r.end = end; }
+  let day = null;
+  if (resKind === 'sub' && $('#resDay').value.trim()) {
+    day = Math.round(Number($('#resDay').value));
+    if (!isFinite(day) || day < 1 || day > 31) { err.textContent = 'Renewal day must be between 1 and 31.'; return; }
+  }
+  const existing = resEditId ? reserves.find(x => x.id === resEditId) : null;
+  let anchor = null, lastLogged = null;
+  if (day) {
+    const lastPayVal = every > 1 ? $('#resLastPay').value.trim() : '';
+    if (lastPayVal && !/^\d{4}-(0[1-9]|1[0-2])$/.test(lastPayVal)) { err.textContent = 'Enter the last payment month as YYYY-MM, e.g. 2026-08.'; return; }
+    if (lastPayVal) { anchor = lastPayVal; lastLogged = lastPayVal; }
+    else if (existing && existing.anchor) { anchor = existing.anchor; lastLogged = existing.lastLogged; }
+    else { anchor = curYm(); lastLogged = null; }
+  }
+  if (existing) {
+    existing.name = name; existing.kind = resKind; existing.amount = round2(amt); existing.every = every; existing.end = end;
+    existing.day = day; existing.anchor = anchor; existing.lastLogged = lastLogged;
   } else {
-    reserves.push({id: newId('r'), name: name, kind: resKind, amount: round2(amt), every: every, end: end});
+    reserves.push({
+      id: newId('r'), name: name, kind: resKind, amount: round2(amt), every: every, end: end,
+      day: day, anchor: anchor, lastLogged: lastLogged, lastPaid: null
+    });
   }
   queueReserves(); resetResForm(); renderReserve();
 });
 
 /* ---------- set aside: list + delete ---------- */
+function ordinal(n){ const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 function renderReserve(){
   const cur = curYm();
   const subs = reserves.filter(r => r.kind === 'sub').length, emis = reserves.filter(r => r.kind === 'emi').length;
@@ -2527,17 +2820,22 @@ function renderReserve(){
     const every = r.every === 1 ? 'every month' : 'every ' + r.every + ' months';
     let sub = fmt(r.amount) + ' ' + every;
     if (r.kind === 'emi') { const left = monthsBetween(cur, r.end) + 1; sub += ' \u00b7 ' + left + (left === 1 ? ' month left' : ' months left'); }
+    else if (r.day) { sub += ' \u00b7 renews on the ' + ordinal(r.day); }
+    const acts = (r.kind === 'emi' ? '<button type="button" class="icon-btn ok" data-paid="' + esc(r.id) + '" aria-label="Mark ' + esc(r.name) + ' paid">' + CHECK + '</button>' : '') +
+      '<button type="button" class="icon-btn danger" data-del="' + esc(r.id) + '" aria-label="Delete ' + esc(r.name) + '">' + TRASH + '</button>';
     return '<div class="rrow" data-id="' + esc(r.id) + '">' +
       '<div class="rmain" data-open="' + esc(r.id) + '" role="button" tabindex="0">' +
         '<div class="rname"><span>' + esc(r.name) + '</span><span class="rbadge">' + (r.kind === 'emi' ? 'EMI' : 'Subscription') + '</span></div>' +
         '<div class="rsub">' + esc(sub) + '</div>' +
       '</div>' +
       '<div class="ramt">' + fmt(reserveMonthly(r)) + '<span class="rmo">/mo</span></div>' +
-      '<button type="button" class="icon-btn danger" data-del="' + esc(r.id) + '" aria-label="Delete ' + esc(r.name) + '">' + TRASH + '</button>' +
+      '<div class="racts">' + acts + '</div>' +
     '</div>';
   }).join('') : '<div class="emptysheet">Nothing yet. Add your subscriptions and EMIs above.</div>';
 }
 $('#resList').addEventListener('click', e => {
+  const paid = e.target.closest('[data-paid]');
+  if (paid) { markEmiPaid(paid.dataset.paid); return; }
   const del = e.target.closest('[data-del]');
   if (del) { deleteReserve(del.dataset.del); return; }
   const open = e.target.closest('[data-open]');
@@ -2546,6 +2844,25 @@ $('#resList').addEventListener('click', e => {
 $('#resList').addEventListener('keydown', e => {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-open]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles: true})); }
 });
+async function markEmiPaid(id){
+  const r = reserves.find(x => x.id === id && x.kind === 'emi'); if (!r) return;
+  const cur = curYm(), already = r.lastPaid === cur;
+  const ok = await confirmBox({
+    title: 'Mark \u201C' + r.name + '\u201D as paid?',
+    body: already ? 'You already logged this EMI\u2019s payment for this month. Log it again?' : 'This adds ' + fmt(r.amount) + ' to your ledger under EMIs.',
+    ok: 'Log payment'
+  });
+  if (!ok) return;
+  const cat = ensureAutoCategory('emiCategoryId', 'EMIs');
+  const d = todayStr(), ym = d.slice(0, 7), m = ensureMonth(ym, false);
+  m.txns.push({id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: r.amount, note: r.name});
+  touch(ym);
+  r.lastPaid = cur;
+  addHistory('emi', r.name, r.amount, d);
+  queueReserves(); render(); renderReserve();
+  if (resTab === 'history') renderHistory();
+  toast(r.name + ' ' + fmt(r.amount) + ' added to your ledger');
+}
 async function deleteReserve(id){
   const r = reserves.find(x => x.id === id); if (!r) return;
   const ok = await confirmBox({title: 'Delete \u201C' + r.name + '\u201D?', body: 'This removes it from your Set Aside total.', ok: 'Delete'});
@@ -2555,15 +2872,240 @@ async function deleteReserve(id){
   queueReserves(); renderReserve();
 }
 
+/* ---------- set aside: card picker (chips) + manage-cards dialog ---------- */
+let ccSelectedCardId = null;
+function renderCardChips(){
+  $('#cardChips').innerHTML = cards.map(k =>
+    '<button type="button" class="chip" data-id="' + esc(k.id) + '" aria-pressed="' + (ccSelectedCardId === k.id) + '">' + esc(k.name) + '</button>'
+  ).join('') + '<button type="button" class="chip new" data-act="newcard">+ New card</button>';
+}
+$('#cardChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.act === 'newcard') { openCards(true); return; }
+  ccSelectedCardId = ccSelectedCardId === b.dataset.id ? null : b.dataset.id;
+  renderCardChips();
+});
+let cardFromChips = false;
+function openCards(fromChips){
+  cardFromChips = !!fromChips;
+  $('#ncCardErr').textContent = ''; $('#ncCardName').value = '';
+  renderCardList();
+  openDialog('#dlgCards');
+  $('#ncCardName').focus();
+}
+function renderCardList(){
+  $('#cardList').innerHTML = cards.length ? cards.map(k =>
+    '<div class="rrow" data-id="' + esc(k.id) + '"><div class="rmain"><div class="rname"><span>' + esc(k.name) + '</span></div></div>' +
+    '<button type="button" class="icon-btn danger" data-del="' + esc(k.id) + '" aria-label="Delete ' + esc(k.name) + '">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">No cards yet.</p>';
+}
+$('#newCardForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#ncCardName').value.trim(), err = $('#ncCardErr'); err.textContent = '';
+  if (!name) { err.textContent = 'Enter a card name.'; return; }
+  if (cards.some(k => k.name.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have a card called \u201C' + name + '\u201D.'; return; }
+  const k = {id: newId('k'), name: name};
+  cards.push(k); queueCards();
+  $('#ncCardName').value = '';
+  if (cardFromChips) { ccSelectedCardId = k.id; $('#dlgCards').close(); renderCardChips(); }
+  else { renderCardList(); $('#ncCardName').focus(); }
+});
+$('#cardList').addEventListener('click', e => { const del = e.target.closest('[data-del]'); if (del) deleteCard(del.dataset.del); });
+async function deleteCard(id){
+  const k = cardById(id); if (!k) return;
+  const inUse = ccbills.some(c => c.cardId === id);
+  const ok = await confirmBox({
+    title: 'Delete \u201C' + k.name + '\u201D?',
+    body: inUse ? 'Any current bills for this card keep showing its name, but you won\u2019t be able to pick it for new ones.' : 'You can add it again any time.',
+    ok: 'Delete card'
+  });
+  if (!ok) return;
+  cards = cards.filter(x => x.id !== id);
+  if (ccSelectedCardId === id) ccSelectedCardId = null;
+  queueCards(); renderCardList(); renderCardChips();
+}
+
+/* ---------- set aside: CC Bills add/edit form ---------- */
+let ccEditId = null, ccYearTouched = false;
+function ccAutoYear(){
+  const day = parseInt($('#ccDueDay').value, 10), month = parseInt($('#ccDueMonth').value, 10);
+  if (!day || !month) return;
+  const t = todayStr().split('-').map(Number), curY = t[0], curM = t[1], curD = t[2];
+  const y = (month > curM || (month === curM && day >= curD)) ? curY : curY + 1;
+  if (!ccYearTouched) $('#ccDueYear').value = String(y);
+}
+$('#ccDueDay').addEventListener('input', ccAutoYear);
+$('#ccDueMonth').addEventListener('change', ccAutoYear);
+$('#ccDueYear').addEventListener('input', () => { ccYearTouched = true; });
+function resetCCForm(){
+  ccEditId = null; ccSelectedCardId = null; ccYearTouched = false;
+  renderCardChips();
+  $('#ccAmt').value = ''; $('#ccDueDay').value = ''; $('#ccDueMonth').value = ''; $('#ccDueYear').value = '';
+  $('#ccErr').textContent = '';
+  $('#ccFormTitle').textContent = 'Add a credit card bill';
+  $('#ccSubmitBtn').textContent = 'Add';
+  $('#ccCancelEdit').hidden = true;
+}
+function fillCCForm(c){
+  ccEditId = c.id; ccSelectedCardId = c.cardId; ccYearTouched = true;
+  renderCardChips();
+  $('#ccAmt').value = fmtN(c.amount);
+  const p = c.due.split('-').map(Number);
+  $('#ccDueYear').value = String(p[0]); $('#ccDueMonth').value = String(p[1]); $('#ccDueDay').value = String(p[2]);
+  $('#ccErr').textContent = '';
+  $('#ccFormTitle').textContent = 'Edit \u201C' + c.card + '\u201D';
+  $('#ccSubmitBtn').textContent = 'Save changes';
+  $('#ccCancelEdit').hidden = false;
+}
+$('#ccCancelEdit').addEventListener('click', resetCCForm);
+$('#ccForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = $('#ccErr'); err.textContent = '';
+  const card = cardById(ccSelectedCardId);
+  if (!card) { err.textContent = 'Pick a card.'; return; }
+  const amt = parseAmount($('#ccAmt').value);
+  if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter a valid amount.'; return; }
+  const day = parseInt($('#ccDueDay').value, 10), month = parseInt($('#ccDueMonth').value, 10), year = parseInt($('#ccDueYear').value, 10);
+  if (!day || !month || !year) { err.textContent = 'Enter the due date.'; return; }
+  const dt = new Date(year, month - 1, day);
+  if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) { err.textContent = 'That date doesn\u2019t exist.'; return; }
+  const due = year + '-' + pad(month) + '-' + pad(day);
+  if (ccEditId) {
+    const c = ccbills.find(x => x.id === ccEditId);
+    if (c) { if (c.due !== due) { c.seenOn = null; ccSeenSession.delete(c.id); } c.cardId = card.id; c.card = card.name; c.amount = round2(amt); c.due = due; }
+  } else {
+    ccbills.push({id: newId('c'), cardId: card.id, card: card.name, amount: round2(amt), due: due, seenOn: null});
+  }
+  queueCC(); resetCCForm(); renderCC(); markCCUrgencySeen(); applyCCGlow();
+});
+
+/* ---------- set aside: CC Bills list + mark paid + delete ---------- */
+function renderCC(){
+  $('#ccList').innerHTML = ccbills.length ? ccbills.slice().sort((a, b) => a.due < b.due ? -1 : 1).map(c => {
+    const u = ccUrgency(c.due);
+    return '<div class="rrow' + (u ? ' due-' + u : '') + '" data-id="' + esc(c.id) + '">' +
+      '<div class="rmain" data-open="' + esc(c.id) + '" role="button" tabindex="0">' +
+        '<div class="rname"><span>' + esc(c.card) + '</span></div>' +
+        '<div class="rsub">' + esc(ccDueLabel(c.due)) + '</div>' +
+      '</div>' +
+      '<div class="ramt">' + fmt(c.amount) + '</div>' +
+      '<div class="racts">' +
+        '<button type="button" class="icon-btn ok" data-paid="' + esc(c.id) + '" aria-label="Mark ' + esc(c.card) + ' paid">' + CHECK + '</button>' +
+        '<button type="button" class="icon-btn danger" data-del="' + esc(c.id) + '" aria-label="Delete ' + esc(c.card) + '">' + TRASH + '</button>' +
+      '</div>' +
+    '</div>';
+  }).join('') : '<div class="emptysheet">No card bills right now. Add one above and I\u2019ll flag it as the due date gets close.</div>';
+}
+$('#ccList').addEventListener('click', e => {
+  const paid = e.target.closest('[data-paid]');
+  if (paid) { markCCPaid(paid.dataset.paid); return; }
+  const del = e.target.closest('[data-del]');
+  if (del) { deleteCCBill(del.dataset.del); return; }
+  const open = e.target.closest('[data-open]');
+  if (open) { const c = ccbills.find(x => x.id === open.dataset.open); if (c) fillCCForm(c); }
+});
+$('#ccList').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-open]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles: true})); }
+});
+async function markCCPaid(id){
+  const c = ccbills.find(x => x.id === id); if (!c) return;
+  const ok = await confirmBox({title: 'Mark \u201C' + c.card + '\u201D as paid?', body: 'This removes it from your CC Bills list and logs it in History.', ok: 'Mark paid'});
+  if (!ok) return;
+  addHistory('cc', c.card, c.amount, todayStr());
+  ccbills = ccbills.filter(x => x.id !== id);
+  if (ccEditId === id) resetCCForm();
+  queueCC(); renderCC(); applyCCGlow();
+  if (resTab === 'history') renderHistory();
+}
+async function deleteCCBill(id){
+  const c = ccbills.find(x => x.id === id); if (!c) return;
+  const ok = await confirmBox({title: 'Delete \u201C' + c.card + '\u201D?', body: 'This removes this reminder.', ok: 'Delete'});
+  if (!ok) return;
+  ccbills = ccbills.filter(x => x.id !== id);
+  if (ccEditId === id) resetCCForm();
+  queueCC(); renderCC(); applyCCGlow();
+}
+
+/* ---------- set aside: payment history tab ---------- */
+const HIST_LABEL = {sub: 'Subscription', emi: 'EMI', cc: 'CC Bill'};
+function historyDateLabel(d){ const p = d.split('-').map(Number); return p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3) + ' ' + p[0]; }
+function renderHistory(){
+  $('#historyList').innerHTML = history.length ? history.map(h =>
+    '<div class="rrow" data-id="' + esc(h.id) + '">' +
+      '<div class="rmain"><div class="rname"><span>' + esc(h.name) + '</span><span class="rbadge">' + esc(HIST_LABEL[h.kind] || h.kind) + '</span></div>' +
+      '<div class="rsub">' + esc(historyDateLabel(h.date)) + '</div></div>' +
+      '<div class="ramt">' + fmt(h.amount) + '</div>' +
+      '<button type="button" class="icon-btn danger" data-del="' + esc(h.id) + '" aria-label="Remove this history entry">' + TRASH + '</button>' +
+    '</div>'
+  ).join('') : '<div class="emptysheet">No payments logged yet. Subscription renewals, and EMIs or CC bills you mark as paid, will show up here.</div>';
+}
+$('#historyList').addEventListener('click', e => { const del = e.target.closest('[data-del]'); if (del) deleteHistoryEntry(del.dataset.del); });
+async function deleteHistoryEntry(id){
+  const h = history.find(x => x.id === id); if (!h) return;
+  const ok = await confirmBox({title: 'Remove this history entry?', body: 'This only removes the record here \u2014 it won\u2019t change your ledger.', ok: 'Remove'});
+  if (!ok) return;
+  history = history.filter(x => x.id !== id);
+  queueHistory(); renderHistory();
+}
+
+/* ---------- set aside: auto-log subscription renewals to the ledger ---------- */
+function runSubscriptionAutoLog(){
+  const logged = [];
+  reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).forEach(r => {
+    const due = pendingRenewal(r);
+    if (!due) return;
+    const cat = ensureAutoCategory('subsCategoryId', 'Subscriptions');
+    const d = renewalDateStr(due, r.day), ym = d.slice(0, 7), m = ensureMonth(ym, false);
+    m.txns.push({id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: r.amount, note: r.name});
+    touch(ym);
+    r.lastLogged = due;
+    addHistory('sub', r.name, r.amount, d);
+    logged.push(r.name + ' ' + fmt(r.amount));
+  });
+  if (logged.length) {
+    queueReserves(); render();
+    if (screen === 'reserve') { renderReserve(); renderHistory(); }
+    toast(logged.length === 1 ? logged[0] + ' added to your ledger' : logged.length + ' subscriptions added to your ledger');
+  }
+}
+
+/* ---------- returning to the app counts as opening it again ---------- */
+function onAppReopened(){
+  ccSeenSession.clear();
+  pruneExpiredCCBills();
+  runSubscriptionAutoLog();
+  if (screen === 'reserve' && resTab === 'cc') { renderCC(); markCCUrgencySeen(); }
+  applyCCGlow();
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') onAppReopened(); });
+window.addEventListener('appresume', onAppReopened);   // fired by the Android app wrapper when it returns to the foreground
+
 /* ---------- start ---------- */
+(function(){
+  const backdrop = $('#modalBackdrop');
+  const dialogs = Array.prototype.slice.call(document.querySelectorAll('dialog'));
+  if (!backdrop || !dialogs.length) return;
+  function sync(){ backdrop.hidden = !dialogs.some(d => d.hasAttribute('open')); }
+  const mo = new MutationObserver(sync);
+  dialogs.forEach(d => mo.observe(d, {attributes: true, attributeFilter: ['open']}));
+  sync();
+})();
 loadLocal();
 loadReserves();
 pruneExpiredReserves();
+loadCards();
+loadCCBills();
+pruneExpiredCCBills();
+loadHistory();
+$('#ccDueMonth').innerHTML = '<option value="">Month</option>' + MONTHS.map((m, i) => '<option value="' + (i + 1) + '">' + m.slice(0, 3) + '</option>').join('');
+renderCardChips();
+applyCCGlow();
 migrateV1Local();
 initMath();
 initDatePicker();
 ensureMonth(view.ym, false);
 setDateDefault();
+runSubscriptionAutoLog();
 render();
 setStatus('local');
 initSettings();
