@@ -1009,8 +1009,10 @@ html{scroll-padding-bottom:76px}
   <div class="dh"><h2 id="upTitle">Mark paid</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
   <form id="utilPayForm" class="db" novalidate>
     <div id="upSum"></div>
+    <label id="upActualRow" hidden>Actual bill amount <div class="money"><span>₹</span><input id="upActual" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+    <p class="muted" id="upDiff" hidden style="margin:0;font-size:13px"></p>
     <label>Payment date <input type="date" id="upDate"></label>
-    <p class="muted" style="margin:0;font-size:13px">It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.</p>
+    <p class="muted" id="upNote" style="margin:0;font-size:13px">It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.</p>
     <div class="err" id="upErr" role="alert"></div>
     <div class="incact"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Mark paid</button></div>
   </form>
@@ -1179,7 +1181,7 @@ function openDialog(el){
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9.1', APP_BUILD = '2 Oct 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9.3', APP_BUILD = '2 Oct 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1324,15 +1326,36 @@ function loggedFor(r, ym){   // what this subscription / EMI has already put int
 }
 const reserveActive = (r, ym) => r.kind === 'emi' ? r.end >= ym : (!r.anchor || r.anchor <= ym);
 const heldSubsEmis = ym => round2(reserves.filter(r => reserveActive(r, ym)).reduce((n, r) => n + Math.max(0, reserveMonthly(r) - loggedFor(r, ym)), 0));
-const billsDueFor = ym => round2(ccbills.filter(c => c.due <= monthEnd(ym)).reduce((n, c) => n + c.amount, 0));   // overdue ones carry on until paid
+/* ---------- salary cycle: bills "this month" run from one salary credit day to the day before the next ---------- */
+function dayShift(ds, n){ const p = ds.split('-').map(Number), d = new Date(Date.UTC(p[0], p[1] - 1, p[2] + n)); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); }
+function salaryDated(ym){ const x = monthIncomeList(ym).find(i => isSalary(i.name) && i.date); return x ? x.date : null; }
+function salaryDay(){   // day of the month your salary credits: taken from the nearest sheet that has a dated Salary
+  const cur = curYm(), keys = Object.keys(state.months).filter(k => salaryDated(k)).sort();
+  if (!keys.length) return 0;
+  const before = keys.filter(k => k <= cur), k = before.length ? before[before.length - 1] : keys[0];
+  return +salaryDated(k).slice(8, 10);
+}
+function creditFor(ym){ const d = salaryDated(ym); if (d) return d; const D = salaryDay(); return D ? renewalDateStr(ym, D) : null; }
+function cycle(){   // start/end of the cycle that today sits in, and the end of the one after it
+  const today = todayStr(), cur = today.slice(0, 7), D = salaryDay();
+  if (!D) return {start: cur + '-01', end: monthEnd(cur), nextEnd: monthEnd(addMonths(cur, 1)), salary: false};   // no salary date yet: plain calendar month
+  const c0 = creditFor(cur);
+  let start, end;
+  if (c0 > today) { start = creditFor(addMonths(cur, -1)); end = dayShift(c0, -1); }
+  else { start = c0; end = dayShift(creditFor(addMonths(cur, 1)), -1); }
+  const nym = dayShift(end, 1).slice(0, 7);
+  return {start: start, end: end, nextEnd: dayShift(creditFor(addMonths(nym, 1)), -1), salary: true};
+}
+const billsDueFor = ym => { const e = cycle().end; return round2(ccbills.filter(c => c.due <= e).reduce((n, c) => n + c.amount, 0)); };   // due before your next salary; overdue ones carry on until paid
 const billsPaidIn = (ym, kinds) => round2(history.filter(h => kinds.indexOf(h.kind) >= 0 && h.date && h.date.slice(0, 7) === ym).reduce((n, h) => n + h.amount, 0));
-const heldBills = ym => round2(billsDueFor(ym) + billsPaidIn(ym, ['cc', 'borrow', 'other']));   // paid utilities are already in the ledger
+const billsPaidCycle = kinds => { const st = cycle().start; return round2(history.filter(h => kinds.indexOf(h.kind) >= 0 && h.date && h.date >= st).reduce((n, h) => n + h.amount, 0)); };   // paid since this cycle began
+const heldBills = ym => round2(billsDueFor(ym) + billsPaidCycle(['cc', 'borrow', 'other']));   // paid utilities are already in the ledger
 const billsApply = ym => ym >= curYm();   // what is set aside is held back from now on, never in past months
 const heldBack = ym => billsApply(ym) ? round2(heldSubsEmis(ym) + heldBills(ym)) : 0;
 const leftNet = ym => round2(leftFor(ym) - heldBack(ym));
 const isCB = c => c.kind === 'card' || c.kind === 'borrow';
 // card and borrowed money held back in Left (due by month end, or paid this month) is already in the ledger, so cash view gives it back
-const cashBack = ym => round2(ccbills.filter(c => isCB(c) && c.due <= monthEnd(ym)).reduce((n, c) => n + c.amount, 0) + billsPaidIn(ym, ['cc', 'borrow']));
+const cashBack = ym => { const e = cycle().end; return round2(ccbills.filter(c => isCB(c) && c.due <= e).reduce((n, c) => n + c.amount, 0) + billsPaidCycle(['cc', 'borrow'])); };
 // ...and every unpaid card / borrowing bill, in any later month too, is cash you still hold
 const cashFor = ym => round2(leftNet(ym) + cashBack(ym) + duesTotal());
 const leftShown = ym => cashActive(ym) ? cashFor(ym) : leftNet(ym);
@@ -1348,7 +1371,7 @@ function setAsidePending(){   // not in the ledger yet, so it has not reduced Le
 const billsDueAll = () => round2(billsDueFor(curYm()) + setAsidePending().total);
 function dueNextMonth(){   // bills dated next month, subscriptions renewing next month, EMIs falling due next month
   const cur = curYm(), nm = addMonths(cur, 1), eomCur = monthEnd(cur), eomNext = monthEnd(nm);
-  const bills = ccbills.filter(c => c.due > eomCur && c.due <= eomNext).reduce((n, c) => n + c.amount, 0);
+  const cy = cycle(), bills = ccbills.filter(c => c.due > cy.end && c.due <= cy.nextEnd).reduce((n, c) => n + c.amount, 0);
   const subs = reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).reduce((n, r) => {
     let ym = r.anchor; while (ym < nm) ym = addMonths(ym, r.every);
     return ym === nm ? n + r.amount : n;
@@ -1675,6 +1698,14 @@ function persistCardsLocal(){ try { localStorage.setItem(CARD_KEY, JSON.stringif
 function loadCards(){ try { const raw = localStorage.getItem(CARD_KEY); if (raw) cards = cleanCards(JSON.parse(raw).cards); } catch(e){} }
 function queueCards(){ persistCardsLocal(); queueDoc('v2-cards', {v: 1, cards: cards}); }
 function cardById(id){ return cards.find(k => k.id === id); }
+const ELEC_ID = 'd-electricity';
+const isElectricity = c => !!c && (c.cardId === ELEC_ID || String(c.card || c.name || '').trim().toLowerCase() === 'electricity');   // asks for the actual amount when paid
+function seedElectricity(){   // Electricity arrives as a ready-made Utility entry, once; deleting it later sticks
+  let done = false; try { done = localStorage.getItem(LS + 'seedElec') === '1'; } catch(e){}
+  if (done) return;
+  try { localStorage.setItem(LS + 'seedElec', '1'); } catch(e){}
+  if (!cards.some(k => k.name.trim().toLowerCase() === 'electricity')) { cards.push({id: ELEC_ID, name: 'Electricity', kind: 'utility', note: ''}); queueCards(); }
+}
 
 /* ---------- set aside: credit card bills, global across every sheet ---------- */
 const CC_KEY = LS + 'ccbills';
@@ -1764,6 +1795,7 @@ function cleanHistory(list){
       if (/^\d{4}-\d{2}-\d{2}$/.test(String(h.due || ''))) o.due = h.due;
       if (/^\d{4}-\d{2}$/.test(String(h.txnYm || '')) && h.txnId) { o.txnYm = h.txnYm; o.txnId = String(h.txnId); }
       if (/^\d{4}-\d{2}-\d{2}$/.test(String(h.prevDue || ''))) o.prevDue = h.prevDue;
+      if (isFinite(Number(h.planned)) && Number(h.planned) > 0) o.planned = round2(Number(h.planned));
       return o;
     })
     .filter(h => h.name && h.amount > 0 && h.date);
@@ -3194,7 +3226,7 @@ $('#resForm').addEventListener('submit', e => {
 function ordinal(n){ const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 function renderResStats(){
   const subs = reserves.filter(r => r.kind === 'sub').length, emis = reserves.filter(r => r.kind === 'emi').length, cur = curYm();
-  const total = round2(reserves.reduce((n, r) => n + reserveMonthly(r), 0) + billsDueFor(cur) + billsPaidIn(cur, BILL_HIST));
+  const total = round2(reserves.reduce((n, r) => n + reserveMonthly(r), 0) + billsDueFor(cur) + billsPaidCycle(BILL_HIST));
   $('#resStats').innerHTML =
     '<div class="mainrow"><div class="st main"><span>Set aside monthly</span><b>' + fmt(total) + '</b></div>' +
     '<div class="incbox"><button type="button" class="incrow" id="btnBillsDue" aria-label="Bills due this month, open Bills"><span>Bills due this month</span><b>' + fmt(billsDueAll()) + '</b></button>' +
@@ -3311,7 +3343,7 @@ $('#newCardForm').addEventListener('submit', e => {
   cards.push(k); queueCards();
   $('#ncCardName').value = ''; $('#ncNote').value = '';
   if (cardFromChips) { ccSelectedCardId = k.id; $('#dlgCats').close(); renderCardChips(); }
-  else { renderCardList(); $('#ncCardName').focus(); }
+  else { renderCardList(); renderCardChips(); $('#ncCardName').focus(); }
 });
 $('#cardList').addEventListener('click', e => { const del = e.target.closest('[data-del]'); if (del) deleteCard(del.dataset.del); });
 async function deleteCard(id){
@@ -3433,6 +3465,7 @@ function renderLeft(){
   }
   const pend = monthIncomeList(ym).filter(salaryPending);
   if (pend.length) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">Salary of ' + fmt(round2(pend.reduce((n, x) => n + x.amt, 0))) + ' is not counted yet. It joins Left on ' + dayMonthLabel(pend.map(x => x.date).sort()[0]) + ', its credit day.</p>';
+  if (hb > 0 && cycle().salary) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">Bills held back are the ones due up to ' + dayMonthLabel(cycle().end) + ', the day before your next salary.</p>';
   if (hs + hb > 0) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">The full Set Aside amount is held back. When something is paid, it moves into Spent and Left stays the same.</p>';
   $('#lfTitle').textContent = 'Left \u00B7 ' + ymLabel(ym);
   $('#lfSum').innerHTML = h;
@@ -3630,11 +3663,28 @@ function utilCategory(){
 function openUtilPay(c){
   utilPayId = c.id;
   $('#upTitle').textContent = 'Mark \u201C' + c.card + '\u201D paid';
-  $('#upSum').innerHTML = '<div class="kv"><span>Amount</span><b>' + fmt(c.amount) + '</b></div>';
+  const el = isElectricity(c);
+  $('#upSum').innerHTML = '<div class="kv"><span>' + (el ? 'Set aside' : 'Amount') + '</span><b>' + fmt(c.amount) + '</b></div>';
+  $('#upActualRow').hidden = !el; $('#upActual').value = '';
+  $('#upNote').textContent = el ? 'Enter what the bill actually came to. That amount is added to your ledger under Utilities on that date, and Left adjusts by the difference from what you set aside. A utility can be marked paid once a month.' : 'It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.';
+  updateUpDiff();
   $('#upDate').value = todayStr(); $('#upDate').max = todayStr();
   $('#upErr').textContent = '';
   openDialog('#dlgUtilPay');
 }
+function updateUpDiff(){   // live line: what the actual amount does to Left
+  const c = ccbills.find(x => x.id === utilPayId), p = $('#upDiff');
+  if (!c || $('#upActualRow').hidden) { p.hidden = true; return; }
+  const v = parseAmount($('#upActual').value);
+  if (!isFinite(v) || v <= 0) { p.hidden = true; return; }
+  const held = c.due <= cycle().end, d = round2(v - c.amount);
+  p.hidden = false;
+  p.textContent = !held ? 'This bill is not set aside in Left yet, so ' + fmt(v) + ' comes out of Left now.'
+    : d < 0 ? fmt(-d) + ' less than you set aside, so ' + fmt(-d) + ' goes back into Left.'
+    : d > 0 ? fmt(d) + ' more than you set aside, so ' + fmt(d) + ' more comes out of Left.'
+    : 'Same as you set aside. Left stays as it is.';
+}
+$('#upActual').addEventListener('input', updateUpDiff);
 $('#utilPayForm').addEventListener('submit', e => {
   e.preventDefault();
   const c = ccbills.find(x => x.id === utilPayId), err = $('#upErr'); err.textContent = ''; if (!c) return;
@@ -3642,12 +3692,15 @@ $('#utilPayForm').addEventListener('submit', e => {
   const okDate = pm && (() => { const t = new Date(+pm[1], +pm[2] - 1, +pm[3]); return t.getFullYear() === +pm[1] && t.getMonth() === +pm[2] - 1 && t.getDate() === +pm[3]; })();
   if (!okDate) { err.textContent = 'Pick the payment date.'; return; }
   if (d > todayStr()) { err.textContent = 'The payment date can\u2019t be in the future.'; return; }
+  const el = isElectricity(c), wasHeld = c.due <= cycle().end;
+  let amt = c.amount;
+  if (el) { amt = parseAmount($('#upActual').value); if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter the actual bill amount.'; return; } amt = round2(amt); }
   const ym = d.slice(0, 7), entryId = c.cardId || c.id;
   if (utilPaidIn(entryId, ym)) { err.textContent = '\u201C' + c.card + '\u201D is already marked paid for ' + ymLabel(ym) + '. Remove that payment in History first if you want to register it on another day.'; return; }
-  const cat = utilCategory(), m = ensureMonth(ym, false), txn = {id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: c.amount, note: c.card};
+  const cat = utilCategory(), m = ensureMonth(ym, false), txn = {id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: amt, note: c.card};
   m.txns.push(txn); touch(ym);
   const prevDue = c.due, day = c.day || +c.due.slice(8, 10), rp = c.repeat === undefined ? 1 : c.repeat;
-  addHistory('util', c.card, c.amount, d, {entryId: entryId, txnYm: ym, txnId: txn.id, prevDue: prevDue, due: prevDue});
+  addHistory('util', c.card, amt, d, Object.assign({entryId: entryId, txnYm: ym, txnId: txn.id, prevDue: prevDue, due: prevDue}, el && amt !== c.amount ? {planned: c.amount} : {}));
   if (rp > 0) {   // a repeating bill comes back with its next due date, the paid one is in History
     let nd = renewalDateStr(addMonths(c.due.slice(0, 7), rp), day);
     while (nd <= todayStr()) nd = renewalDateStr(addMonths(nd.slice(0, 7), rp), day);
@@ -3659,7 +3712,8 @@ $('#utilPayForm').addEventListener('submit', e => {
   $('#dlgUtilPay').close();
   queueCC(); render(); renderCC(); applyCCGlow();
   if (resTab === 'history') renderHistory();
-  toast(c.card + ' ' + fmt(c.amount) + ' added to your ledger');
+  const df = round2(amt - c.amount);
+  toast(c.card + ' ' + fmt(amt) + ' added to your ledger' + (el && wasHeld && df < 0 ? '. Left up by ' + fmt(-df) : el && wasHeld && df > 0 ? '. Left down by ' + fmt(df) : ''));
 });
 async function deleteCCBill(id){
   const c = ccbills.find(x => x.id === id); if (!c) return;
@@ -3677,7 +3731,8 @@ function renderHistory(){
   $('#historyList').innerHTML = history.length ? history.map(h =>
     '<div class="rrow" data-id="' + esc(h.id) + '">' +
       '<div class="rmain"><div class="rname"><span>' + esc(h.name) + '</span><span class="rbadge">' + esc(HIST_LABEL[h.kind] || h.kind) + '</span></div>' +
-      '<div class="rsub">' + (h.due ? 'Due ' + esc(historyDateLabel(h.due)) + ' \u00b7 Paid ' + esc(historyDateLabel(h.date)) : esc(historyDateLabel(h.date))) + '</div></div>' +
+      '<div class="rsub">' + (h.due ? 'Due ' + esc(historyDateLabel(h.due)) + ' \u00b7 Paid ' + esc(historyDateLabel(h.date)) : esc(historyDateLabel(h.date))) + '</div>' +
+      (h.planned && h.planned !== h.amount ? '<div class="rsub">Set aside ' + fmt(h.planned) + '</div>' : '') + '</div>' +
       '<div class="ramt">' + fmt(h.amount) + '</div>' +
       '<button type="button" class="icon-btn danger" data-del="' + esc(h.id) + '" aria-label="Remove this history entry">' + TRASH + '</button>' +
     '</div>'
@@ -3690,7 +3745,7 @@ function restoreUtilityBill(h, noCreate){   // noCreate: used when sweeping a de
   if (b) { if (b.due > h.prevDue) { b.due = h.prevDue; b.seenOn = null; ccSeenSession.delete(b.id); queueCC(); } return; }
   if (noCreate) return;
   const ent = cardById(h.entryId);
-  ccbills.push({id: newId('c'), cardId: h.entryId, card: ent ? ent.name : h.name, kind: 'utility', amount: h.amount, due: h.prevDue, day: +h.prevDue.slice(8, 10), repeat: 0, seenOn: null});
+  ccbills.push({id: newId('c'), cardId: h.entryId, card: ent ? ent.name : h.name, kind: 'utility', amount: h.planned || h.amount, due: h.prevDue, day: +h.prevDue.slice(8, 10), repeat: 0, seenOn: null});
   queueCC();
 }
 async function deleteHistoryEntry(id){
@@ -3756,6 +3811,7 @@ loadLocal();
 loadReserves();
 pruneExpiredReserves();
 loadCards();
+seedElectricity();
 loadCCBills();
 pruneExpiredCCBills();
 loadHistory();
