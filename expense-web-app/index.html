@@ -190,6 +190,18 @@ h1{font:700 clamp(36px,6.5vw,58px)/1.02 var(--display);letter-spacing:-.025em;ma
 .st span{display:block;font-size:13px;color:var(--band-ink-2)}
 .st b{font:600 18px/1.35 var(--body)}
 .st.main b{font:700 34px/1.12 var(--display);color:var(--gold)}
+.mainrow{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 18px}
+.incbox{display:grid;justify-items:end;gap:1px;margin:0 0 3px auto}
+.incrow{display:inline-flex;align-items:baseline;gap:8px;min-height:0;padding:2px 0;border:0;background:none;color:var(--band-ink);font:inherit}
+.incrow span{font-size:13px;color:var(--band-ink-2)}
+.incrow b{font:600 16px/1.35 var(--body);border-bottom:1px dotted color-mix(in srgb,var(--band-ink) 40%,transparent)}
+.incrow:hover b{border-bottom-color:currentColor}
+.incrow.neg b{color:#FF8272}
+.incadd{min-height:0;padding:5px 12px;border:1px dashed color-mix(in srgb,var(--band-ink) 38%,transparent);border-radius:999px;background:none;color:var(--band-ink-2);font-size:13px}
+.incadd:hover{color:var(--band-ink);border-color:var(--band-ink)}
+.stbtn{cursor:pointer}
+.stbtn span::after{content:" \203A";opacity:.6}
+.stbtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
 
 /* ---------- buttons & fields ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
@@ -289,6 +301,45 @@ dialog::backdrop{background:rgba(8,10,30,.6)}
 .dh h2{margin:0;font:600 17px var(--body)}
 .dh p{margin:0;font-size:13px}
 .db{padding:16px 18px;display:grid;gap:12px}
+#incForm{display:grid;gap:12px}
+.incchips{display:flex;flex-wrap:wrap;gap:6px}
+.incchips .chip{min-height:34px;padding:0 12px;font-size:14px}
+.incact{display:flex;justify-content:flex-end;gap:8px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:5px 0}
+.kv span{color:var(--ink-2)}
+.kv b{font-weight:600}
+.kv.sub{border-top:1px solid var(--line);margin-top:4px;padding-top:8px}
+.kv.big{border-top:1px solid var(--line);margin-top:4px;padding-top:10px}
+.kv.big b{font:700 22px/1.2 var(--display)}
+.kv.neg b{color:var(--neg)}
+.stlh{margin:6px 0 0;font:600 13px var(--body);color:var(--ink-2)}
+.stlbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rmain.static{cursor:default}
+.rmain.static:hover{background:none}
+dialog .rrow .icon-btn{width:40px;height:40px;display:inline-grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink-2)}
+dialog .rrow .icon-btn.danger{color:var(--neg)}
+.chip small{font-size:11px;color:var(--ink-2)}
+.srcchip{padding:0 2px 0 12px;gap:0}
+.srcchip .srcb{border:0;background:none;padding:0;min-height:34px}
+.srcchip .srcx{border:0;background:none;padding:0 10px;min-height:34px;color:var(--ink-2);font-size:18px;line-height:1}
+.chkrow{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2);cursor:pointer}
+.chkrow input{width:20px;height:20px;accent-color:var(--primary);flex:none}
+.chkrow .ckt{flex:1;min-width:0}
+.chkrow .ckt small{display:block;color:var(--ink-2);font-size:13px}
+.dsbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.linkbtn{border:0;background:none;color:var(--primary);min-height:0;padding:4px 0;font-size:14px;text-decoration:underline}
+.dssec{margin-top:4px}
+.ctsec{display:grid;gap:12px}
+.ctsec[hidden]{display:none}
+#catTabs button{padding:0 4px;font-size:13px;flex:1}
+.crow .cname{flex:1;min-width:0}
+.dssec .stlh{display:flex;justify-content:space-between;align-items:center}
+.paidmark{display:inline-grid;place-items:center;width:40px;height:40px;color:var(--pos)}
+.swrow{display:flex;gap:12px;align-items:flex-start;margin-top:6px;padding-top:12px;border-top:1px solid var(--line);cursor:pointer}
+.swrow input{margin-top:3px;width:20px;height:20px;accent-color:var(--primary);flex:none}
+.swrow small{display:block;color:var(--ink-2);font-weight:400;font-size:13px}
+#adjRemove{color:var(--neg);margin-right:auto}
+#ncKindSeg button{padding:0 6px;font-size:14px}
 .df{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line)}
 .df .left{margin-right:auto}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -364,6 +415,9 @@ input,select,textarea{font-size:16px}
 .pd-name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pd-amt{font:700 26px/1.2 var(--display);margin-top:2px}
 .pd-sub{color:var(--ink-2);font-size:13px;margin-top:2px}
+.pd-top{margin-top:14px;padding-top:10px;border-top:1px solid var(--line-2)}
+.pd-top span{display:block;font-size:13px;color:var(--ink-2)}
+.pd-top b{font:600 16px/1.35 var(--body)}
 
 /* collapsible entries */
 .ltool{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
@@ -407,6 +461,7 @@ input,select,textarea{font-size:16px}
   h1{margin-top:20px}
   .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
   .st.main{grid-column:1/-1}
+  .mainrow{grid-column:1/-1}
   .st b{font-size:16px}
   .entry{padding:14px;margin-top:-46px;border-radius:14px}
   .sh{padding:10px 12px}
@@ -764,7 +819,7 @@ html{scroll-padding-bottom:76px}
       <div class="stats" id="resStats"></div>
       <div class="seg wide" id="resTabSeg" role="group" aria-label="Set Aside section">
         <button type="button" data-restab="subs" aria-pressed="true">Subscriptions &amp; EMIs</button>
-        <button type="button" data-restab="cc" aria-pressed="false">CC Bills</button>
+        <button type="button" data-restab="cc" aria-pressed="false">Bills</button>
         <button type="button" data-restab="history" aria-pressed="false">History</button>
       </div>
     </div>
@@ -798,8 +853,8 @@ html{scroll-padding-bottom:76px}
 
     <div id="resPanelCC" hidden>
       <form class="entry" id="ccForm" novalidate>
-        <h2 id="ccFormTitle">Add a credit card bill</h2>
-        <div class="chips" id="cardChips" role="group" aria-label="Choose a card"></div>
+        <h2 id="ccFormTitle">Add a bill</h2>
+        <div class="chips" id="cardChips" role="group" aria-label="Choose an entry"></div>
         <label>Bill amount<div class="money"><span>₹</span><input id="ccAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
         <div class="fld">
           <span class="lbl" id="ccDueLbl">Due date</span>
@@ -809,6 +864,9 @@ html{scroll-padding-bottom:76px}
             <input id="ccDueYear" inputmode="numeric" maxlength="4" placeholder="YYYY" aria-labelledby="ccDueLbl" aria-label="Year">
           </div>
         </div>
+        <label id="ccRepeatRow" hidden>Repeats
+          <select id="ccRepeat" aria-label="Repeats"><option value="1">Every month</option><option value="2">Every 2 months</option><option value="3">Every 3 months</option><option value="6">Every 6 months</option><option value="12">Every year</option><option value="0">Doesn't repeat</option></select>
+        </label>
         <div class="err" id="ccErr" role="alert"></div>
         <div style="display:flex;gap:8px">
           <button class="btn primary" type="submit" id="ccSubmitBtn">Add</button>
@@ -816,8 +874,8 @@ html{scroll-padding-bottom:76px}
         </div>
       </form>
 
-      <section class="sheetcard" aria-label="Your credit card bills">
-        <div class="sh"><b>Your credit card bills</b></div>
+      <section class="sheetcard" aria-label="Your Bills">
+        <div class="sh"><b>Your Bills</b></div>
         <div id="ccList"></div>
       </section>
     </div>
@@ -850,32 +908,107 @@ html{scroll-padding-bottom:76px}
   <div class="df"><span class="muted left" id="clTotal"></span><button type="button" class="btn primary" data-close>Done</button></div>
 </dialog>
 
+<dialog id="dlgIncome" aria-labelledby="incTitle">
+  <div class="dh"><h2 id="incTitle">Income</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <div id="incList"></div>
+    <form id="incForm" novalidate>
+      <div class="chips" id="incChips" role="group" aria-label="Choose a source"></div>
+      <input id="incName" type="hidden">
+      <label>Amount <div class="money"><span>₹</span><input id="incAmt" inputmode="decimal" autocomplete="off" placeholder="Pick a source first" disabled></div></label>
+      <div class="err" id="incErr" role="alert"></div>
+      <div class="incact"><button type="button" class="btn" id="incCancel" hidden>Cancel edit</button><button type="submit" class="btn primary" id="incSubmit" disabled>Add income</button></div>
+    </form>
+  </div>
+  <div class="df"><span class="muted" id="incTotal" style="margin-right:auto"></span><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
 <dialog id="dlgCats" aria-labelledby="catTitle">
   <div class="dh"><h2 id="catTitle">Categories</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
   <div class="db">
-    <p class="muted" style="margin:0">Categories are the rows of your sheet, in this order. If you delete one, old entries keep its name.</p>
-    <form id="newCatForm" class="newcat">
-      <input id="ncName" maxlength="40" placeholder="New category name" aria-label="New category name" autocomplete="off">
+    <div class="seg wide" id="catTabs" role="group" aria-label="Section">
+      <button type="button" data-ct="income" aria-pressed="false">Income</button><button type="button" data-ct="expenses" aria-pressed="true">Expenses</button><button type="button" data-ct="bills" aria-pressed="false">Bills</button><button type="button" data-ct="subs" aria-pressed="false">Subs &amp; EMI</button>
+    </div>
+    <div id="ctExpenses" class="ctsec">
+      <p class="muted" style="margin:0">Categories are the rows of your sheet, in this order. If you delete one, old entries keep its name.</p>
+      <form id="newCatForm" class="newcat">
+        <input id="ncName" maxlength="40" placeholder="New category name" aria-label="New category name" autocomplete="off">
+        <button class="btn primary" type="submit">Add</button>
+      </form>
+      <div class="err" id="ncErr" role="alert"></div>
+      <div id="catList"></div>
+    </div>
+    <div id="ctIncome" class="ctsec" hidden>
+      <p class="muted" style="margin:0">Where your money comes from, like Salary or Freelance. They show as chips when you add income, on every sheet. Removing one never changes income you have already added.</p>
+      <form id="newSrcForm" class="newcat">
+        <input id="nsName" maxlength="40" placeholder="New income source" aria-label="New income source" autocomplete="off">
+        <button class="btn primary" type="submit">Add</button>
+      </form>
+      <div class="err" id="nsErr" role="alert"></div>
+      <div id="srcList"></div>
+    </div>
+    <div id="ctBills" class="ctsec" hidden>
+    <p class="muted" style="margin:0">Add each card, utility or loan once, then just pick it when adding a bill.</p>
+    <div class="seg wide" id="ncKindSeg" role="group" aria-label="Type">
+      <button type="button" data-kind="card" aria-pressed="true">Card</button><button type="button" data-kind="utility" aria-pressed="false">Utility</button><button type="button" data-kind="borrow" aria-pressed="false">Borrowing</button><button type="button" data-kind="other" aria-pressed="false">Other</button>
+    </div>
+    <p class="muted" id="ncHelp" style="margin:0;font-size:13px"></p>
+    <form id="newCardForm" class="newcat">
+      <input id="ncCardName" maxlength="40" placeholder="Name" aria-label="Name" autocomplete="off">
       <button class="btn primary" type="submit">Add</button>
+      <input id="ncNote" maxlength="80" aria-label="Note" autocomplete="off" style="grid-column:1/-1" hidden>
     </form>
-    <div class="err" id="ncErr" role="alert"></div>
-    <div id="catList"></div>
+    <div class="err" id="ncCardErr" role="alert"></div>
+    <div id="cardList"></div>
+    </div>
+    <div id="ctSubs" class="ctsec" hidden>
+      <p class="muted" style="margin:0">Your subscriptions and EMIs. Add or edit them in Set Aside. Deleting one removes it from your Set Aside total.</p>
+      <div id="subsList"></div>
+    </div>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
 </dialog>
 
-<dialog id="dlgCards" aria-labelledby="cardTitle">
-  <div class="dh"><h2 id="cardTitle">Your cards</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+<dialog id="dlgLeft" aria-labelledby="lfTitle">
+  <div class="dh"><h2 id="lfTitle">Left</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
   <div class="db">
-    <p class="muted" style="margin:0">Add each card once, then just pick it when logging a bill.</p>
-    <form id="newCardForm" class="newcat">
-      <input id="ncCardName" maxlength="40" placeholder="New card name" aria-label="New card name" autocomplete="off">
-      <button class="btn primary" type="submit">Add</button>
-    </form>
-    <div class="err" id="ncCardErr" role="alert"></div>
-    <div id="cardList"></div>
+    <div id="lfSum"></div>
+    <p class="muted" id="lfNote" style="margin:0;font-size:13px" hidden></p>
+    <label class="swrow"><input type="checkbox" id="lfCash"><span><b>Show cash in hand</b><small>Shows the money you actually hold: it leaves out what is set aside and adds back card and borrowed spending that is already in your ledger. Applies to the current month. Off by default, so what you owe stays visible.</small></span></label>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgSavings" aria-labelledby="svTitle">
+  <div class="dh"><h2 id="svTitle">Savings</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <div id="svSum"></div>
+    <div id="svList"></div>
+    <div class="stlbtns"><button type="button" class="btn" id="svAdd">Add to savings</button><button type="button" class="btn" id="svWd">Withdraw</button></div>
+    <div class="kv big" id="svAll"></div>
+  </div>
+  <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
+</dialog>
+
+<dialog id="dlgSavAdj" aria-labelledby="adjTitle">
+  <div class="dh"><h2 id="adjTitle">Savings</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <form id="adjForm" class="db" novalidate>
+    <label>Amount <div class="money"><span>₹</span><input id="adjAmt" inputmode="decimal" autocomplete="off"></div></label>
+    <p class="muted" id="adjHint" style="margin:0;font-size:13px"></p>
+    <div class="err" id="adjErr" role="alert"></div>
+    <div class="incact"><button type="button" class="btn" id="adjRemove" hidden>Remove entry</button><button type="submit" class="btn primary" id="adjApply">Apply</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgUtilPay" aria-labelledby="upTitle">
+  <div class="dh"><h2 id="upTitle">Mark paid</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <form id="utilPayForm" class="db" novalidate>
+    <div id="upSum"></div>
+    <label>Payment date <input type="date" id="upDate"></label>
+    <p class="muted" style="margin:0;font-size:13px">It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.</p>
+    <div class="err" id="upErr" role="alert"></div>
+    <div class="incact"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Mark paid</button></div>
+  </form>
 </dialog>
 
 <dialog id="dlgEdit" aria-labelledby="edTitle">
@@ -1018,6 +1151,16 @@ html{scroll-padding-bottom:76px}
   <div class="df"><button type="button" class="btn" id="cfCancel">Cancel</button><button type="button" class="btn primary" id="cfOk">Delete</button></div>
 </dialog>
 
+<dialog id="dlgDelSheet" aria-labelledby="dsTitle">
+  <div class="dh"><h2 id="dsTitle">Delete sheet?</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <div class="db">
+    <p id="dsBody" style="margin:0"></p>
+    <div class="dsbar"><span class="muted">Also clear from Set Aside</span><button type="button" class="linkbtn" id="dsAll">Select all</button></div>
+    <div id="dsSecs"></div>
+  </div>
+  <div class="df"><button type="button" class="btn" id="dsCancel">Cancel</button><button type="button" class="btn primary" id="dsOk">Delete sheet</button></div>
+</dialog>
+
 <script>
 (function(){
 'use strict';
@@ -1082,7 +1225,8 @@ const state = {
   categories: defaultCats(),
   months: {},
   subsCategoryId: null,
-  emiCategoryId: null
+  emiCategoryId: null,
+  incomeSources: []
 };
 const view = {ym: curYm(), mode: 'sheet', sum: 'week', sumYear: null, sumFor: null};
 const entry = {cat: null};
@@ -1091,6 +1235,19 @@ let gridFocus = {r: 0, c: 0};
 const store = {db: null, uid: null, timers: {}, pending: {}, writing: {}, dirty: new Set(), lastDocs: []};
 
 const catById = id => state.categories.find(c => c.id === id);
+function cleanSources(list){
+  const seen = {}, out = [];
+  (Array.isArray(list) ? list : []).forEach(n => {
+    const t = String(n == null ? '' : n).trim().slice(0, 40), k = t.toLowerCase();
+    if (t && !seen[k] && out.length < 12) { seen[k] = 1; out.push(t); }
+  });
+  return out;
+}
+function rememberSource(name){
+  const list = state.incomeSources || [];
+  if (list.some(n => n.toLowerCase() === name.toLowerCase())) return;
+  state.incomeSources = cleanSources(list.concat(name)); touch('settings');
+}
 function ensureAutoCategory(refKey, defaultName){
   let c = state[refKey] ? catById(state[refKey]) : null;
   if (!c) {
@@ -1112,13 +1269,73 @@ function cleanMonth(ym, o){
   o = o || {};
   const txns = (Array.isArray(o.txns) ? o.txns : []).filter(t => t && typeof t === 'object' && isFinite(Number(t.amt)) && /^\d{4}-\d{2}-\d{2}$/.test(t.d))
     .map(t => ({id: String(t.id || newId('t')), d: t.d, cat: String(t.cat || ''), catName: String(t.catName || ''), amt: round2(Number(t.amt)), note: String(t.note || '')}));
-  return {ym: ym, txns: txns};
+  const income = (Array.isArray(o.income) ? o.income : []).filter(x => x && typeof x === 'object' && Number(x.amt) > 0 && isFinite(Number(x.amt)) && !x.carryFrom).map(x => ({id: String(x.id || newId('i')), name: String(x.name || 'Income').slice(0, 40), amt: round2(Number(x.amt))}));
+  const moves = (Array.isArray(o.moves) ? o.moves : []).filter(x => x && (x.kind === 'save' || x.kind === 'wd') && Number(x.amt) > 0 && isFinite(Number(x.amt)))
+    .map(x => ({id: String(x.id || newId('mv')), kind: x.kind, amt: round2(Number(x.amt)), d: /^\d{4}-\d{2}-\d{2}$/.test(String(x.d || '')) ? x.d : todayStr()}));
+  const out = {ym: ym, txns: txns};
+  if (income.length) out.income = income;
+  if (moves.length) out.moves = moves;
+  return out;
 }
 function ensureMonth(ym, persist){
   if (state.months[ym]) return state.months[ym];
   state.months[ym] = {ym: ym, txns: []};
   if (persist) touch(ym);
   return state.months[ym];
+}
+
+/* ---------- income, savings and the running "Left" (stored inside each month's own document) ---------- */
+const monthIncomeList = ym => (state.months[ym] && state.months[ym].income) || [];
+const monthMoves = ym => (state.months[ym] && state.months[ym].moves) || [];
+const incomeTotal = ym => round2(monthIncomeList(ym).reduce((n, x) => n + x.amt, 0));
+const movedTotal = (ym, kind) => round2(monthMoves(ym).filter(x => x.kind === kind).reduce((n, x) => n + x.amt, 0));
+const monthSpent = ym => round2((state.months[ym] ? state.months[ym].txns : []).reduce((n, t) => n + t.amt, 0));
+const monthOwn = ym => round2(incomeTotal(ym) - monthSpent(ym) - movedTotal(ym, 'save') + movedTotal(ym, 'wd'));
+const monthSaved = ym => round2(movedTotal(ym, 'save') - movedTotal(ym, 'wd'));
+const signedFmt = v => v < 0 ? '\u2212' + fmt(-v) : fmt(v);
+const savingsTotal = () => round2(Object.keys(state.months).reduce((n, k) => n + movedTotal(k, 'save') - movedTotal(k, 'wd'), 0));
+const hasFlow = k => monthIncomeList(k).length > 0 || monthMoves(k).length > 0;
+function openingFor(ym){   // whatever was left (or owed) since the first month you entered income rolls forward on its own
+  const keys = ymKeys(), first = keys.find(hasFlow);
+  if (!first || first >= ym) return 0;
+  let bal = 0;
+  keys.forEach(k => { if (k >= first && k < ym) bal = round2(bal + monthOwn(k)); });
+  return bal;
+}
+const leftFor = ym => round2(openingFor(ym) + monthOwn(ym));
+const duesTotal = () => round2(ccbills.filter(c => c.kind === 'card' || c.kind === 'borrow').reduce((n, c) => n + c.amount, 0));
+const LEFTCASH_KEY = LS + 'leftcash';
+let leftCash = false;
+try { leftCash = localStorage.getItem(LEFTCASH_KEY) === '1'; } catch(e){}
+const cashActive = ym => leftCash && ym === curYm();
+const monthEnd = ym => ym + '-' + pad(daysInMonth(+ym.slice(0, 4), +ym.slice(5, 7)));
+const BILL_HIST = ['cc', 'util', 'borrow', 'other'];
+function loggedFor(r, ym){   // what this subscription / EMI has already put into the ledger this month
+  return round2(history.filter(h => h.kind === r.kind && h.date && h.date.slice(0, 7) === ym && (h.refId ? h.refId === r.id : h.name === r.name)).reduce((n, h) => n + h.amount, 0));
+}
+const reserveActive = (r, ym) => r.kind === 'emi' ? r.end >= ym : (!r.anchor || r.anchor <= ym);
+const heldSubsEmis = ym => round2(reserves.filter(r => reserveActive(r, ym)).reduce((n, r) => n + Math.max(0, reserveMonthly(r) - loggedFor(r, ym)), 0));
+const billsDueFor = ym => round2(ccbills.filter(c => c.due <= monthEnd(ym)).reduce((n, c) => n + c.amount, 0));   // overdue ones carry on until paid
+const billsPaidIn = (ym, kinds) => round2(history.filter(h => kinds.indexOf(h.kind) >= 0 && h.date && h.date.slice(0, 7) === ym).reduce((n, h) => n + h.amount, 0));
+const heldBills = ym => round2(billsDueFor(ym) + billsPaidIn(ym, ['cc', 'borrow', 'other']));   // paid utilities are already in the ledger
+const billsApply = ym => ym >= curYm();   // what is set aside is held back from now on, never in past months
+const heldBack = ym => billsApply(ym) ? round2(heldSubsEmis(ym) + heldBills(ym)) : 0;
+const leftNet = ym => round2(leftFor(ym) - heldBack(ym));
+const leftShown = ym => cashActive(ym) ? round2(leftFor(ym) + duesTotal()) : leftNet(ym);
+function setAsidePending(){   // not in the ledger yet, so it has not reduced Left: current month only
+  const cur = curYm(), today = todayStr();
+  const subs = reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).reduce((n, r) => {
+    let ym = r.anchor; while (ym < cur) ym = addMonths(ym, r.every);
+    return (ym === cur && renewalDateStr(cur, r.day) >= today && r.lastLogged !== cur) ? round2(n + r.amount) : n;
+  }, 0);
+  const emis = reserves.filter(r => r.kind === 'emi' && r.end >= cur && (!r.lastPaid || monthsBetween(r.lastPaid, cur) >= r.every)).reduce((n, r) => round2(n + r.amount), 0);
+  return {subs: subs, emis: emis, total: round2(subs + emis)};
+}
+const billsDueAll = () => round2(billsDueFor(curYm()) + setAsidePending().total);
+function normMonth(m){   // keeps a stable property order and drops empty lists so old documents stay unchanged
+  const inc = m.income, mv = m.moves; delete m.income; delete m.moves;
+  if (inc && inc.length) m.income = inc;
+  if (mv && mv.length) m.moves = mv;
 }
 
 /* ---------- persistence: this device + (when available) your account ---------- */
@@ -1130,7 +1347,7 @@ let activeBook = 'main';
 const lsPrefix = id => id === 'main' ? LS : LS + 'w.' + id + '.';
 const lsKeyFor = (id, key) => key === 'settings' ? lsPrefix(id) + 'settings' : lsPrefix(id) + 'm.' + key;
 const docIdFor = (id, key) => id === 'main' ? (key === 'settings' ? 'v2-settings' : 'v2-m-' + key) : 'v2w-' + id + '-' + (key === 'settings' ? 'settings' : 'm-' + key);
-const settingsPayload = () => ({v: 2, title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null});
+const settingsPayload = () => ({v: 2, title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null, incomeSources: state.incomeSources || []});
 function classifyDoc(id){
   let m;
   if (id === 'v2-books') return {registry: true};
@@ -1150,14 +1367,14 @@ function cleanBooks(list){
 function persistLocal(key){
   try {
     const k = lsKeyFor(activeBook, key);
-    if (key === 'settings') localStorage.setItem(k, JSON.stringify({title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null}));
+    if (key === 'settings') localStorage.setItem(k, JSON.stringify({title: state.title, categories: state.categories, subsCategoryId: state.subsCategoryId || null, emiCategoryId: state.emiCategoryId || null, incomeSources: state.incomeSources || []}));
     else if (state.months[key]) localStorage.setItem(k, JSON.stringify(state.months[key]));
     else localStorage.removeItem(k);
   } catch(e){}
 }
 function persistBooks(){ try { localStorage.setItem(BOOKS_KEY, JSON.stringify({books: books})); } catch(e){} }
 function readBook(id){
-  const out = {title: null, categories: null, months: {}, subsCategoryId: null, emiCategoryId: null};
+  const out = {title: null, categories: null, months: {}, subsCategoryId: null, emiCategoryId: null, incomeSources: []};
   try {
     const p = lsPrefix(id), st = localStorage.getItem(p + 'settings');
     if (st) {
@@ -1166,6 +1383,7 @@ function readBook(id){
       if (typeof o.title === 'string' && o.title.trim()) out.title = cleanTitle(o.title);
       if (typeof o.subsCategoryId === 'string') out.subsCategoryId = o.subsCategoryId;
       if (typeof o.emiCategoryId === 'string') out.emiCategoryId = o.emiCategoryId;
+      if (Array.isArray(o.incomeSources)) out.incomeSources = cleanSources(o.incomeSources);
     }
     const mp = p + 'm.';
     for (let i = 0; i < localStorage.length; i++) {
@@ -1189,6 +1407,7 @@ function loadBookIntoState(id){
   state.months = rb.months;
   state.subsCategoryId = rb.subsCategoryId || null;
   state.emiCategoryId = rb.emiCategoryId || null;
+  state.incomeSources = rb.incomeSources || [];
 }
 function loadLocal(){
   try { const rb = localStorage.getItem(BOOKS_KEY); if (rb) books = cleanBooks(JSON.parse(rb).books); } catch(e){}
@@ -1299,6 +1518,7 @@ function applyRemote(remote){
         const cats = Array.isArray(rb.settings.categories) ? cleanCats(rb.settings.categories) : null;
         if (cats && JSON.stringify(cats) !== JSON.stringify(state.categories)) { state.categories = cats; persistLocal('settings'); changed = true; }
         if (typeof rb.settings.subsCategoryId === 'string' && rb.settings.subsCategoryId !== state.subsCategoryId) { state.subsCategoryId = rb.settings.subsCategoryId; persistLocal('settings'); changed = true; }
+        if (Array.isArray(rb.settings.incomeSources)) { const src = cleanSources(rb.settings.incomeSources); if (JSON.stringify(src) !== JSON.stringify(state.incomeSources || [])) { state.incomeSources = src; persistLocal('settings'); changed = true; } }
         if (typeof rb.settings.emiCategoryId === 'string' && rb.settings.emiCategoryId !== state.emiCategoryId) { state.emiCategoryId = rb.settings.emiCategoryId; persistLocal('settings'); changed = true; }
         if (!remote.registry && typeof rb.settings.title === 'string' && rb.settings.title.trim()) {
           const t = cleanTitle(rb.settings.title);
@@ -1417,9 +1637,14 @@ function pruneExpiredReserves(){
 /* ---------- set aside: registered cards (add once, pick each time) ---------- */
 const CARD_KEY = LS + 'cards';
 let cards = [];
+const ENTRY_KINDS = ['card', 'utility', 'borrow', 'other'];
+const ENTRY_LABEL = {card: 'Card', utility: 'Utility', borrow: 'Borrowing', other: 'Other'};
 function cleanCards(list){
   return (Array.isArray(list) ? list : []).filter(k => k && typeof k === 'object' && k.id && k.name)
-    .map(k => ({id: String(k.id), name: String(k.name).trim().slice(0, 40)}))
+    .map(k => {
+      const kind = ENTRY_KINDS.indexOf(k.kind) >= 0 ? k.kind : 'card';
+      return {id: String(k.id), name: String(k.name).trim().slice(0, 40), kind: kind, note: (kind === 'utility' || kind === 'borrow') ? String(k.note || '').trim().slice(0, 80) : ''};
+    })
     .filter(k => k.name);
 }
 function persistCardsLocal(){ try { localStorage.setItem(CARD_KEY, JSON.stringify({v: 1, cards: cards})); } catch(e){} }
@@ -1437,6 +1662,9 @@ function cleanCCBills(list){
       cardId: c.cardId ? String(c.cardId) : null,
       card: String(c.card).trim().slice(0, 40),
       amount: isFinite(Number(c.amount)) ? round2(Number(c.amount)) : 0,
+      kind: ENTRY_KINDS.indexOf(c.kind) >= 0 ? c.kind : 'card',
+      repeat: [0, 1, 2, 3, 6, 12].indexOf(Number(c.repeat)) >= 0 ? Number(c.repeat) : ((ENTRY_KINDS.indexOf(c.kind) >= 0 ? c.kind : 'card') === 'utility' ? 1 : 0),
+      day: (Number(c.day) >= 1 && Number(c.day) <= 31) ? Math.floor(Number(c.day)) : null,
       due: /^\d{4}-\d{2}-\d{2}$/.test(c.due) ? c.due : null,
       seenOn: /^\d{4}-\d{2}-\d{2}$/.test(c.seenOn) ? c.seenOn : null
     }))
@@ -1455,7 +1683,7 @@ function ccDueLabel(due){
   if (days === 0) return 'Due today \u00b7 ' + dm;
   if (days === 1) return 'Due tomorrow \u00b7 ' + dm;
   if (days > 1) return 'Due ' + dm + ' \u00b7 in ' + days + ' days';
-  return 'Due ' + dm;
+  return 'Overdue \u00b7 ' + dm;
 }
 function ccUrgency(due){ const d = daysUntil(due); if (d === 0 || d === 1) return 'red'; if (d === 2 || d === 3) return 'orange'; return ''; }
 // Orange (3 and 2 days out) nudges once per day; red (1 day out and due day) nudges every time the app is opened.
@@ -1485,9 +1713,7 @@ function markCCUrgencySeen(){
   if (changed) queueCC();
 }
 function pruneExpiredCCBills(){
-  const t = todayStr(), before = ccbills.length;
-  ccbills = ccbills.filter(c => c.due >= t);
-  if (ccbills.length !== before) queueCC();
+  /* overdue bills are kept (shown as Overdue) until you pay or delete them: they are deducted from Left, so they must not vanish quietly */
 }
 function applyCCGlow(){
   const u = ccGlowUrgency();
@@ -1501,22 +1727,33 @@ const HIST_KEY = LS + 'history';
 let history = [];
 function cleanHistory(list){
   return (Array.isArray(list) ? list : []).filter(h => h && typeof h === 'object' && h.id && h.name && h.date)
-    .map(h => ({
-      id: String(h.id),
-      kind: ['sub', 'emi', 'cc'].indexOf(h.kind) >= 0 ? h.kind : 'sub',
-      name: String(h.name).trim().slice(0, 40),
-      amount: isFinite(Number(h.amount)) ? round2(Number(h.amount)) : 0,
-      date: /^\d{4}-\d{2}-\d{2}$/.test(h.date) ? h.date : null
-    }))
+    .map(h => {
+      const o = {
+        id: String(h.id),
+        kind: ['sub', 'emi', 'cc', 'util', 'borrow', 'other'].indexOf(h.kind) >= 0 ? h.kind : 'sub',
+        name: String(h.name).trim().slice(0, 40),
+        amount: isFinite(Number(h.amount)) ? round2(Number(h.amount)) : 0,
+        date: /^\d{4}-\d{2}-\d{2}$/.test(h.date) ? h.date : null
+      };
+      if (h.entryId) o.entryId = String(h.entryId);
+      if (h.refId) o.refId = String(h.refId);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(String(h.due || ''))) o.due = h.due;
+      if (/^\d{4}-\d{2}$/.test(String(h.txnYm || '')) && h.txnId) { o.txnYm = h.txnYm; o.txnId = String(h.txnId); }
+      if (/^\d{4}-\d{2}-\d{2}$/.test(String(h.prevDue || ''))) o.prevDue = h.prevDue;
+      return o;
+    })
     .filter(h => h.name && h.amount > 0 && h.date);
 }
 function persistHistoryLocal(){ try { localStorage.setItem(HIST_KEY, JSON.stringify({v: 1, history: history})); } catch(e){} }
 function loadHistory(){ try { const raw = localStorage.getItem(HIST_KEY); if (raw) history = cleanHistory(JSON.parse(raw).history); } catch(e){} }
 function queueHistory(){ persistHistoryLocal(); queueDoc('v2-history', {v: 1, history: history}); }
-function addHistory(kind, name, amount, date){
-  history.unshift({id: newId('h'), kind: kind, name: name, amount: round2(amount), date: date});
+function addHistory(kind, name, amount, date, extra){
+  const h = {id: newId('h'), kind: kind, name: name, amount: round2(amount), date: date};
+  if (extra) Object.assign(h, extra);
+  history.unshift(h);
   if (history.length > 500) history.length = 500;
   queueHistory();
+  return h;
 }
 
 /* ---------- stats ---------- */
@@ -1560,13 +1797,18 @@ function renderHead(st){
   const cur = curYm(), elapsed = view.ym === cur ? +todayStr().slice(8) : (view.ym < cur ? st.days : 0);
   const avg = elapsed && st.total ? fmt(Math.round(st.total / elapsed)) : '\u2014';
   const big = st.bigV ? fmt(st.bigV) : '\u2014', bigLbl = st.bigV ? 'Biggest day, ' + dayLabel(view.ym + '-' + pad(st.big)) : 'Biggest day';
-  let top = '\u2014';
-  if (st.topId) { const c = catById(st.topId); top = esc(c ? c.name : (st.names[st.topId] || 'Deleted category')) + ' ' + Math.round(st.topV / st.total * 100) + '%'; }
+  const inc = incomeTotal(view.ym), hasInc = monthIncomeList(view.ym).length > 0, opening = openingFor(view.ym);
+  const showLeft = hasInc || opening !== 0 || monthMoves(view.ym).length > 0;
+  const cash = cashActive(view.ym), left = leftShown(view.ym), svm = monthSaved(view.ym);
+  const incBox = (hasInc
+      ? '<button type="button" class="incrow" id="btnIncome" aria-label="Edit income"><span>Income</span><b>' + fmt(inc) + '</b></button>'
+      : '<button type="button" class="incadd" id="btnIncome">+ Add income</button>') +
+    (showLeft ? '<button type="button" class="incrow' + (left < 0 ? ' neg' : '') + '" id="btnLeft" aria-label="' + (cash ? 'Cash left' : 'Left') + '"><span>' + (cash ? 'Cash left' : 'Left') + '</span><b>' + fmt(left) + '</b></button>' : '');
   $('#stats').innerHTML =
-    '<div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div>' +
+    '<div class="mainrow"><div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div><div class="incbox">' + incBox + '</div></div>' +
     '<div class="st"><span>Daily average</span><b>' + avg + '</b></div>' +
     '<div class="st"><span>' + bigLbl + '</span><b>' + big + '</b></div>' +
-    '<div class="st"><span>Top category</span><b>' + top + '</b></div>';
+    '<div class="st stbtn" id="stSavings" role="button" tabindex="0" aria-label="Savings"><span>Savings</span><b>' + (svm !== 0 ? signedFmt(svm) : '\u2014') + '</b></div>';
 }
 function renderChips(){
   $('#chips').innerHTML = state.categories.map(c =>
@@ -2042,13 +2284,62 @@ $('#sheetForm').addEventListener('submit', e => {
 });
 /* ---------- categories ---------- */
 let catFromChips = false;
-function openCats(fromChips){
-  catFromChips = !!fromChips;
-  $('#ncErr').textContent = ''; $('#ncName').value = '';
-  renderCats();
-  openDialog('#dlgCats');
-  $('#ncName').focus();
+let catsTab = 'expenses', srcFromChips = false;
+function setCatsTab(t){
+  catsTab = t;
+  const ids = {income: '#ctIncome', expenses: '#ctExpenses', bills: '#ctBills', subs: '#ctSubs'};
+  Object.keys(ids).forEach(k => { $(ids[k]).hidden = k !== t; });
+  Array.prototype.forEach.call(document.querySelectorAll('#catTabs button'), b => b.setAttribute('aria-pressed', String(b.dataset.ct === t)));
+  if (t === 'expenses') renderCats();
+  if (t === 'income') renderSrcList();
+  if (t === 'bills') { setNcKind(ncKind); renderCardList(); }
+  if (t === 'subs') renderSubsList();
 }
+function openCats(fromChips, tab){
+  tab = tab || 'expenses';
+  catFromChips = !!fromChips && tab === 'expenses'; srcFromChips = !!fromChips && tab === 'income'; cardFromChips = !!fromChips && tab === 'bills';
+  $('#ncErr').textContent = ''; $('#ncName').value = ''; $('#nsErr').textContent = ''; $('#nsName').value = ''; $('#ncCardErr').textContent = ''; $('#ncCardName').value = '';
+  setCatsTab(tab);
+  openDialog('#dlgCats');
+  const f = {expenses: '#ncName', income: '#nsName', bills: '#ncCardName'}[tab]; if (f) $(f).focus();
+}
+$('#catTabs').addEventListener('click', e => { const b = e.target.closest('button[data-ct]'); if (b) setCatsTab(b.dataset.ct); });
+function renderSrcList(){
+  const list = state.incomeSources || [];
+  $('#srcList').innerHTML = list.length ? list.map((n, i) =>
+    '<div class="crow" data-src="' + esc(n) + '"><i class="dot" style="--c:' + esc(cc(srcColor(i))) + '"></i><span class="cname">' + esc(n) + '</span>' +
+    '<button type="button" class="icon-btn danger" data-delsrc="' + esc(n) + '" aria-label="Remove ' + esc(n) + '">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">No income sources yet.</p>';
+}
+$('#newSrcForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#nsName').value.trim(), err = $('#nsErr'); err.textContent = '';
+  if (!name) { err.textContent = 'Enter a source name.'; return; }
+  const list = state.incomeSources || [];
+  if (list.some(n => n.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have a source called \u201C' + name + '\u201D.'; return; }
+  if (list.length >= 12) { err.textContent = 'You can keep up to 12 sources. Remove one first.'; return; }
+  rememberSource(name); $('#nsName').value = '';
+  if (srcFromChips) { $('#incName').value = name; $('#dlgCats').close(); renderIncSources(); $('#incAmt').focus(); }
+  else { renderSrcList(); $('#nsName').focus(); }
+});
+$('#srcList').addEventListener('click', e => {
+  const d = e.target.closest('[data-delsrc]'); if (!d) return;
+  state.incomeSources = (state.incomeSources || []).filter(n => n !== d.dataset.delsrc); touch('settings');
+  if ($('#incName').value.trim().toLowerCase() === d.dataset.delsrc.toLowerCase()) $('#incName').value = '';
+  renderSrcList(); renderIncSources();
+});
+function renderSubsList(){
+  $('#subsList').innerHTML = reserves.length ? reserves.map(r =>
+    '<div class="rrow" data-id="' + esc(r.id) + '"><div class="rmain static"><div class="rname"><span>' + esc(r.name) + '</span><span class="rbadge">' + (r.kind === 'emi' ? 'EMI' : 'Subscription') + '</span></div>' +
+    '<div class="rsub">' + (r.every > 1 ? 'Every ' + r.every + ' months' : 'Every month') + (r.kind === 'emi' && r.end ? ' \u00B7 ends ' + esc(ymLabel(r.end, true)) : '') + '</div></div>' +
+    '<div class="ramt">' + fmt(r.amount) + '</div>' +
+    '<button type="button" class="icon-btn danger" data-delres="' + esc(r.id) + '" aria-label="Delete ' + esc(r.name) + '">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">No subscriptions or EMIs yet. Add them in Set Aside.</p>';
+}
+$('#subsList').addEventListener('click', async e => {
+  const d = e.target.closest('[data-delres]'); if (!d) return;
+  await deleteReserve(d.dataset.delres); renderSubsList(); render();
+});
 function renderCats(){
   const n = state.categories.length;
   $('#catList').innerHTML = n ? state.categories.map((c, i) =>
@@ -2418,18 +2709,80 @@ async function deleteBook(id){
   if (activeBook === id) switchBook(books.slice().sort((x, y) => y.created - x.created)[0].id); else render();
 }
 
+const reserveForHistory = h => reserves.find(r => r.id === h.refId) || reserves.find(r => r.kind === h.kind && r.name === h.name);
+function tiedSetAside(ym){
+  const hist = history.filter(h => h.date.slice(0, 7) === ym);
+  const seen = {}, subs = [];
+  hist.filter(h => h.kind === 'sub' || h.kind === 'emi').forEach(h => { const r = reserveForHistory(h); if (r && !seen[r.id]) { seen[r.id] = 1; subs.push(r); } });
+  const bills = ccbills.filter(c => c.due.slice(0, 7) === ym);
+  return {subs: subs, bills: bills, hist: hist, count: subs.length + bills.length + hist.length};
+}
+function askDeleteSheet(ym, m, tied){
+  return new Promise(resolve => {
+    const dlg = $('#dlgDelSheet'), n = m.txns.length;
+    $('#dsTitle').textContent = 'Delete ' + ymLabel(ym) + '?';
+    $('#dsBody').textContent = 'This removes the sheet' + (n ? ' with its ' + n + (n === 1 ? ' entry' : ' entries') : '') + (m.income || m.moves ? ', its income and its savings moves' : '') + '. This can\u2019t be undone. Nothing below is cleared unless you tick it.';
+    const sec = (key, title, rows) => rows.length ? '<div class="dssec" data-sec="' + key + '"><h3 class="stlh"><span>' + title + '</span><button type="button" class="linkbtn" data-secall="' + key + '">Select all</button></h3>' + rows.join('') + '</div>' : '';
+    const row = (k, name, sub, amt) => '<label class="chkrow"><input type="checkbox" data-k="' + esc(k) + '"><span class="ckt">' + esc(name) + '<small>' + esc(sub) + '</small></span><span class="ramt">' + fmt(amt) + '</span></label>';
+    $('#dsSecs').innerHTML =
+      sec('subs', 'Subscriptions &amp; EMIs', tied.subs.map(r => row('s:' + r.id, r.name, (r.kind === 'emi' ? 'EMI' : 'Subscription') + ' \u00B7 removes it from Set Aside', r.amount))) +
+      sec('bills', 'Bills', tied.bills.map(c => row('b:' + c.id, c.card, (ENTRY_LABEL[c.kind] || 'Card') + ' \u00B7 ' + ccDueLabel(c.due), c.amount))) +
+      sec('hist', 'History', tied.hist.map(h => row('h:' + h.id, h.name, (HIST_LABEL[h.kind] || h.kind) + ' \u00B7 ' + historyDateLabel(h.date), h.amount)));
+    const boxes = () => Array.prototype.slice.call(dlg.querySelectorAll('input[data-k]'));
+    const refresh = () => {
+      const on = boxes().filter(b => b.checked).length;
+      $('#dsOk').textContent = on ? 'Delete sheet and clear ' + on : 'Delete sheet';
+      $('#dsAll').textContent = on === boxes().length ? 'Clear selection' : 'Select all';
+      Array.prototype.forEach.call(dlg.querySelectorAll('[data-secall]'), b => {
+        const bs = Array.prototype.slice.call(dlg.querySelectorAll('[data-sec="' + b.dataset.secall + '"] input[data-k]'));
+        b.textContent = bs.every(x => x.checked) ? 'Clear selection' : 'Select all';
+      });
+    };
+    let done = false;
+    const finish = v => { if (done) return; done = true; dlg.removeEventListener('close', onClose); dlg.removeEventListener('change', refresh); dlg.removeEventListener('click', onClick); if (dlg.hasAttribute('open')) dlg.close(); resolve(v); };
+    const onClose = () => finish(null);
+    const onClick = e => {
+      const sa = e.target.closest('[data-secall]');
+      if (sa) { const bs = Array.prototype.slice.call(dlg.querySelectorAll('[data-sec="' + sa.dataset.secall + '"] input[data-k]')), all = bs.every(x => x.checked); bs.forEach(x => { x.checked = !all; }); refresh(); return; }
+      if (e.target.closest('#dsAll')) { const all = boxes().every(x => x.checked); boxes().forEach(x => { x.checked = !all; }); refresh(); return; }
+      if (e.target.closest('#dsCancel')) { finish(null); return; }
+      if (e.target.closest('#dsOk')) finish(boxes().filter(b => b.checked).map(b => b.dataset.k));
+    };
+    dlg.addEventListener('close', onClose); dlg.addEventListener('change', refresh); dlg.addEventListener('click', onClick);
+    refresh(); openDialog('#dlgDelSheet');
+  });
+}
 async function deleteSheet(ym){
   const m = state.months[ym]; if (!m) return;
-  const n = m.txns.length;
-  const ok = await confirmBox({
-    title: 'Delete ' + ymLabel(ym) + '?',
-    body: n ? 'This removes the sheet and its ' + n + (n === 1 ? ' entry' : ' entries') + '. This can\u2019t be undone, so export a CSV first if you want a copy.' : 'This removes the empty sheet.',
-    ok: 'Delete sheet'
-  });
-  if (!ok) return;
+  const n = m.txns.length, tied = ym <= curYm() ? tiedSetAside(ym) : {count: 0};
+  let picked = [];
+  if (tied.count > 0) {
+    const r = await askDeleteSheet(ym, m, tied);
+    if (!r) return;
+    picked = r;
+  } else {
+    const ok = await confirmBox({
+      title: 'Delete ' + ymLabel(ym) + '?',
+      body: n ? 'This removes the sheet and its ' + n + (n === 1 ? ' entry' : ' entries') + (m.income || m.moves ? ' plus its income details' : '') + '. This can\u2019t be undone, so export a CSV first if you want a copy.' : (m.income || m.moves ? 'This removes the sheet and its income details.' : 'This removes the empty sheet.'),
+      ok: 'Delete sheet'
+    });
+    if (!ok) return;
+  }
   delete state.months[ym]; touch(ym);
   ensureMonth(curYm(), false);
   if (ym === view.ym || !state.months[view.ym]) { view.ym = curYm(); needScroll = true; gridFocus.c = 0; setDateDefault(); }
+  if (picked.length) {
+    const ids = p => picked.filter(k => k.indexOf(p) === 0).map(k => k.slice(2));
+    const sIds = ids('s:'), bIds = ids('b:'), hIds = ids('h:');
+    if (sIds.length) { reserves = reserves.filter(r => sIds.indexOf(r.id) < 0); queueReserves(); }
+    if (bIds.length) { ccbills = ccbills.filter(c => bIds.indexOf(c.id) < 0); if (bIds.indexOf(ccEditId) >= 0) resetCCForm(); queueCC(); }
+    if (hIds.length) {
+      history.filter(h => hIds.indexOf(h.id) >= 0 && h.kind === 'util' && h.prevDue).forEach(h => restoreUtilityBill(h, true));
+      history = history.filter(h => hIds.indexOf(h.id) < 0); queueHistory();
+    }
+    renderReserve(); renderCC(); renderHistory(); applyCCGlow();
+    toast('Sheet deleted and ' + picked.length + (picked.length === 1 ? ' entry' : ' entries') + ' cleared from Set Aside');
+  }
   render();
 }
 function initSettings(){
@@ -2609,6 +2962,9 @@ function initDatePicker(){
 
 /* ---------- pie charts: details appear only on hover or tap ---------- */
 const pies = {};
+const PIEAPP_KEY = LS + 'pieAppOpen';
+function pieOpenLoad(id){ if (id !== 'pieApp') return true; try { return localStorage.getItem(PIEAPP_KEY) !== '0'; } catch(e){ return true; } }
+function pieOpenSave(id, open){ if (id !== 'pieApp') return; try { localStorage.setItem(PIEAPP_KEY, open ? '1' : '0'); } catch(e){} }
 function arcPath(r0, r1, a0, a1){
   if (a1 - a0 >= Math.PI * 2 - 1e-4) a1 = a0 + Math.PI * 2 - 1e-4;
   const large = (a1 - a0) > Math.PI ? 1 : 0;
@@ -2632,7 +2988,7 @@ function renderPies(st){
 }
 function renderPie(id, title, sub, items){
   const root = $('#' + id); if (!root) return;
-  const p = pies[id] || (pies[id] = {open: true, pinned: null, hover: null, focus: null});
+  const p = pies[id] || (pies[id] = {open: pieOpenLoad(id), pinned: null, hover: null, focus: null});
   const total = round2(items.reduce((n, i) => n + i.value, 0));
   if (p.pinned && !items.some(i => i.id === p.pinned)) p.pinned = null;
   p.hover = null; p.focus = null;
@@ -2662,6 +3018,7 @@ function paintPie(root){
   det.innerHTML = it
     ? '<div class="pd-name"><i class="dot" style="--c:' + esc(it.color) + '"></i><span>' + esc(it.name) + '</span></div><div class="pd-amt">' + fmt(it.value) + '</div><div class="pd-sub">' + (it.value / root._total * 100).toFixed(1) + '% of ' + fmt(root._total) + ', ' + it.n + (it.n === 1 ? ' entry' : ' entries') + '</div>'
     : '<div class="pd-hint">' + (root._total > 0 ? 'Hover over or tap a slice to see the details.' : 'No spending recorded yet.') + '</div>';
+  { const tp = root._items[0]; if (tp && root._total > 0) det.insertAdjacentHTML('beforeend', '<div class="pd-top"><span>Top category</span><b>' + esc(tp.name) + ' ' + Math.round(tp.value / root._total * 100) + '%</b></div>'); }
 }
 const pieRoot = el => el.closest && el.closest('#pieApp, #pieMonth');
 document.addEventListener('pointerover', e => {
@@ -2691,7 +3048,7 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('click', e => {
   const head = e.target.closest && e.target.closest('[data-pie]');
-  if (head) { const p = pies[head.dataset.pie]; if (p) { p.open = !p.open; renderPies(stats(view.ym)); } return; }
+  if (head) { const p = pies[head.dataset.pie]; if (p) { p.open = !p.open; pieOpenSave(head.dataset.pie, p.open); renderPies(stats(view.ym)); } return; }
   const r = pieRoot(e.target); if (!r || !pies[r.id]) return;
   const p = pies[r.id], sl = e.target.closest('.slice');
   if (sl) { p.pinned = p.pinned === sl.dataset.id ? null : sl.dataset.id; paintPie(r); return; }
@@ -2709,7 +3066,7 @@ function setScreen(s){
     pruneExpiredReserves(); pruneExpiredCCBills(); applyCCGlow(); runSubscriptionAutoLog();
     setResTab(ccGlowUrgency() ? 'cc' : resTab);
     renderReserve(); renderCC();
-  }
+  } else renderHead(stats(view.ym));
 }
 $('#screenSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setScreen(b.dataset.screen); });
 
@@ -2722,7 +3079,7 @@ function setResTab(t){
   $('#resPanelHistory').hidden = t !== 'history';
   Array.prototype.forEach.call(document.querySelectorAll('#resTabSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.restab === t)));
   if (t === 'history') renderHistory();
-  if (t === 'cc') { markCCUrgencySeen(); applyCCGlow(); }
+  if (t === 'cc') { renderCC(); markCCUrgencySeen(); applyCCGlow(); }
 }
 $('#resTabSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setResTab(b.dataset.restab); });
 
@@ -2808,14 +3165,19 @@ $('#resForm').addEventListener('submit', e => {
 
 /* ---------- set aside: list + delete ---------- */
 function ordinal(n){ const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
-function renderReserve(){
-  const cur = curYm();
-  const subs = reserves.filter(r => r.kind === 'sub').length, emis = reserves.filter(r => r.kind === 'emi').length;
-  const total = reserves.reduce((s, r) => s + reserveMonthly(r), 0);
+function renderResStats(){
+  const subs = reserves.filter(r => r.kind === 'sub').length, emis = reserves.filter(r => r.kind === 'emi').length, cur = curYm();
+  const total = round2(reserves.reduce((n, r) => n + reserveMonthly(r), 0) + billsDueFor(cur) + billsPaidIn(cur, BILL_HIST));
   $('#resStats').innerHTML =
-    '<div class="st main"><span>Set aside monthly</span><b>' + fmt(total) + '</b></div>' +
+    '<div class="mainrow"><div class="st main"><span>Set aside monthly</span><b>' + fmt(total) + '</b></div>' +
+    '<div class="incbox"><button type="button" class="incrow" id="btnBillsDue" aria-label="Bills due, open Bills"><span>Bills due</span><b>' + fmt(billsDueAll()) + '</b></button></div></div>' +
     '<div class="st"><span>Subscriptions</span><b>' + subs + '</b></div>' +
     '<div class="st"><span>EMIs</span><b>' + emis + '</b></div>';
+}
+$('#resStats').addEventListener('click', e => { if (e.target.closest('#btnBillsDue')) setResTab('cc'); });
+function renderReserve(){
+  const cur = curYm();
+  renderResStats();
   $('#resList').innerHTML = reserves.length ? reserves.map(r => {
     const every = r.every === 1 ? 'every month' : 'every ' + r.every + ' months';
     let sub = fmt(r.amount) + ' ' + every;
@@ -2858,7 +3220,7 @@ async function markEmiPaid(id){
   m.txns.push({id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: r.amount, note: r.name});
   touch(ym);
   r.lastPaid = cur;
-  addHistory('emi', r.name, r.amount, d);
+  addHistory('emi', r.name, r.amount, d, {refId: r.id});
   queueReserves(); render(); renderReserve();
   if (resTab === 'history') renderHistory();
   toast(r.name + ' ' + fmt(r.amount) + ' added to your ledger');
@@ -2876,8 +3238,10 @@ async function deleteReserve(id){
 let ccSelectedCardId = null;
 function renderCardChips(){
   $('#cardChips').innerHTML = cards.map(k =>
-    '<button type="button" class="chip" data-id="' + esc(k.id) + '" aria-pressed="' + (ccSelectedCardId === k.id) + '">' + esc(k.name) + '</button>'
-  ).join('') + '<button type="button" class="chip new" data-act="newcard">+ New card</button>';
+    '<button type="button" class="chip" data-id="' + esc(k.id) + '" aria-pressed="' + (ccSelectedCardId === k.id) + '">' + esc(k.name) + (k.kind !== 'card' ? ' <small>' + esc(ENTRY_LABEL[k.kind]) + '</small>' : '') + '</button>'
+  ).join('') + '<button type="button" class="chip new" data-act="newcard">+ New entry</button>';
+  const sel = cardById(ccSelectedCardId);
+  $('#ccRepeatRow').hidden = !(sel && sel.kind === 'utility');
 }
 $('#cardChips').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
@@ -2885,29 +3249,40 @@ $('#cardChips').addEventListener('click', e => {
   ccSelectedCardId = ccSelectedCardId === b.dataset.id ? null : b.dataset.id;
   renderCardChips();
 });
-let cardFromChips = false;
-function openCards(fromChips){
-  cardFromChips = !!fromChips;
-  $('#ncCardErr').textContent = ''; $('#ncCardName').value = '';
-  renderCardList();
-  openDialog('#dlgCards');
-  $('#ncCardName').focus();
+let cardFromChips = false, ncKind = 'card';
+const NC_HELP = {
+  card: 'Bills are one-time. Marking one paid logs it in History only, because the spending is already in your ledger.',
+  utility: 'Stays on your list every month. Marking it paid adds it to your ledger, once a month.',
+  borrow: 'One-time. Marking it paid logs it in History only, because the spending is already in your ledger.',
+  other: 'One-time, History only, same as a card.'
+};
+function setNcKind(k){
+  ncKind = k;
+  Array.prototype.forEach.call(document.querySelectorAll('#ncKindSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.kind === k)));
+  const hasNote = k === 'utility' || k === 'borrow';
+  $('#ncNote').hidden = !hasNote;
+  if (!hasNote) $('#ncNote').value = '';
+  $('#ncNote').placeholder = k === 'utility' ? 'Note, e.g. Electricity, consumer no. 4521' : 'Note, e.g. Borrowed from Rahul';
+  $('#ncHelp').textContent = NC_HELP[k];
 }
+$('#ncKindSeg').addEventListener('click', e => { const b = e.target.closest('button[data-kind]'); if (b) setNcKind(b.dataset.kind); });
+function openCards(fromChips){ openCats(fromChips, 'bills'); }
 function renderCardList(){
   $('#cardList').innerHTML = cards.length ? cards.map(k =>
-    '<div class="rrow" data-id="' + esc(k.id) + '"><div class="rmain"><div class="rname"><span>' + esc(k.name) + '</span></div></div>' +
+    '<div class="rrow" data-id="' + esc(k.id) + '"><div class="rmain static"><div class="rname"><span>' + esc(k.name) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[k.kind]) + '</span></div>' + (k.note ? '<div class="rsub">' + esc(k.note) + '</div>' : '') + '</div>' +
     '<button type="button" class="icon-btn danger" data-del="' + esc(k.id) + '" aria-label="Delete ' + esc(k.name) + '">' + TRASH + '</button></div>'
-  ).join('') : '<p class="muted" style="margin:0">No cards yet.</p>';
+  ).join('') : '<p class="muted" style="margin:0">No entries yet.</p>';
 }
 $('#newCardForm').addEventListener('submit', e => {
   e.preventDefault();
   const name = $('#ncCardName').value.trim(), err = $('#ncCardErr'); err.textContent = '';
-  if (!name) { err.textContent = 'Enter a card name.'; return; }
-  if (cards.some(k => k.name.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have a card called \u201C' + name + '\u201D.'; return; }
-  const k = {id: newId('k'), name: name};
+  if (!name) { err.textContent = 'Enter a name.'; return; }
+  if (cards.some(k => k.name.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have an entry called \u201C' + name + '\u201D.'; return; }
+  const hasNote = ncKind === 'utility' || ncKind === 'borrow';
+  const k = {id: newId('k'), name: name, kind: ncKind, note: hasNote ? $('#ncNote').value.trim().slice(0, 80) : ''};
   cards.push(k); queueCards();
-  $('#ncCardName').value = '';
-  if (cardFromChips) { ccSelectedCardId = k.id; $('#dlgCards').close(); renderCardChips(); }
+  $('#ncCardName').value = ''; $('#ncNote').value = '';
+  if (cardFromChips) { ccSelectedCardId = k.id; $('#dlgCats').close(); renderCardChips(); }
   else { renderCardList(); $('#ncCardName').focus(); }
 });
 $('#cardList').addEventListener('click', e => { const del = e.target.closest('[data-del]'); if (del) deleteCard(del.dataset.del); });
@@ -2916,14 +3291,184 @@ async function deleteCard(id){
   const inUse = ccbills.some(c => c.cardId === id);
   const ok = await confirmBox({
     title: 'Delete \u201C' + k.name + '\u201D?',
-    body: inUse ? 'Any current bills for this card keep showing its name, but you won\u2019t be able to pick it for new ones.' : 'You can add it again any time.',
-    ok: 'Delete card'
+    body: inUse ? 'Any current bills for this entry keep showing its name, but you won\u2019t be able to pick it for new ones.' : 'You can add it again any time.',
+    ok: 'Delete entry'
   });
   if (!ok) return;
   cards = cards.filter(x => x.id !== id);
   if (ccSelectedCardId === id) ccSelectedCardId = null;
   queueCards(); renderCardList(); renderCardChips();
 }
+
+/* ---------- income, Left and savings: dialogs ---------- */
+const PENCIL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>';
+let incEditId = null;
+const srcColor = i => PALETTE[(i + 6) % PALETTE.length];
+function renderIncSources(){
+  const list = state.incomeSources || [], sel = $('#incName').value.trim().toLowerCase();
+  $('#incChips').innerHTML = list.map((n, i) =>
+    '<button type="button" class="chip" data-q="' + esc(n) + '" aria-pressed="' + (n.toLowerCase() === sel) + '" style="--c:' + esc(cc(srcColor(i))) + '"><i class="dot"></i>' + esc(n) + '</button>'
+  ).join('') + '<button type="button" class="chip new" data-act="newsrc">+ New source</button>';
+  const ok = !!$('#incName').value.trim();
+  $('#incAmt').disabled = !ok; $('#incSubmit').disabled = !ok;
+  $('#incAmt').placeholder = ok ? '0' : 'Pick a source first';
+}
+const syncIncChips = renderIncSources;
+function resetIncForm(){
+  incEditId = null; $('#incName').value = ''; $('#incAmt').value = ''; $('#incErr').textContent = '';
+  $('#incSubmit').textContent = 'Add income'; $('#incCancel').hidden = true; renderIncSources();
+}
+function renderIncome(){
+  const ym = view.ym, list = monthIncomeList(ym);
+  $('#incTitle').textContent = 'Income \u00B7 ' + ymLabel(ym);
+  $('#incList').innerHTML = list.length ? list.map(x =>
+    '<div class="rrow" data-id="' + esc(x.id) + '"><div class="rmain" data-edit="' + esc(x.id) + '"><div class="rname"><span>' + esc(x.name) + '</span></div></div><div class="ramt">' + fmt(x.amt) + '</div>' +
+    '<button type="button" class="icon-btn danger" data-del="' + esc(x.id) + '" aria-label="Remove ' + esc(x.name) + '">' + TRASH + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">Nothing added for ' + esc(ymLabel(ym)) + ' yet. Pick a source below, or add a new one such as Salary.</p>';
+  $('#incTotal').textContent = list.length ? 'Total ' + fmt(incomeTotal(ym)) : '';
+  syncIncChips();
+}
+function openIncome(){
+  resetIncForm(); renderIncome(); renderIncSources();
+  openDialog('#dlgIncome');
+}
+$('#incChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.act === 'newsrc') { openCats(true, 'income'); return; }
+  $('#incName').value = b.dataset.q; renderIncSources(); $('#incAmt').focus();
+});
+$('#incCancel').addEventListener('click', () => { resetIncForm(); });
+$('#incForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#incName').value.trim(), amt = parseAmount($('#incAmt').value), err = $('#incErr'); err.textContent = '';
+  if (!name) { err.textContent = 'Pick a source first.'; return; }
+  if (!(amt > 0)) { err.textContent = 'Enter an amount greater than zero.'; return; }
+  const m = ensureMonth(view.ym, false);
+  if (incEditId) { const x = (m.income || []).find(i => i.id === incEditId); if (x) { x.name = name.slice(0, 40); x.amt = amt; } }
+  else m.income = (m.income || []).concat({id: newId('i'), name: name.slice(0, 40), amt: amt});
+  normMonth(m); touch(view.ym);
+  rememberSource(name.slice(0, 40));
+  resetIncForm(); renderIncome(); renderIncSources(); render();
+});
+async function removeIncome(id){
+  const x = monthIncomeList(view.ym).find(i => i.id === id); if (!x) return;
+  const ok = await confirmBox({title: 'Remove \u201C' + x.name + '\u201D?', body: 'It will no longer count towards ' + ymLabel(view.ym) + '.', ok: 'Remove'});
+  if (!ok) return;
+  const m = state.months[view.ym];
+  if (m && m.income) { m.income = m.income.filter(i => i.id !== id); normMonth(m); touch(view.ym); }
+  if (incEditId === id) resetIncForm();
+  renderIncome(); render();
+}
+$('#incList').addEventListener('click', e => {
+  const del = e.target.closest('[data-del]'); if (del) { removeIncome(del.dataset.del); return; }
+  const ed = e.target.closest('[data-edit]'); if (!ed) return;
+  const x = monthIncomeList(view.ym).find(i => i.id === ed.dataset.edit); if (!x) return;
+  incEditId = x.id; rememberSource(x.name); $('#incName').value = x.name; $('#incAmt').value = fmtN(x.amt); $('#incErr').textContent = '';
+  $('#incSubmit').textContent = 'Save changes'; $('#incCancel').hidden = false; renderIncSources(); $('#incAmt').focus();
+});
+
+/* ----- Left ----- */
+function renderLeft(){
+  const ym = view.ym, opening = openingFor(ym), inc = incomeTotal(ym), sp = monthSpent(ym), sv = movedTotal(ym, 'save'), wd = movedTotal(ym, 'wd');
+  const l0 = leftFor(ym), apply = billsApply(ym), hs = apply ? heldSubsEmis(ym) : 0, hb = apply ? heldBills(ym) : 0, left = leftNet(ym), cash = cashActive(ym);
+  const minus = v => v > 0 ? '\u2212' + fmt(v) : fmt(v);
+  const row = (label, val, cls) => '<div class="kv' + (cls ? ' ' + cls : '') + '"><span>' + label + '</span><b>' + val + '</b></div>';
+  let h = '';
+  if (opening !== 0) h += row('Brought forward', fmt(opening));
+  h += row('Income', fmt(inc)) + row('Spent', minus(sp));
+  if (sv > 0) h += row('Moved to Savings', minus(sv));
+  if (wd > 0) h += row('Withdrawn from Savings', '+' + fmt(wd));
+  if (hs + hb > 0) {
+    h += row('Left before Set Aside', fmt(l0), 'sub');
+    if (hs > 0) h += row('Set aside for subscriptions and EMIs', minus(hs));
+    if (hb > 0) h += row('Set aside for bills', minus(hb));
+  }
+  h += row('Left', fmt(left), 'big' + (left < 0 ? ' neg' : ''));
+  if (cash) {
+    const dues = duesTotal(), c2 = round2(l0 + dues);
+    h += row('Add back card and borrowed bills (already in your ledger)', '+' + fmt(dues)) + row('Cash in hand', fmt(c2), 'big' + (c2 < 0 ? ' neg' : ''));
+  }
+  if (hs + hb > 0) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">The full Set Aside amount is held back. When something is paid, it moves into Spent and Left stays the same.</p>';
+  $('#lfTitle').textContent = 'Left \u00B7 ' + ymLabel(ym);
+  $('#lfSum').innerHTML = h;
+  $('#lfCash').checked = leftCash;
+  $('#lfNote').hidden = !(leftCash && !cash);
+  $('#lfNote').textContent = 'Cash view only applies to the current month, so this month shows plain Left.';
+}
+function openLeft(){ renderLeft(); openDialog('#dlgLeft'); }
+$('#lfCash').addEventListener('change', () => {
+  leftCash = $('#lfCash').checked;
+  try { localStorage.setItem(LEFTCASH_KEY, leftCash ? '1' : '0'); } catch(e){}
+  render(); renderLeft();
+});
+
+/* ----- Savings (this month) + Modify ----- */
+let adj = {mode: 'save', id: null};
+function renderSavings(){
+  const ym = view.ym, mv = monthMoves(ym);
+  $('#svTitle').textContent = 'Savings \u00B7 ' + ymLabel(ym);
+  $('#svSum').innerHTML = '<div class="kv"><span>Saved in ' + esc(ymLabel(ym)) + '</span><b>' + signedFmt(monthSaved(ym)) + '</b></div>';
+  $('#svList').innerHTML = mv.length ? mv.map(x =>
+    '<div class="rrow" data-id="' + esc(x.id) + '"><div class="rmain static"><div class="rname"><span>' + (x.kind === 'save' ? 'Moved to Savings' : 'Withdrawn to Left') + '</span></div><div class="rsub">' + esc(fmtLong(x.d)) + '</div></div>' +
+    '<div class="ramt">' + (x.kind === 'wd' ? '\u2212' : '') + fmt(x.amt) + '</div>' +
+    '<button type="button" class="icon-btn" data-mod="' + esc(x.id) + '" aria-label="Modify">' + PENCIL + '</button></div>'
+  ).join('') : '<p class="muted" style="margin:0">Nothing saved or withdrawn in ' + esc(ymLabel(ym)) + ' yet.</p>';
+  $('#svAll').innerHTML = '<span>All savings so far</span><b>' + fmt(savingsTotal()) + '</b>';
+}
+function openSavings(){ renderSavings(); openDialog('#dlgSavings'); }
+function adjEntry(){ return adj.id ? monthMoves(view.ym).find(x => x.id === adj.id) : null; }
+function adjLimits(){
+  const ym = view.ym, mv = adjEntry();
+  if (adj.mode === 'save') return {max: Math.max(0, round2(leftNet(ym) + (mv ? mv.amt : 0))), min: mv ? Math.max(0, round2(-(savingsTotal() - mv.amt))) : 0};
+  return {max: Math.max(0, round2(savingsTotal() + (mv ? mv.amt : 0))), min: 0};
+}
+function openAdj(mode, id){
+  adj = {mode: mode, id: id || null};
+  const mv = adjEntry(), lim = adjLimits(), opening = openingFor(view.ym);
+  $('#adjTitle').textContent = mv ? 'Modify entry' : (mode === 'save' ? 'Add to savings' : 'Withdraw from savings');
+  $('#adjAmt').value = mv ? fmtN(mv.amt) : (lim.max > 0 ? fmtN(lim.max) : '');
+  $('#adjHint').textContent = mode === 'save'
+    ? 'Up to ' + fmt(lim.max) + ' available in Left (after what is set aside)' + (opening > 0 ? ', which includes ' + fmt(opening) + ' brought forward from earlier months.' : '.')
+    : 'Up to ' + fmt(lim.max) + ' in savings. It goes into Left for ' + ymLabel(view.ym) + '.';
+  $('#adjErr').textContent = '';
+  $('#adjRemove').hidden = !mv;
+  $('#adjApply').textContent = mv ? 'Save changes' : (mode === 'save' ? 'Move to Savings' : 'Withdraw');
+  openDialog('#dlgSavAdj');
+  $('#adjAmt').focus();
+}
+$('#svAdd').addEventListener('click', () => openAdj('save'));
+$('#svWd').addEventListener('click', () => openAdj('wd'));
+$('#svList').addEventListener('click', e => {
+  const b = e.target.closest('[data-mod]'); if (!b) return;
+  const mv = monthMoves(view.ym).find(x => x.id === b.dataset.mod); if (mv) openAdj(mv.kind, mv.id);
+});
+$('#adjForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const amt = parseAmount($('#adjAmt').value), err = $('#adjErr'), lim = adjLimits(); err.textContent = '';
+  if (!(amt > 0)) { err.textContent = 'Enter an amount greater than zero.'; return; }
+  if (amt > lim.max + 0.004) { err.textContent = adj.mode === 'save' ? 'Only ' + fmt(lim.max) + ' is available in Left.' : 'Only ' + fmt(lim.max) + ' is in savings.'; return; }
+  if (amt < lim.min - 0.004) { err.textContent = fmt(lim.min) + ' of this has already been withdrawn, so it can\u2019t go lower.'; return; }
+  const m = ensureMonth(view.ym, false), mv = adjEntry();
+  if (mv) { const x = (m.moves || []).find(y => y.id === mv.id); if (x) x.amt = round2(amt); }
+  else m.moves = (m.moves || []).concat({id: newId('mv'), kind: adj.mode, amt: round2(amt), d: todayStr()});
+  normMonth(m); touch(view.ym);
+  $('#dlgSavAdj').close(); renderSavings(); render();
+  toast(mv ? 'Entry updated' : adj.mode === 'save' ? fmt(amt) + ' moved to Savings' : fmt(amt) + ' withdrawn to Left');
+});
+$('#adjRemove').addEventListener('click', async () => {
+  const mv = adjEntry(); if (!mv) return;
+  if (mv.kind === 'save' && round2(savingsTotal() - mv.amt) < -0.004) { $('#adjErr').textContent = 'Some of this has already been withdrawn, so it can\u2019t be removed.'; return; }
+  const ok = await confirmBox({title: 'Remove this entry?', body: mv.kind === 'save' ? fmt(mv.amt) + ' goes back into Left.' : fmt(mv.amt) + ' goes back into savings.', ok: 'Remove'});
+  if (!ok) return;
+  const m = state.months[view.ym]; m.moves = m.moves.filter(x => x.id !== mv.id); normMonth(m); touch(view.ym);
+  $('#dlgSavAdj').close(); renderSavings(); render();
+});
+$('#stats').addEventListener('click', e => {
+  if (e.target.closest('#btnIncome')) openIncome();
+  else if (e.target.closest('#btnLeft')) openLeft();
+  else if (e.target.closest('#stSavings')) openSavings();
+});
+$('#stats').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'stSavings') { e.preventDefault(); openSavings(); } });
 
 /* ---------- set aside: CC Bills add/edit form ---------- */
 let ccEditId = null, ccYearTouched = false;
@@ -2939,15 +3484,17 @@ $('#ccDueMonth').addEventListener('change', ccAutoYear);
 $('#ccDueYear').addEventListener('input', () => { ccYearTouched = true; });
 function resetCCForm(){
   ccEditId = null; ccSelectedCardId = null; ccYearTouched = false;
+  $('#ccRepeat').value = '1';
   renderCardChips();
   $('#ccAmt').value = ''; $('#ccDueDay').value = ''; $('#ccDueMonth').value = ''; $('#ccDueYear').value = '';
   $('#ccErr').textContent = '';
-  $('#ccFormTitle').textContent = 'Add a credit card bill';
+  $('#ccFormTitle').textContent = 'Add a bill';
   $('#ccSubmitBtn').textContent = 'Add';
   $('#ccCancelEdit').hidden = true;
 }
 function fillCCForm(c){
   ccEditId = c.id; ccSelectedCardId = c.cardId; ccYearTouched = true;
+  $('#ccRepeat').value = String(c.repeat === undefined ? 1 : c.repeat);
   renderCardChips();
   $('#ccAmt').value = fmtN(c.amount);
   const p = c.due.split('-').map(Number);
@@ -2962,7 +3509,7 @@ $('#ccForm').addEventListener('submit', e => {
   e.preventDefault();
   const err = $('#ccErr'); err.textContent = '';
   const card = cardById(ccSelectedCardId);
-  if (!card) { err.textContent = 'Pick a card.'; return; }
+  if (!card) { err.textContent = 'Pick an entry.'; return; }
   const amt = parseAmount($('#ccAmt').value);
   if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter a valid amount.'; return; }
   const day = parseInt($('#ccDueDay').value, 10), month = parseInt($('#ccDueMonth').value, 10), year = parseInt($('#ccDueYear').value, 10);
@@ -2970,23 +3517,30 @@ $('#ccForm').addEventListener('submit', e => {
   const dt = new Date(year, month - 1, day);
   if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) { err.textContent = 'That date doesn\u2019t exist.'; return; }
   const due = year + '-' + pad(month) + '-' + pad(day);
+  if (card.kind === 'utility' && ccbills.some(x => x.kind === 'utility' && x.cardId === card.id && x.id !== ccEditId)) { err.textContent = '\u201C' + card.name + '\u201D is already on your list. Tap it to change the amount or date.'; return; }
+  const dueDay = card.kind === 'utility' ? day : null, repeatN = card.kind === 'utility' ? Number($('#ccRepeat').value) : 0;
   if (ccEditId) {
     const c = ccbills.find(x => x.id === ccEditId);
-    if (c) { if (c.due !== due) { c.seenOn = null; ccSeenSession.delete(c.id); } c.cardId = card.id; c.card = card.name; c.amount = round2(amt); c.due = due; }
+    if (c) { if (c.due !== due) { c.seenOn = null; ccSeenSession.delete(c.id); } c.cardId = card.id; c.card = card.name; c.kind = card.kind; c.amount = round2(amt); c.due = due; c.day = dueDay; c.repeat = repeatN; }
   } else {
-    ccbills.push({id: newId('c'), cardId: card.id, card: card.name, amount: round2(amt), due: due, seenOn: null});
+    ccbills.push({id: newId('c'), cardId: card.id, card: card.name, kind: card.kind, amount: round2(amt), due: due, day: dueDay, repeat: repeatN, seenOn: null});
   }
   queueCC(); resetCCForm(); renderCC(); markCCUrgencySeen(); applyCCGlow();
 });
 
 /* ---------- set aside: CC Bills list + mark paid + delete ---------- */
+function utilPaidIn(entryId, ym){ return history.find(h => h.kind === 'util' && h.entryId === entryId && h.date.slice(0, 7) === ym); }
+const REPEAT_LABEL = {1: 'Repeats every month', 2: 'Repeats every 2 months', 3: 'Repeats every 3 months', 6: 'Repeats every 6 months', 12: 'Repeats every year'};
 function renderCC(){
+  renderResStats();
   $('#ccList').innerHTML = ccbills.length ? ccbills.slice().sort((a, b) => a.due < b.due ? -1 : 1).map(c => {
-    const u = ccUrgency(c.due);
+    const u = ccUrgency(c.due), ent = cardById(c.cardId), note = ent && ent.note, rp = c.kind === 'utility' ? (c.repeat === undefined ? 1 : c.repeat) : 0;
     return '<div class="rrow' + (u ? ' due-' + u : '') + '" data-id="' + esc(c.id) + '">' +
       '<div class="rmain" data-open="' + esc(c.id) + '" role="button" tabindex="0">' +
-        '<div class="rname"><span>' + esc(c.card) + '</span></div>' +
+        '<div class="rname"><span>' + esc(c.card) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[c.kind] || 'Card') + '</span></div>' +
         '<div class="rsub">' + esc(ccDueLabel(c.due)) + '</div>' +
+        (rp ? '<div class="rsub">' + REPEAT_LABEL[rp] + '</div>' : '') +
+        (note ? '<div class="rsub">' + esc(note) + '</div>' : '') +
       '</div>' +
       '<div class="ramt">' + fmt(c.amount) + '</div>' +
       '<div class="racts">' +
@@ -2994,7 +3548,7 @@ function renderCC(){
         '<button type="button" class="icon-btn danger" data-del="' + esc(c.id) + '" aria-label="Delete ' + esc(c.card) + '">' + TRASH + '</button>' +
       '</div>' +
     '</div>';
-  }).join('') : '<div class="emptysheet">No card bills right now. Add one above and I\u2019ll flag it as the due date gets close.</div>';
+  }).join('') : '<div class="emptysheet">No bills right now. Add one above and I\u2019ll flag it as the due date gets close.</div>';
 }
 $('#ccList').addEventListener('click', e => {
   const paid = e.target.closest('[data-paid]');
@@ -3009,17 +3563,62 @@ $('#ccList').addEventListener('keydown', e => {
 });
 async function markCCPaid(id){
   const c = ccbills.find(x => x.id === id); if (!c) return;
-  const ok = await confirmBox({title: 'Mark \u201C' + c.card + '\u201D as paid?', body: 'This removes it from your CC Bills list and logs it in History.', ok: 'Mark paid'});
+  if (c.kind === 'utility') {
+    if (utilPaidIn(c.cardId || c.id, curYm())) { toast('\u201C' + c.card + '\u201D is already paid this month. You can mark the next one paid from next month.'); return; }
+    openUtilPay(c); return;
+  }
+  const ok = await confirmBox({title: 'Mark \u201C' + c.card + '\u201D as paid?', body: 'This removes it from Bills and Bills due, and logs it in History. Left goes back up by ' + fmt(c.amount) + '. Nothing is added to your ledger.', ok: 'Mark paid'});
   if (!ok) return;
-  addHistory('cc', c.card, c.amount, todayStr());
+  addHistory(c.kind === 'borrow' ? 'borrow' : c.kind === 'other' ? 'other' : 'cc', c.card, c.amount, todayStr(), {due: c.due});
   ccbills = ccbills.filter(x => x.id !== id);
   if (ccEditId === id) resetCCForm();
-  queueCC(); renderCC(); applyCCGlow();
+  queueCC(); renderCC(); applyCCGlow(); render();
   if (resTab === 'history') renderHistory();
 }
+/* ----- utilities: logged to the ledger, once a month ----- */
+let utilPayId = null;
+function utilCategory(){
+  let c = state.categories.find(x => x.id === 'd-utilities') || state.categories.find(x => x.name.trim().toLowerCase() === 'utilities');
+  if (!c) { c = {id: newId('c'), name: 'Utilities', color: nextColor()}; state.categories.push(c); touch('settings'); }
+  return c;
+}
+function openUtilPay(c){
+  utilPayId = c.id;
+  $('#upTitle').textContent = 'Mark \u201C' + c.card + '\u201D paid';
+  $('#upSum').innerHTML = '<div class="kv"><span>Amount</span><b>' + fmt(c.amount) + '</b></div>';
+  $('#upDate').value = todayStr(); $('#upDate').max = todayStr();
+  $('#upErr').textContent = '';
+  openDialog('#dlgUtilPay');
+}
+$('#utilPayForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const c = ccbills.find(x => x.id === utilPayId), err = $('#upErr'); err.textContent = ''; if (!c) return;
+  const d = $('#upDate').value.trim(), pm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+  const okDate = pm && (() => { const t = new Date(+pm[1], +pm[2] - 1, +pm[3]); return t.getFullYear() === +pm[1] && t.getMonth() === +pm[2] - 1 && t.getDate() === +pm[3]; })();
+  if (!okDate) { err.textContent = 'Pick the payment date.'; return; }
+  if (d > todayStr()) { err.textContent = 'The payment date can\u2019t be in the future.'; return; }
+  const ym = d.slice(0, 7), entryId = c.cardId || c.id;
+  if (utilPaidIn(entryId, ym)) { err.textContent = '\u201C' + c.card + '\u201D is already marked paid for ' + ymLabel(ym) + '. Remove that payment in History first if you want to register it on another day.'; return; }
+  const cat = utilCategory(), m = ensureMonth(ym, false), txn = {id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: c.amount, note: c.card};
+  m.txns.push(txn); touch(ym);
+  const prevDue = c.due, day = c.day || +c.due.slice(8, 10), rp = c.repeat === undefined ? 1 : c.repeat;
+  addHistory('util', c.card, c.amount, d, {entryId: entryId, txnYm: ym, txnId: txn.id, prevDue: prevDue, due: prevDue});
+  if (rp > 0) {   // a repeating bill comes back with its next due date, the paid one is in History
+    let nd = renewalDateStr(addMonths(c.due.slice(0, 7), rp), day);
+    while (nd <= todayStr()) nd = renewalDateStr(addMonths(nd.slice(0, 7), rp), day);
+    c.due = nd; c.seenOn = null; ccSeenSession.delete(c.id);
+  } else {
+    ccbills = ccbills.filter(x => x.id !== c.id);
+    if (ccEditId === c.id) resetCCForm();
+  }
+  $('#dlgUtilPay').close();
+  queueCC(); render(); renderCC(); applyCCGlow();
+  if (resTab === 'history') renderHistory();
+  toast(c.card + ' ' + fmt(c.amount) + ' added to your ledger');
+});
 async function deleteCCBill(id){
   const c = ccbills.find(x => x.id === id); if (!c) return;
-  const ok = await confirmBox({title: 'Delete \u201C' + c.card + '\u201D?', body: 'This removes this reminder.', ok: 'Delete'});
+  const ok = await confirmBox({title: 'Delete \u201C' + c.card + '\u201D?', body: c.kind === 'utility' ? 'This removes it from your Bills. Payments already logged stay in History and your ledger.' : 'This removes this reminder.', ok: 'Delete'});
   if (!ok) return;
   ccbills = ccbills.filter(x => x.id !== id);
   if (ccEditId === id) resetCCForm();
@@ -3027,28 +3626,46 @@ async function deleteCCBill(id){
 }
 
 /* ---------- set aside: payment history tab ---------- */
-const HIST_LABEL = {sub: 'Subscription', emi: 'EMI', cc: 'CC Bill'};
+const HIST_LABEL = {sub: 'Subscription', emi: 'EMI', cc: 'Card bill', util: 'Utility', borrow: 'Borrowing', other: 'Other'};
 function historyDateLabel(d){ const p = d.split('-').map(Number); return p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3) + ' ' + p[0]; }
 function renderHistory(){
   $('#historyList').innerHTML = history.length ? history.map(h =>
     '<div class="rrow" data-id="' + esc(h.id) + '">' +
       '<div class="rmain"><div class="rname"><span>' + esc(h.name) + '</span><span class="rbadge">' + esc(HIST_LABEL[h.kind] || h.kind) + '</span></div>' +
-      '<div class="rsub">' + esc(historyDateLabel(h.date)) + '</div></div>' +
+      '<div class="rsub">' + (h.due ? 'Due ' + esc(historyDateLabel(h.due)) + ' \u00b7 Paid ' + esc(historyDateLabel(h.date)) : esc(historyDateLabel(h.date))) + '</div></div>' +
       '<div class="ramt">' + fmt(h.amount) + '</div>' +
       '<button type="button" class="icon-btn danger" data-del="' + esc(h.id) + '" aria-label="Remove this history entry">' + TRASH + '</button>' +
     '</div>'
-  ).join('') : '<div class="emptysheet">No payments logged yet. Subscription renewals, and EMIs or CC bills you mark as paid, will show up here.</div>';
+  ).join('') : '<div class="emptysheet">No payments logged yet. Subscription renewals, and EMIs or bills you mark as paid, will show up here.</div>';
 }
 $('#historyList').addEventListener('click', e => { const del = e.target.closest('[data-del]'); if (del) deleteHistoryEntry(del.dataset.del); });
+function restoreUtilityBill(h, noCreate){   // noCreate: used when sweeping a deleted sheet, where a cleared bill must stay cleared
+  if (h.kind !== 'util' || !h.prevDue) return;
+  const b = ccbills.find(x => x.kind === 'utility' && (x.cardId || x.id) === h.entryId);
+  if (b) { if (b.due > h.prevDue) { b.due = h.prevDue; b.seenOn = null; ccSeenSession.delete(b.id); queueCC(); } return; }
+  if (noCreate) return;
+  const ent = cardById(h.entryId);
+  ccbills.push({id: newId('c'), cardId: h.entryId, card: ent ? ent.name : h.name, kind: 'utility', amount: h.amount, due: h.prevDue, day: +h.prevDue.slice(8, 10), repeat: 0, seenOn: null});
+  queueCC();
+}
 async function deleteHistoryEntry(id){
   const h = history.find(x => x.id === id); if (!h) return;
-  const ok = await confirmBox({title: 'Remove this history entry?', body: 'This only removes the record here \u2014 it won\u2019t change your ledger.', ok: 'Remove'});
+  const util = h.kind === 'util';
+  const ok = await confirmBox({
+    title: 'Remove this history entry?',
+    body: util ? 'This removes the record and the ' + fmt(h.amount) + ' entry it added to your ' + ymLabel(h.txnYm || h.date.slice(0, 7)) + ' ledger, so you can register the payment again on another day.' : 'This only removes the record here \u2014 it won\u2019t change your ledger.',
+    ok: 'Remove'
+  });
   if (!ok) return;
   history = history.filter(x => x.id !== id);
-  queueHistory(); renderHistory();
+  queueHistory(); renderHistory(); renderResStats();
+  if (!util) return;
+  const m = h.txnYm && state.months[h.txnYm];
+  if (m && m.txns.some(t => t.id === h.txnId)) { m.txns = m.txns.filter(t => t.id !== h.txnId); touch(h.txnYm); render(); }
+  restoreUtilityBill(h); applyCCGlow();
+  renderCC();
 }
 
-/* ---------- set aside: auto-log subscription renewals to the ledger ---------- */
 function runSubscriptionAutoLog(){
   const logged = [];
   reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).forEach(r => {
@@ -3059,7 +3676,7 @@ function runSubscriptionAutoLog(){
     m.txns.push({id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: r.amount, note: r.name});
     touch(ym);
     r.lastLogged = due;
-    addHistory('sub', r.name, r.amount, d);
+    addHistory('sub', r.name, r.amount, d, {refId: r.id});
     logged.push(r.name + ' ' + fmt(r.amount));
   });
   if (logged.length) {
