@@ -129,7 +129,7 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
   --line:#DFE2EE; --line-2:#ECEEF6;
   --band:#1A1E4A; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
   --gold:#DDB35A; --on-gold:#2B2106; --gold-soft:#FBF3DC; --gold-text:#8A6413;
-  --warn:#C97A26; --warn-soft:#FBEEDC; --neg-soft:#FBE4E1;
+  --warn:#C97A26; --warn-soft:#FBEEDC; --neg-soft:#FBE4E1; --over:#7B3FA3; --over-soft:#F1E6F7;
   --primary:#1A1E4A; --on-primary:#FFFFFF; --focus:#3B5BDB;
   --pos:#0F7B5A; --neg:#C22F1F;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
@@ -143,7 +143,7 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
     --line:#2A3160; --line-2:#1E2447;
     --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
     --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
-    --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714;
+    --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714; --over:#CDA2EC; --over-soft:#2E1B3B;
     --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
     --pos:#4FCB9E; --neg:#FF8272;
     color-scheme: dark;
@@ -155,7 +155,7 @@ if(window.matchMedia){try{var mq=matchMedia('(prefers-color-scheme: dark)');if(m
   --line:#2A3160; --line-2:#1E2447;
   --band:#1B2160; --band-ink:#F5F2E9; --band-ink-2:#B7BDDD;
   --gold:#E0B85C; --on-gold:#2B2106; --gold-soft:#3A3018; --gold-text:#E0B85C;
-  --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714;
+  --warn:#E0964A; --warn-soft:#3A2A14; --neg-soft:#3A1714; --over:#CDA2EC; --over-soft:#2E1B3B;
   --primary:#7F90FF; --on-primary:#0B0E22; --focus:#9DAAFF;
   --pos:#4FCB9E; --neg:#FF8272;
   color-scheme: dark;
@@ -197,6 +197,7 @@ h1{font:700 clamp(36px,6.5vw,58px)/1.02 var(--display);letter-spacing:-.025em;ma
 .incrow b{font:600 16px/1.35 var(--body);border-bottom:1px dotted color-mix(in srgb,var(--band-ink) 40%,transparent)}
 .incrow:hover b{border-bottom-color:currentColor}
 .incrow.neg b{color:#FF8272}
+.saldate{font-size:13px;color:var(--band-ink-2);padding-top:1px}
 .incadd{min-height:0;padding:5px 12px;border:1px dashed color-mix(in srgb,var(--band-ink) 38%,transparent);border-radius:999px;background:none;color:var(--band-ink-2);font-size:13px}
 .incadd:hover{color:var(--band-ink);border-color:var(--band-ink)}
 .stbtn{cursor:pointer}
@@ -738,6 +739,8 @@ html{scroll-padding-bottom:76px}
 .band .seg button[aria-pressed="true"]{background:var(--band-ink);color:var(--band);font-weight:600}
 .rrow.due-orange{background:var(--warn-soft);border-left:3px solid var(--warn);padding-left:11px}
 .rrow.due-red{background:var(--neg-soft);border-left:3px solid var(--neg);padding-left:11px}
+.rrow.due-over{background:var(--over-soft);border-left:3px solid var(--over);padding-left:11px}
+.rsub.over{color:var(--over);font-weight:600}
 
 /* ===== due-date glow ===== */
 @keyframes glowOrange{0%,100%{box-shadow:0 0 0 0 rgba(201,122,38,0)}50%{box-shadow:0 0 0 6px rgba(201,122,38,.35)}}
@@ -916,6 +919,8 @@ html{scroll-padding-bottom:76px}
       <div class="chips" id="incChips" role="group" aria-label="Choose a source"></div>
       <input id="incName" type="hidden">
       <label>Amount <div class="money"><span>₹</span><input id="incAmt" inputmode="decimal" autocomplete="off" placeholder="Pick a source first" disabled></div></label>
+      <label id="incDateRow" hidden>Salary credit date <input type="date" id="incDate"></label>
+      <p class="muted" id="incDateHint" hidden style="margin:-4px 0 0;font-size:13px">If you don&rsquo;t have a fixed salary date, put the latest date you expect your salary.</p>
       <div class="err" id="incErr" role="alert"></div>
       <div class="incact"><button type="button" class="btn" id="incCancel" hidden>Cancel edit</button><button type="submit" class="btn primary" id="incSubmit" disabled>Add income</button></div>
     </form>
@@ -974,7 +979,7 @@ html{scroll-padding-bottom:76px}
   <div class="db">
     <div id="lfSum"></div>
     <p class="muted" id="lfNote" style="margin:0;font-size:13px" hidden></p>
-    <label class="swrow"><input type="checkbox" id="lfCash"><span><b>Show cash in hand</b><small>Shows the money you actually hold: it leaves out what is set aside and adds back card and borrowed spending that is already in your ledger. Applies to the current month. Off by default, so what you owe stays visible.</small></span></label>
+    <label class="swrow"><input type="checkbox" id="lfCash"><span><b>Show cash in hand</b><small>Shows the money you actually hold. Card and borrowed bills are added back, whatever month they fall due; everything else stays set aside. Applies to the current month. Off by default, so what you owe stays visible.</small></span></label>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
 </dialog>
@@ -1174,7 +1179,7 @@ function openDialog(el){
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9', APP_BUILD = '28 Sep 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9.1', APP_BUILD = '2 Oct 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1269,7 +1274,7 @@ function cleanMonth(ym, o){
   o = o || {};
   const txns = (Array.isArray(o.txns) ? o.txns : []).filter(t => t && typeof t === 'object' && isFinite(Number(t.amt)) && /^\d{4}-\d{2}-\d{2}$/.test(t.d))
     .map(t => ({id: String(t.id || newId('t')), d: t.d, cat: String(t.cat || ''), catName: String(t.catName || ''), amt: round2(Number(t.amt)), note: String(t.note || '')}));
-  const income = (Array.isArray(o.income) ? o.income : []).filter(x => x && typeof x === 'object' && Number(x.amt) > 0 && isFinite(Number(x.amt)) && !x.carryFrom).map(x => ({id: String(x.id || newId('i')), name: String(x.name || 'Income').slice(0, 40), amt: round2(Number(x.amt))}));
+  const income = (Array.isArray(o.income) ? o.income : []).filter(x => x && typeof x === 'object' && Number(x.amt) > 0 && isFinite(Number(x.amt)) && !x.carryFrom).map(x => ({id: String(x.id || newId('i')), name: String(x.name || 'Income').slice(0, 40), amt: round2(Number(x.amt)), ...(/^\d{4}-\d{2}-\d{2}$/.test(String(x.date || '')) ? {date: x.date} : {})}));
   const moves = (Array.isArray(o.moves) ? o.moves : []).filter(x => x && (x.kind === 'save' || x.kind === 'wd') && Number(x.amt) > 0 && isFinite(Number(x.amt)))
     .map(x => ({id: String(x.id || newId('mv')), kind: x.kind, amt: round2(Number(x.amt)), d: /^\d{4}-\d{2}-\d{2}$/.test(String(x.d || '')) ? x.d : todayStr()}));
   const out = {ym: ym, txns: txns};
@@ -1285,12 +1290,16 @@ function ensureMonth(ym, persist){
 }
 
 /* ---------- income, savings and the running "Left" (stored inside each month's own document) ---------- */
+const isSalary = n => String(n == null ? '' : n).trim().toLowerCase() === 'salary';
+const dayMonthLabel = d => { const p = d.split('-').map(Number); return p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3); };
 const monthIncomeList = ym => (state.months[ym] && state.months[ym].income) || [];
 const monthMoves = ym => (state.months[ym] && state.months[ym].moves) || [];
 const incomeTotal = ym => round2(monthIncomeList(ym).reduce((n, x) => n + x.amt, 0));
+const salaryPending = x => isSalary(x.name) && !!x.date && x.date > todayStr();   // salary whose credit day has not come yet
+const incomeCounted = ym => round2(monthIncomeList(ym).filter(x => !salaryPending(x)).reduce((n, x) => n + x.amt, 0));   // what Left may use
 const movedTotal = (ym, kind) => round2(monthMoves(ym).filter(x => x.kind === kind).reduce((n, x) => n + x.amt, 0));
 const monthSpent = ym => round2((state.months[ym] ? state.months[ym].txns : []).reduce((n, t) => n + t.amt, 0));
-const monthOwn = ym => round2(incomeTotal(ym) - monthSpent(ym) - movedTotal(ym, 'save') + movedTotal(ym, 'wd'));
+const monthOwn = ym => round2(incomeCounted(ym) - monthSpent(ym) - movedTotal(ym, 'save') + movedTotal(ym, 'wd'));
 const monthSaved = ym => round2(movedTotal(ym, 'save') - movedTotal(ym, 'wd'));
 const signedFmt = v => v < 0 ? '\u2212' + fmt(-v) : fmt(v);
 const savingsTotal = () => round2(Object.keys(state.months).reduce((n, k) => n + movedTotal(k, 'save') - movedTotal(k, 'wd'), 0));
@@ -1321,7 +1330,12 @@ const heldBills = ym => round2(billsDueFor(ym) + billsPaidIn(ym, ['cc', 'borrow'
 const billsApply = ym => ym >= curYm();   // what is set aside is held back from now on, never in past months
 const heldBack = ym => billsApply(ym) ? round2(heldSubsEmis(ym) + heldBills(ym)) : 0;
 const leftNet = ym => round2(leftFor(ym) - heldBack(ym));
-const leftShown = ym => cashActive(ym) ? round2(leftFor(ym) + duesTotal()) : leftNet(ym);
+const isCB = c => c.kind === 'card' || c.kind === 'borrow';
+// card and borrowed money held back in Left (due by month end, or paid this month) is already in the ledger, so cash view gives it back
+const cashBack = ym => round2(ccbills.filter(c => isCB(c) && c.due <= monthEnd(ym)).reduce((n, c) => n + c.amount, 0) + billsPaidIn(ym, ['cc', 'borrow']));
+// ...and every unpaid card / borrowing bill, in any later month too, is cash you still hold
+const cashFor = ym => round2(leftNet(ym) + cashBack(ym) + duesTotal());
+const leftShown = ym => cashActive(ym) ? cashFor(ym) : leftNet(ym);
 function setAsidePending(){   // not in the ledger yet, so it has not reduced Left: current month only
   const cur = curYm(), today = todayStr();
   const subs = reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).reduce((n, r) => {
@@ -1332,6 +1346,16 @@ function setAsidePending(){   // not in the ledger yet, so it has not reduced Le
   return {subs: subs, emis: emis, total: round2(subs + emis)};
 }
 const billsDueAll = () => round2(billsDueFor(curYm()) + setAsidePending().total);
+function dueNextMonth(){   // bills dated next month, subscriptions renewing next month, EMIs falling due next month
+  const cur = curYm(), nm = addMonths(cur, 1), eomCur = monthEnd(cur), eomNext = monthEnd(nm);
+  const bills = ccbills.filter(c => c.due > eomCur && c.due <= eomNext).reduce((n, c) => n + c.amount, 0);
+  const subs = reserves.filter(r => r.kind === 'sub' && r.day && r.anchor).reduce((n, r) => {
+    let ym = r.anchor; while (ym < nm) ym = addMonths(ym, r.every);
+    return ym === nm ? n + r.amount : n;
+  }, 0);
+  const emis = reserves.filter(r => r.kind === 'emi' && r.end >= nm).reduce((n, r) => (!r.lastPaid || monthsBetween(r.lastPaid, nm) >= r.every) ? n + r.amount : n, 0);
+  return round2(bills + subs + emis);
+}
 function normMonth(m){   // keeps a stable property order and drops empty lists so old documents stay unchanged
   const inc = m.income, mv = m.moves; delete m.income; delete m.moves;
   if (inc && inc.length) m.income = inc;
@@ -1683,7 +1707,7 @@ function ccDueLabel(due){
   if (days === 0) return 'Due today \u00b7 ' + dm;
   if (days === 1) return 'Due tomorrow \u00b7 ' + dm;
   if (days > 1) return 'Due ' + dm + ' \u00b7 in ' + days + ' days';
-  return 'Overdue \u00b7 ' + dm;
+  return 'Overdue \u00b7 ' + dm + ' \u00b7 ' + (-days) + (days === -1 ? ' day late' : ' days late');
 }
 function ccUrgency(due){ const d = daysUntil(due); if (d === 0 || d === 1) return 'red'; if (d === 2 || d === 3) return 'orange'; return ''; }
 // Orange (3 and 2 days out) nudges once per day; red (1 day out and due day) nudges every time the app is opened.
@@ -1800,10 +1824,13 @@ function renderHead(st){
   const inc = incomeTotal(view.ym), hasInc = monthIncomeList(view.ym).length > 0, opening = openingFor(view.ym);
   const showLeft = hasInc || opening !== 0 || monthMoves(view.ym).length > 0;
   const cash = cashActive(view.ym), left = leftShown(view.ym), svm = monthSaved(view.ym);
+  let salNext = null;
+  Object.keys(state.months).forEach(k => monthIncomeList(k).forEach(x => { if (isSalary(x.name) && x.date && x.date >= todayStr() && (!salNext || x.date < salNext)) salNext = x.date; }));
+  const salLine = salNext && view.ym === curYm() ? (() => { const dd = daysUntil(salNext); return '<div class="saldate">Salary ' + (dd === 0 ? 'today' : dd === 1 ? 'tomorrow' : 'in ' + dd + ' days') + '</div>'; })() : '';
   const incBox = (hasInc
       ? '<button type="button" class="incrow" id="btnIncome" aria-label="Edit income"><span>Income</span><b>' + fmt(inc) + '</b></button>'
       : '<button type="button" class="incadd" id="btnIncome">+ Add income</button>') +
-    (showLeft ? '<button type="button" class="incrow' + (left < 0 ? ' neg' : '') + '" id="btnLeft" aria-label="' + (cash ? 'Cash left' : 'Left') + '"><span>' + (cash ? 'Cash left' : 'Left') + '</span><b>' + fmt(left) + '</b></button>' : '');
+    (showLeft ? '<button type="button" class="incrow' + (left < 0 ? ' neg' : '') + '" id="btnLeft" aria-label="' + (cash ? 'Cash left' : 'Left') + '"><span>' + (cash ? 'Cash left' : 'Left') + '</span><b>' + fmt(left) + '</b></button>' : '') + salLine;
   $('#stats').innerHTML =
     '<div class="mainrow"><div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div><div class="incbox">' + incBox + '</div></div>' +
     '<div class="st"><span>Daily average</span><b>' + avg + '</b></div>' +
@@ -2319,7 +2346,7 @@ $('#newSrcForm').addEventListener('submit', e => {
   if (list.some(n => n.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have a source called \u201C' + name + '\u201D.'; return; }
   if (list.length >= 12) { err.textContent = 'You can keep up to 12 sources. Remove one first.'; return; }
   rememberSource(name); $('#nsName').value = '';
-  if (srcFromChips) { $('#incName').value = name; $('#dlgCats').close(); renderIncSources(); $('#incAmt').focus(); }
+  if (srcFromChips) { $('#incName').value = name; $('#dlgCats').close(); renderIncSources(); if (isSalary(name) && !$('#incDate').value) $('#incDate').value = suggestSalaryDate(view.ym); $('#incAmt').focus(); }
   else { renderSrcList(); $('#nsName').focus(); }
 });
 $('#srcList').addEventListener('click', e => {
@@ -3170,11 +3197,12 @@ function renderResStats(){
   const total = round2(reserves.reduce((n, r) => n + reserveMonthly(r), 0) + billsDueFor(cur) + billsPaidIn(cur, BILL_HIST));
   $('#resStats').innerHTML =
     '<div class="mainrow"><div class="st main"><span>Set aside monthly</span><b>' + fmt(total) + '</b></div>' +
-    '<div class="incbox"><button type="button" class="incrow" id="btnBillsDue" aria-label="Bills due, open Bills"><span>Bills due</span><b>' + fmt(billsDueAll()) + '</b></button></div></div>' +
+    '<div class="incbox"><button type="button" class="incrow" id="btnBillsDue" aria-label="Bills due this month, open Bills"><span>Bills due this month</span><b>' + fmt(billsDueAll()) + '</b></button>' +
+    '<button type="button" class="incrow" id="btnBillsNext" aria-label="Bills due next month, open Bills"><span>Bills due next month</span><b>' + fmt(dueNextMonth()) + '</b></button></div></div>' +
     '<div class="st"><span>Subscriptions</span><b>' + subs + '</b></div>' +
     '<div class="st"><span>EMIs</span><b>' + emis + '</b></div>';
 }
-$('#resStats').addEventListener('click', e => { if (e.target.closest('#btnBillsDue')) setResTab('cc'); });
+$('#resStats').addEventListener('click', e => { if (e.target.closest('#btnBillsDue, #btnBillsNext')) setResTab('cc'); });
 function renderReserve(){
   const cur = curYm();
   renderResStats();
@@ -3312,17 +3340,24 @@ function renderIncSources(){
   const ok = !!$('#incName').value.trim();
   $('#incAmt').disabled = !ok; $('#incSubmit').disabled = !ok;
   $('#incAmt').placeholder = ok ? '0' : 'Pick a source first';
+  const sal = isSalary($('#incName').value);
+  $('#incDateRow').hidden = !sal; $('#incDateHint').hidden = !sal;
+}
+function suggestSalaryDate(ym){   // same day as the last Salary you dated, in this sheet's month
+  const prev = Object.keys(state.months).filter(k => k < ym).sort().reverse();
+  for (const k of prev) { const x = monthIncomeList(k).find(i => isSalary(i.name) && i.date); if (x) return renewalDateStr(ym, +x.date.slice(8, 10)); }
+  return '';
 }
 const syncIncChips = renderIncSources;
 function resetIncForm(){
-  incEditId = null; $('#incName').value = ''; $('#incAmt').value = ''; $('#incErr').textContent = '';
+  incEditId = null; $('#incName').value = ''; $('#incAmt').value = ''; $('#incDate').value = ''; $('#incErr').textContent = '';
   $('#incSubmit').textContent = 'Add income'; $('#incCancel').hidden = true; renderIncSources();
 }
 function renderIncome(){
   const ym = view.ym, list = monthIncomeList(ym);
   $('#incTitle').textContent = 'Income \u00B7 ' + ymLabel(ym);
   $('#incList').innerHTML = list.length ? list.map(x =>
-    '<div class="rrow" data-id="' + esc(x.id) + '"><div class="rmain" data-edit="' + esc(x.id) + '"><div class="rname"><span>' + esc(x.name) + '</span></div></div><div class="ramt">' + fmt(x.amt) + '</div>' +
+    '<div class="rrow" data-id="' + esc(x.id) + '"><div class="rmain" data-edit="' + esc(x.id) + '"><div class="rname"><span>' + esc(x.name) + '</span></div>' + (x.date ? '<div class="rsub">Credits ' + esc(dayMonthLabel(x.date)) + '</div>' : '') + '</div><div class="ramt">' + fmt(x.amt) + '</div>' +
     '<button type="button" class="icon-btn danger" data-del="' + esc(x.id) + '" aria-label="Remove ' + esc(x.name) + '">' + TRASH + '</button></div>'
   ).join('') : '<p class="muted" style="margin:0">Nothing added for ' + esc(ymLabel(ym)) + ' yet. Pick a source below, or add a new one such as Salary.</p>';
   $('#incTotal').textContent = list.length ? 'Total ' + fmt(incomeTotal(ym)) : '';
@@ -3335,7 +3370,9 @@ function openIncome(){
 $('#incChips').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.act === 'newsrc') { openCats(true, 'income'); return; }
-  $('#incName').value = b.dataset.q; renderIncSources(); $('#incAmt').focus();
+  $('#incName').value = b.dataset.q; renderIncSources();
+  if (isSalary(b.dataset.q) && !$('#incDate').value) $('#incDate').value = suggestSalaryDate(view.ym);
+  $('#incAmt').focus();
 });
 $('#incCancel').addEventListener('click', () => { resetIncForm(); });
 $('#incForm').addEventListener('submit', e => {
@@ -3343,9 +3380,14 @@ $('#incForm').addEventListener('submit', e => {
   const name = $('#incName').value.trim(), amt = parseAmount($('#incAmt').value), err = $('#incErr'); err.textContent = '';
   if (!name) { err.textContent = 'Pick a source first.'; return; }
   if (!(amt > 0)) { err.textContent = 'Enter an amount greater than zero.'; return; }
+  let cdate = '';
+  if (isSalary(name)) {
+    cdate = $('#incDate').value.trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cdate)) { err.textContent = 'Add the salary credit date. If you don\u2019t have a fixed date, use the latest date you expect your salary.'; return; }
+  }
   const m = ensureMonth(view.ym, false);
-  if (incEditId) { const x = (m.income || []).find(i => i.id === incEditId); if (x) { x.name = name.slice(0, 40); x.amt = amt; } }
-  else m.income = (m.income || []).concat({id: newId('i'), name: name.slice(0, 40), amt: amt});
+  if (incEditId) { const x = (m.income || []).find(i => i.id === incEditId); if (x) { x.name = name.slice(0, 40); x.amt = amt; if (cdate) x.date = cdate; else delete x.date; } }
+  else m.income = (m.income || []).concat(Object.assign({id: newId('i'), name: name.slice(0, 40), amt: amt}, cdate ? {date: cdate} : {}));
   normMonth(m); touch(view.ym);
   rememberSource(name.slice(0, 40));
   resetIncForm(); renderIncome(); renderIncSources(); render();
@@ -3363,13 +3405,13 @@ $('#incList').addEventListener('click', e => {
   const del = e.target.closest('[data-del]'); if (del) { removeIncome(del.dataset.del); return; }
   const ed = e.target.closest('[data-edit]'); if (!ed) return;
   const x = monthIncomeList(view.ym).find(i => i.id === ed.dataset.edit); if (!x) return;
-  incEditId = x.id; rememberSource(x.name); $('#incName').value = x.name; $('#incAmt').value = fmtN(x.amt); $('#incErr').textContent = '';
+  incEditId = x.id; rememberSource(x.name); $('#incName').value = x.name; $('#incAmt').value = fmtN(x.amt); $('#incDate').value = x.date || ''; $('#incErr').textContent = '';
   $('#incSubmit').textContent = 'Save changes'; $('#incCancel').hidden = false; renderIncSources(); $('#incAmt').focus();
 });
 
 /* ----- Left ----- */
 function renderLeft(){
-  const ym = view.ym, opening = openingFor(ym), inc = incomeTotal(ym), sp = monthSpent(ym), sv = movedTotal(ym, 'save'), wd = movedTotal(ym, 'wd');
+  const ym = view.ym, opening = openingFor(ym), inc = incomeCounted(ym), sp = monthSpent(ym), sv = movedTotal(ym, 'save'), wd = movedTotal(ym, 'wd');
   const l0 = leftFor(ym), apply = billsApply(ym), hs = apply ? heldSubsEmis(ym) : 0, hb = apply ? heldBills(ym) : 0, left = leftNet(ym), cash = cashActive(ym);
   const minus = v => v > 0 ? '\u2212' + fmt(v) : fmt(v);
   const row = (label, val, cls) => '<div class="kv' + (cls ? ' ' + cls : '') + '"><span>' + label + '</span><b>' + val + '</b></div>';
@@ -3385,9 +3427,12 @@ function renderLeft(){
   }
   h += row('Left', fmt(left), 'big' + (left < 0 ? ' neg' : ''));
   if (cash) {
-    const dues = duesTotal(), c2 = round2(l0 + dues);
-    h += row('Add back card and borrowed bills (already in your ledger)', '+' + fmt(dues)) + row('Cash in hand', fmt(c2), 'big' + (c2 < 0 ? ' neg' : ''));
+    const back = cashBack(ym), dues = duesTotal(), c2 = cashFor(ym);
+    if (back > 0) h += row('Give back card and borrowed bills held above', '+' + fmt(back));
+    h += row('Card and borrowed bills not paid yet, any due date', '+' + fmt(dues)) + row('Cash in hand', fmt(c2), 'big' + (c2 < 0 ? ' neg' : ''));
   }
+  const pend = monthIncomeList(ym).filter(salaryPending);
+  if (pend.length) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">Salary of ' + fmt(round2(pend.reduce((n, x) => n + x.amt, 0))) + ' is not counted yet. It joins Left on ' + dayMonthLabel(pend.map(x => x.date).sort()[0]) + ', its credit day.</p>';
   if (hs + hb > 0) h += '<p class="muted" style="margin:10px 0 0;font-size:13px">The full Set Aside amount is held back. When something is paid, it moves into Spent and Left stays the same.</p>';
   $('#lfTitle').textContent = 'Left \u00B7 ' + ymLabel(ym);
   $('#lfSum').innerHTML = h;
@@ -3534,11 +3579,11 @@ const REPEAT_LABEL = {1: 'Repeats every month', 2: 'Repeats every 2 months', 3: 
 function renderCC(){
   renderResStats();
   $('#ccList').innerHTML = ccbills.length ? ccbills.slice().sort((a, b) => a.due < b.due ? -1 : 1).map(c => {
-    const u = ccUrgency(c.due), ent = cardById(c.cardId), note = ent && ent.note, rp = c.kind === 'utility' ? (c.repeat === undefined ? 1 : c.repeat) : 0;
-    return '<div class="rrow' + (u ? ' due-' + u : '') + '" data-id="' + esc(c.id) + '">' +
+    const u = ccUrgency(c.due), over = daysUntil(c.due) < 0, ent = cardById(c.cardId), note = ent && ent.note, rp = c.kind === 'utility' ? (c.repeat === undefined ? 1 : c.repeat) : 0;
+    return '<div class="rrow' + (over ? ' due-over' : u ? ' due-' + u : '') + '" data-id="' + esc(c.id) + '">' +
       '<div class="rmain" data-open="' + esc(c.id) + '" role="button" tabindex="0">' +
         '<div class="rname"><span>' + esc(c.card) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[c.kind] || 'Card') + '</span></div>' +
-        '<div class="rsub">' + esc(ccDueLabel(c.due)) + '</div>' +
+        '<div class="rsub' + (over ? ' over' : '') + '">' + esc(ccDueLabel(c.due)) + '</div>' +
         (rp ? '<div class="rsub">' + REPEAT_LABEL[rp] + '</div>' : '') +
         (note ? '<div class="rsub">' + esc(note) + '</div>' : '') +
       '</div>' +
