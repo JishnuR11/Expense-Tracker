@@ -190,8 +190,10 @@ h1{font:700 clamp(36px,6.5vw,58px)/1.02 var(--display);letter-spacing:-.025em;ma
 .st span{display:block;font-size:13px;color:var(--band-ink-2)}
 .st b{font:600 18px/1.35 var(--body)}
 .st.main b{font:700 34px/1.12 var(--display);color:var(--gold)}
-.mainrow{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 18px}
-.incbox{display:grid;justify-items:end;gap:1px;margin:0 0 3px auto}
+.mainrow{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:space-between;gap:6px 18px}
+.incbox{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;gap:1px;margin:0 0 0 auto}
+.incbox.solo{justify-content:flex-end}
+.st.neg b{color:#FF8272}
 .incrow{display:inline-flex;align-items:baseline;gap:8px;min-height:0;padding:2px 0;border:0;background:none;color:var(--band-ink);font:inherit}
 .incrow span{font-size:13px;color:var(--band-ink-2)}
 .incrow b{font:600 16px/1.35 var(--body);border-bottom:1px dotted color-mix(in srgb,var(--band-ink) 40%,transparent)}
@@ -979,7 +981,7 @@ html{scroll-padding-bottom:76px}
   <div class="db">
     <div id="lfSum"></div>
     <p class="muted" id="lfNote" style="margin:0;font-size:13px" hidden></p>
-    <label class="swrow"><input type="checkbox" id="lfCash"><span><b>Show cash in hand</b><small>Shows the money you actually hold. Card and borrowed bills are added back, whatever month they fall due; everything else stays set aside. Applies to the current month. Off by default, so what you owe stays visible.</small></span></label>
+    <label class="swrow"><input type="checkbox" id="lfCash"><span><b>Show cash in hand</b><small>Shows the money you actually hold. What you set aside for subscriptions, EMIs and bills, what you moved to Savings, and card and borrowed bills not paid yet are all added back. Applies to the current month. Off by default, so what you owe stays visible.</small></span></label>
   </div>
   <div class="df"><button type="button" class="btn primary" data-close>Done</button></div>
 </dialog>
@@ -1181,7 +1183,7 @@ function openDialog(el){
 
 /* ---------- constants & helpers ---------- */
 const LS = 'bgt.v2.';
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9.3', APP_BUILD = '2 Oct 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.9.4', APP_BUILD = '2 Oct 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1357,7 +1359,7 @@ const isCB = c => c.kind === 'card' || c.kind === 'borrow';
 // card and borrowed money held back in Left (due by month end, or paid this month) is already in the ledger, so cash view gives it back
 const cashBack = ym => { const e = cycle().end; return round2(ccbills.filter(c => isCB(c) && c.due <= e).reduce((n, c) => n + c.amount, 0) + billsPaidCycle(['cc', 'borrow'])); };
 // ...and every unpaid card / borrowing bill, in any later month too, is cash you still hold
-const cashFor = ym => round2(leftNet(ym) + cashBack(ym) + duesTotal());
+const cashFor = ym => round2(leftNet(ym) + heldBack(ym) + movedTotal(ym, 'save') + duesTotal());   // Left + what is set aside + what moved to Savings + unpaid card/borrowed bills
 const leftShown = ym => cashActive(ym) ? cashFor(ym) : leftNet(ym);
 function setAsidePending(){   // not in the ledger yet, so it has not reduced Left: current month only
   const cur = curYm(), today = todayStr();
@@ -1862,12 +1864,14 @@ function renderHead(st){
   const incBox = (hasInc
       ? '<button type="button" class="incrow" id="btnIncome" aria-label="Edit income"><span>Income</span><b>' + fmt(inc) + '</b></button>'
       : '<button type="button" class="incadd" id="btnIncome">+ Add income</button>') +
-    (showLeft ? '<button type="button" class="incrow' + (left < 0 ? ' neg' : '') + '" id="btnLeft" aria-label="' + (cash ? 'Cash left' : 'Left') + '"><span>' + (cash ? 'Cash left' : 'Left') + '</span><b>' + fmt(left) + '</b></button>' : '') + salLine;
+    salLine;
+  const tAvg = '<div class="st"><span>Daily average</span><b>' + avg + '</b></div>',
+    tBig = '<div class="st"><span>' + bigLbl + '</span><b>' + big + '</b></div>',
+    tSav = '<div class="st stbtn" id="stSavings" role="button" tabindex="0" aria-label="Savings"><span>Savings</span><b>' + (svm !== 0 ? signedFmt(svm) : '\u2014') + '</b></div>',
+    tLeft = showLeft ? '<div class="st stbtn' + (left < 0 ? ' neg' : '') + '" id="btnLeft" role="button" tabindex="0" aria-label="' + (cash ? 'Cash left' : 'Left') + '"><span>' + (cash ? 'Cash left' : 'Left') + '</span><b>' + fmt(left) + '</b></div>' : '';
   $('#stats').innerHTML =
-    '<div class="mainrow"><div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div><div class="incbox">' + incBox + '</div></div>' +
-    '<div class="st"><span>Daily average</span><b>' + avg + '</b></div>' +
-    '<div class="st"><span>' + bigLbl + '</span><b>' + big + '</b></div>' +
-    '<div class="st stbtn" id="stSavings" role="button" tabindex="0" aria-label="Savings"><span>Savings</span><b>' + (svm !== 0 ? signedFmt(svm) : '\u2014') + '</b></div>';
+    '<div class="mainrow"><div class="st main"><span>Spent this month</span><b>' + fmt(st.total) + '</b></div><div class="incbox' + (salLine ? '' : ' solo') + '">' + incBox + '</div></div>' +
+    (showLeft ? tSav + tLeft + tAvg + tBig : tAvg + tBig + tSav);
 }
 function renderChips(){
   $('#chips').innerHTML = state.categories.map(c =>
@@ -3459,8 +3463,10 @@ function renderLeft(){
   }
   h += row('Left', fmt(left), 'big' + (left < 0 ? ' neg' : ''));
   if (cash) {
-    const back = cashBack(ym), dues = duesTotal(), c2 = cashFor(ym);
-    if (back > 0) h += row('Give back card and borrowed bills held above', '+' + fmt(back));
+    const dues = duesTotal(), c2 = cashFor(ym);
+    if (hs > 0) h += row('Set aside for subscriptions and EMIs', '+' + fmt(hs));
+    if (hb > 0) h += row('Set aside for bills', '+' + fmt(hb));
+    if (sv > 0) h += row('Moved to Savings', '+' + fmt(sv));
     h += row('Card and borrowed bills not paid yet, any due date', '+' + fmt(dues)) + row('Cash in hand', fmt(c2), 'big' + (c2 < 0 ? ' neg' : ''));
   }
   const pend = monthIncomeList(ym).filter(salaryPending);
@@ -3546,7 +3552,7 @@ $('#stats').addEventListener('click', e => {
   else if (e.target.closest('#btnLeft')) openLeft();
   else if (e.target.closest('#stSavings')) openSavings();
 });
-$('#stats').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'stSavings') { e.preventDefault(); openSavings(); } });
+$('#stats').addEventListener('keydown', e => { if (e.key !== 'Enter' && e.key !== ' ') return; if (e.target.id === 'stSavings') { e.preventDefault(); openSavings(); } else if (e.target.id === 'btnLeft') { e.preventDefault(); openLeft(); } });
 
 /* ---------- set aside: CC Bills add/edit form ---------- */
 let ccEditId = null, ccYearTouched = false;
