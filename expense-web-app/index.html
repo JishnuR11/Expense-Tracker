@@ -430,7 +430,36 @@ input,select,textarea{font-size:16px}
 .slice:focus-visible{stroke:var(--focus);stroke-width:4}
 .hole{fill:transparent;cursor:pointer}
 .pie.empty circle{stroke:var(--line-2)}
-.pdet{min-width:0;flex:1}
+.pwrap{position:relative;flex:none}
+.pdet{min-width:0;flex:1;position:relative}
+.pdet .pd-name{padding-right:44px}
+.eyeb{display:grid;place-items:center;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;flex:none}
+.eyeb:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.eyeb:disabled{pointer-events:none}
+.peye{position:absolute;top:-6px;right:0}
+.eye{width:20px;height:20px;overflow:visible}
+.eye .pup{transform-origin:12px 12px;transition:transform .3s ease}
+.eye .slash{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ease}
+.eyeb.off .pup{transform:scale(.15)}
+.eyeb.off .slash{stroke-dashoffset:0}
+.punhide{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;background:var(--surface);color:var(--ink);border-color:var(--line)}
+.punhide.pop{animation:hpop .3s ease both}
+.hbadge{position:absolute;top:-5px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--gold);color:var(--on-gold);font:700 10px/17px var(--body);text-align:center}
+.hpanel{display:grid;grid-template-rows:0fr;opacity:0;border-top:1px solid transparent;transition:grid-template-rows .3s cubic-bezier(.22,.8,.3,1),opacity .3s ease,border-color .3s ease}
+.hpanel.open{grid-template-rows:1fr;opacity:1;border-top-color:var(--line-2)}
+.hpin{overflow:hidden;min-height:0}
+.hhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px 6px}
+.hhead b{font-weight:600}
+.hrow{display:flex;align-items:center;gap:10px;padding:6px 16px;max-height:52px;overflow:hidden;transition:opacity .25s ease,max-height .25s ease,padding .25s ease}
+.hrow.out{opacity:0;max-height:0;padding-top:0;padding-bottom:0}
+.hrow .hn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.hrow .ha{color:var(--ink-2);font-size:13px}
+.hlist{padding-bottom:8px}
+.pie .slice.hiding{opacity:0!important;transition:opacity .25s ease}
+.slice.fresh{animation:hfresh .4s ease both}
+@keyframes hpop{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes hfresh{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hpanel,.hrow,.eye .slash,.eye .pup{transition:none!important}.punhide.pop,.slice.fresh{animation:none!important}}
 .pd-hint{color:var(--ink-2);font-size:14px}
 .pd-name{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
 .pd-name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -968,8 +997,13 @@ html{scroll-padding-bottom:76px}
       <form class="entry" id="ccForm" novalidate>
         <h2 id="ccFormTitle">Add a bill</h2>
         <div class="chips" id="cardChips" role="group" aria-label="Choose an entry"></div>
-        <label>Bill amount<div class="money"><span>₹</span><input id="ccAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
-        <div class="fld">
+        <div id="brOpts" hidden>
+          <div class="seg" id="brModeSeg" role="group" aria-label="Repayment type"><button type="button" data-mode="full" aria-pressed="true">Full payment</button><button type="button" data-mode="equal" aria-pressed="false">Equal split</button><button type="button" data-mode="var" aria-pressed="false">Variable</button></div>
+          <p class="muted" id="brHelp" style="margin:6px 0 0;font-size:13px"></p>
+        </div>
+        <label><span id="ccAmtLbl">Bill amount</span><div class="money"><span>₹</span><input id="ccAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+        <label id="ccMonthsRow" hidden>Months to repay <input id="ccMonths" inputmode="numeric" maxlength="3" placeholder="e.g. 6" autocomplete="off"></label>
+        <div class="fld" id="ccDueFld">
           <span class="lbl" id="ccDueLbl">Due date</span>
           <div class="dategrid">
             <input id="ccDueDay" inputmode="numeric" maxlength="2" placeholder="DD" aria-labelledby="ccDueLbl" aria-label="Day">
@@ -1072,6 +1106,7 @@ html{scroll-padding-bottom:76px}
       <input id="ncCardName" maxlength="40" placeholder="Name" aria-label="Name" autocomplete="off">
       <button class="btn primary" type="submit">Add</button>
       <input id="ncNote" maxlength="80" aria-label="Note" autocomplete="off" style="grid-column:1/-1" hidden>
+      <label class="swrow" id="ncVaryRow" hidden style="grid-column:1/-1"><input type="checkbox" id="ncVary"><span><b>Amount varies</b><small>Set aside an estimate. When you pay, enter the actual amount: anything left over moves to Savings, any extra comes out of Left.</small></span></label>
     </form>
     <div class="err" id="ncCardErr" role="alert"></div>
     <div id="cardList"></div>
@@ -1120,6 +1155,19 @@ html{scroll-padding-bottom:76px}
     <p class="muted" id="adjHint" style="margin:0;font-size:13px"></p>
     <div class="err" id="adjErr" role="alert"></div>
     <div class="incact"><button type="button" class="btn" id="adjRemove" hidden>Remove entry</button><button type="submit" class="btn primary" id="adjApply">Apply</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgBorrowPay" aria-labelledby="bpTitle">
+  <div class="dh"><h2 id="bpTitle">Record a repayment</h2><button type="button" class="btn icon-btn" data-close aria-label="Close">✕</button></div>
+  <form id="borrowPayForm" class="db" novalidate>
+    <div id="bpSum"></div>
+    <label>Amount you paid <div class="money"><span>₹</span><input id="bpAmt" inputmode="decimal" autocomplete="off" placeholder="0"></div></label>
+    <p class="muted" id="bpDiff" hidden style="margin:0;font-size:13px"></p>
+    <label>Payment date <input type="date" id="bpDate"></label>
+    <p class="muted" style="margin:0;font-size:13px">Logged in History. It doesn’t change your ledger.</p>
+    <div class="err" id="bpErr" role="alert"></div>
+    <div class="incact"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Save repayment</button></div>
   </form>
 </dialog>
 
@@ -1311,7 +1359,7 @@ try { const r = JSON.parse(localStorage.getItem(LOCK_KEY) || 'null'); if (r && r
 const isLocked = () => lockCfg.on && !unlocked;
 const mask = v => isLocked() ? '\u2022\u2022\u2022\u2022' : v;
 const hashPin = (pin, salt) => { let a = 0xdeadbeef, b = 0x41c6ce57; const t = salt + ':' + pin; for (let i = 0; i < t.length; i++) { const c = t.charCodeAt(i); a = Math.imul(a ^ c, 2654435761); b = Math.imul(b ^ c, 1597334677); } a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909); b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909); return (4294967296 * (2097151 & b) + (a >>> 0)).toString(36); };
-const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.13.0', APP_BUILD = '3 Oct 2026';
+const DEFAULT_TITLE = 'My Expenses', OLD_DEFAULT_TITLE = '', APP_VERSION = '1.15.0', APP_BUILD = '3 Oct 2026';
 const cleanTitle = t => { t = String(t == null ? '' : t).trim(); return !t || t === OLD_DEFAULT_TITLE ? DEFAULT_TITLE : t; };
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1444,7 +1492,7 @@ function openingFor(ym){   // whatever was left (or owed) since the first month 
   return bal;
 }
 const leftFor = ym => round2(openingFor(ym) + monthOwn(ym));
-const duesTotal = () => round2(ccbills.filter(c => c.kind === 'card' || c.kind === 'borrow').reduce((n, c) => n + c.amount, 0));
+const duesTotal = () => round2(ccbills.filter(c => c.kind === 'card' || c.kind === 'borrow').reduce((n, c) => n + (c.rmode ? c.bal : c.amount), 0));
 const LEFTCASH_KEY = LS + 'leftcash';
 let leftCash = false;
 try { leftCash = localStorage.getItem(LEFTCASH_KEY) === '1'; } catch(e){}
@@ -1820,7 +1868,7 @@ function cleanCards(list){
   return (Array.isArray(list) ? list : []).filter(k => k && typeof k === 'object' && k.id && k.name)
     .map(k => {
       const kind = ENTRY_KINDS.indexOf(k.kind) >= 0 ? k.kind : 'card';
-      return {id: String(k.id), name: String(k.name).trim().slice(0, 40), kind: kind, note: (kind === 'utility' || kind === 'borrow') ? String(k.note || '').trim().slice(0, 80) : ''};
+      return {id: String(k.id), name: String(k.name).trim().slice(0, 40), kind: kind, vary: kind === 'utility' && !!k.vary, note: (kind === 'utility' || kind === 'borrow') ? String(k.note || '').trim().slice(0, 80) : ''};
     })
     .filter(k => k.name);
 }
@@ -1829,12 +1877,13 @@ function loadCards(){ try { const raw = localStorage.getItem(CARD_KEY); if (raw)
 function queueCards(){ persistCardsLocal(); queueDoc('v2-cards', {v: 1, cards: cards}); }
 function cardById(id){ return cards.find(k => k.id === id); }
 const ELEC_ID = 'd-electricity';
+const isVary = c => { const e = c && cardById(c.cardId); return e ? !!e.vary : isElectricity(c); };   // pay flow asks for the actual amount; surplus moves to Savings
 const isElectricity = c => !!c && (c.cardId === ELEC_ID || String(c.card || c.name || '').trim().toLowerCase() === 'electricity');   // asks for the actual amount when paid
 function seedElectricity(){   // Electricity arrives as a ready-made Utility entry, once; deleting it later sticks
   let done = false; try { done = localStorage.getItem(LS + 'seedElec') === '1'; } catch(e){}
   if (done) return;
   try { localStorage.setItem(LS + 'seedElec', '1'); } catch(e){}
-  if (!cards.some(k => k.name.trim().toLowerCase() === 'electricity')) { cards.push({id: ELEC_ID, name: 'Electricity', kind: 'utility', note: ''}); queueCards(); }
+  if (!cards.some(k => k.name.trim().toLowerCase() === 'electricity')) { cards.push({id: ELEC_ID, name: 'Electricity', kind: 'utility', vary: true, note: ''}); queueCards(); }
 }
 
 /* ---------- set aside: credit card bills, global across every sheet ---------- */
@@ -1851,19 +1900,26 @@ function cleanCCBills(list){
       repeat: [0, 1, 2, 3, 6, 12].indexOf(Number(c.repeat)) >= 0 ? Number(c.repeat) : ((ENTRY_KINDS.indexOf(c.kind) >= 0 ? c.kind : 'card') === 'utility' ? 1 : 0),
       day: (Number(c.day) >= 1 && Number(c.day) <= 31) ? Math.floor(Number(c.day)) : null,
       due: /^\d{4}-\d{2}-\d{2}$/.test(c.due) ? c.due : null,
-      seenOn: /^\d{4}-\d{2}-\d{2}$/.test(c.seenOn) ? c.seenOn : null
+      seenOn: /^\d{4}-\d{2}-\d{2}$/.test(c.seenOn) ? c.seenOn : null,
+      rmode: (c.kind === 'borrow' && (c.rmode === 'equal' || c.rmode === 'var')) ? c.rmode : null,
+      total: isFinite(Number(c.total)) && Number(c.total) > 0 ? round2(Number(c.total)) : 0,
+      n: Number(c.n) >= 2 && Number(c.n) <= 120 ? Math.floor(Number(c.n)) : 0,
+      paid: Number(c.paid) >= 0 ? Math.floor(Number(c.paid)) : 0,
+      bal: isFinite(Number(c.bal)) && Number(c.bal) > 0 ? round2(Number(c.bal)) : 0
     }))
-    .filter(c => c.card && c.amount > 0 && c.due);
+    .filter(c => c.card && c.amount > 0 && (c.due || c.rmode === 'var'));
 }
 function persistCCLocal(){ try { localStorage.setItem(CC_KEY, JSON.stringify({v: 1, ccbills: ccbills})); } catch(e){} }
 function loadCCBills(){ try { const raw = localStorage.getItem(CC_KEY); if (raw) ccbills = cleanCCBills(JSON.parse(raw).ccbills); } catch(e){} }
 function queueCC(){ persistCCLocal(); queueDoc('v2-ccbills', {v: 1, ccbills: ccbills}); }
 function daysUntil(dateStr){
+  if (!dateStr) return 99999;
   const p = dateStr.split('-').map(Number), due = Date.UTC(p[0], p[1] - 1, p[2]);
   const t = todayStr().split('-').map(Number), today = Date.UTC(t[0], t[1] - 1, t[2]);
   return Math.round((due - today) / 86400000);
 }
 function ccDueLabel(due){
+  if (!due) return '';
   const p = due.split('-').map(Number), dm = p[2] + ' ' + MONTHS[p[1] - 1].slice(0, 3), days = daysUntil(due);
   if (days === 0) return 'Due today \u00b7 ' + dm;
   if (days === 1) return 'Due tomorrow \u00b7 ' + dm;
@@ -1926,6 +1982,7 @@ function cleanHistory(list){
       if (/^\d{4}-\d{2}$/.test(String(h.txnYm || '')) && h.txnId) { o.txnYm = h.txnYm; o.txnId = String(h.txnId); }
       if (/^\d{4}-\d{2}-\d{2}$/.test(String(h.prevDue || ''))) o.prevDue = h.prevDue;
       if (isFinite(Number(h.planned)) && Number(h.planned) > 0) o.planned = round2(Number(h.planned));
+      if (/^\d{4}-\d{2}$/.test(String(h.savYm || '')) && h.savId) { o.savYm = h.savYm; o.savId = String(h.savId); }
       return o;
     })
     .filter(h => h.name && h.amount > 0 && h.date);
@@ -2911,7 +2968,7 @@ function tiedSetAside(ym){
   const hist = history.filter(h => h.date.slice(0, 7) === ym);
   const seen = {}, subs = [];
   hist.filter(h => h.kind === 'sub' || h.kind === 'emi').forEach(h => { const r = reserveForHistory(h); if (r && !seen[r.id]) { seen[r.id] = 1; subs.push(r); } });
-  const bills = ccbills.filter(c => c.due.slice(0, 7) === ym);
+  const bills = ccbills.filter(c => c.due && c.due.slice(0, 7) === ym);
   return {subs: subs, bills: bills, hist: hist, count: subs.length + bills.length + hist.length};
 }
 function askDeleteSheet(ym, m, tied){
@@ -3174,6 +3231,12 @@ function itemsFrom(catTot, catCnt, names){
     return {id: id, name: c ? c.name : (names[id] || 'Deleted category') + ' (deleted)', color: c ? cc(c.color) : '#8A93A6', value: catTot[id], n: catCnt[id] || 0};
   }).filter(x => x.value > 0).sort((a, b) => b.value - a.value);
 }
+const PIEHID_KEY = LS + 'pieHidden';
+const pieHidden = new Set(); let pieFresh = null;
+try { const a = JSON.parse(localStorage.getItem(PIEHID_KEY) || '[]'); if (Array.isArray(a)) a.forEach(x => { if (typeof x === 'string') pieHidden.add(x); }); } catch(e){}
+const pieSaveHidden = () => { try { localStorage.setItem(PIEHID_KEY, JSON.stringify(Array.from(pieHidden))); } catch(e){} };
+const EYE = '<svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle class="pup" cx="12" cy="12" r="3"/><line class="slash" x1="4" y1="4" x2="20" y2="20"/></svg>';
+const EYE_ALL = '<svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M6.5 12s2.2-3.8 5.5-3.8 5.5 3.8 5.5 3.8-2.2 3.8-5.5 3.8S6.5 12 6.5 12z"/><circle cx="12" cy="12" r="1.6"/></svg>';
 function renderPies(st){
   renderPie('pieMonth', ymLabel(view.ym), 'by category', itemsFrom(st.catTot, st.catCnt, st.names));
   const agg = {catTot: {}, catCnt: {}, names: {}}; let sheets = 0;
@@ -3183,9 +3246,14 @@ function renderPies(st){
   });
   renderPie('pieApp', 'All months', sheets + (sheets === 1 ? ' sheet' : ' sheets') + ', by category', itemsFrom(agg.catTot, agg.catCnt, agg.names));
 }
-function renderPie(id, title, sub, items){
+function renderPie(id, title, sub, itemsAll){
   const root = $('#' + id); if (!root) return;
-  const p = pies[id] || (pies[id] = {open: pieOpenLoad(id), pinned: null, hover: null, focus: null});
+  const items = itemsAll.filter(i => !pieHidden.has(i.id));
+  const hid = [];
+  pieHidden.forEach(h => { const f = itemsAll.find(i => i.id === h), c = catById(h); if (f) hid.push(f); else if (c) hid.push({id: h, name: c.name, color: cc(c.color), value: 0, n: 0}); });
+  hid.sort((a, b) => b.value - a.value);
+  const p = pies[id] || (pies[id] = {open: pieOpenLoad(id), pinned: null, hover: null, focus: null, panel: false});
+  if (!hid.length) p.panel = false;
   const total = round2(items.reduce((n, i) => n + i.value, 0));
   if (p.pinned && !items.some(i => i.id === p.pinned)) p.pinned = null;
   p.hover = null; p.focus = null;
@@ -3196,15 +3264,19 @@ function renderPie(id, title, sub, items){
       let a = -Math.PI / 2, sl = '';
       items.forEach(it => {
         const a1 = a + it.value / total * Math.PI * 2, mid = (a + a1) / 2;
-        sl += '<path class="slice" d="' + arcPath(52, 88, a, a1) + '" fill="' + esc(it.color) + '" data-id="' + esc(it.id) + '" style="--dx:' + (Math.cos(mid) * 6).toFixed(2) + 'px;--dy:' + (Math.sin(mid) * 6).toFixed(2) + 'px" tabindex="0" role="button" aria-label="' + esc(it.name) + ': ' + fmt(it.value) + ', ' + (it.value / total * 100).toFixed(1) + ' percent"></path>';
+        sl += '<path class="slice' + (pieFresh && (pieFresh === '*' || pieFresh === it.id) ? ' fresh' : '') + '" d="' + arcPath(52, 88, a, a1) + '" fill="' + esc(it.color) + '" data-id="' + esc(it.id) + '" style="--dx:' + (Math.cos(mid) * 6).toFixed(2) + 'px;--dy:' + (Math.sin(mid) * 6).toFixed(2) + 'px" tabindex="0" role="button" aria-label="' + esc(it.name) + ': ' + fmt(it.value) + ', ' + (it.value / total * 100).toFixed(1) + ' percent"></path>';
         a = a1;
       });
       svg = '<svg class="pie" viewBox="0 0 200 200" role="group" aria-label="Pie chart of spending by category">' + sl + '<circle class="hole" cx="100" cy="100" r="50"></circle></svg>';
     } else svg = '<svg class="pie empty" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="70" fill="none" stroke-width="36"></circle></svg>';
-    body = '<div class="pbody">' + svg + '<div class="pdet" aria-live="polite"></div></div>';
+    const ctr = hid.length ? '<button type="button" class="eyeb punhide off' + (p.pop ? ' pop' : '') + '" data-hpanel="' + id + '" aria-expanded="' + p.panel + '" aria-label="Hidden categories: ' + hid.length + '">' + EYE.replace('class="eye"', 'class="eye" style="width:20px;height:20px"') + '<span class="hbadge">' + hid.length + '</span></button>' : '';
+    p.pop = false;
+    const panel = hid.length ? '<div class="hpanel' + (p.panel ? ' open' : '') + '"><div class="hpin"><div class="hhead"><b>Hidden categories</b><button type="button" class="eyeb" data-unhideall="' + id + '" aria-label="Unhide all categories">' + EYE_ALL + '</button></div><div class="hlist">' + hid.map(h => '<div class="hrow"><i class="dot" style="--c:' + esc(h.color) + '"></i><span class="hn">' + esc(h.name) + '</span><span class="ha">' + (h.n ? fmt(h.value) : 'No spending here') + '</span><button type="button" class="eyeb" data-unhide="' + esc(h.id) + '" aria-label="Show ' + esc(h.name) + ' in the chart">' + EYE + '</button></div>').join('') + '</div></div></div>' : '';
+    body = '<div class="pbody"><div class="pwrap">' + svg + ctr + '</div><div class="pdet" aria-live="polite"></div></div>' + panel;
   }
   root.innerHTML = '<button type="button" class="pchead" data-pie="' + id + '" aria-expanded="' + p.open + '"><span class="chev"></span><b>' + esc(title) + '</b><small>' + esc(sub) + '</small></button>' + body;
-  root._items = items; root._total = total; paintPie(root);
+  root._items = items; root._total = total; root._allHidden = !items.length && itemsAll.length > 0; paintPie(root);
+  if (pieFresh) setTimeout(() => { pieFresh = null; }, 450);
 }
 function paintPie(root){
   const p = pies[root.id]; if (!p || !p.open) return;
@@ -3214,7 +3286,8 @@ function paintPie(root){
   if (svg) svg.classList.toggle('sel', !!it);
   det.innerHTML = it
     ? '<div class="pd-name"><i class="dot" style="--c:' + esc(it.color) + '"></i><span>' + esc(it.name) + '</span></div><div class="pd-amt">' + fmt(it.value) + '</div><div class="pd-sub">' + (it.value / root._total * 100).toFixed(1) + '% of ' + fmt(root._total) + ', ' + it.n + (it.n === 1 ? ' entry' : ' entries') + '</div>'
-    : '<div class="pd-hint">' + (root._total > 0 ? 'Hover over or tap a slice to see the details.' : 'No spending recorded yet.') + '</div>';
+    : '<div class="pd-hint">' + (root._total > 0 ? 'Hover over or tap a slice to see the details.' : root._allHidden ? 'Every category is hidden. Use the eye in the middle to show them.' : 'No spending recorded yet.') + '</div>';
+  if (it) det.insertAdjacentHTML('beforeend', '<button type="button" class="eyeb peye" data-hide="' + esc(it.id) + '" aria-label="Hide ' + esc(it.name) + ' from the chart">' + EYE + '</button>');
   { const tp = root._items[0]; if (tp && root._total > 0) det.insertAdjacentHTML('beforeend', '<div class="pd-top"><span>Top category</span><b>' + esc(tp.name) + ' ' + Math.round(tp.value / root._total * 100) + '%</b></div>'); }
 }
 const pieRoot = el => el.closest && el.closest('#pieApp, #pieMonth');
@@ -3243,7 +3316,31 @@ document.addEventListener('focusout', e => {
 document.addEventListener('keydown', e => {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('slice')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles: true})); }
 });
+const pieRefresh = () => renderPies(stats(view.ym));
 document.addEventListener('click', e => {
+  const T = e.target && e.target.closest ? e.target : null;
+  const eb = T && T.closest('[data-hide]'), ub = T && T.closest('[data-unhide]'), ua = T && T.closest('[data-unhideall]'), ob = T && T.closest('[data-hpanel]');
+  if (eb) {   // hide: eye closes, slice fades, chart re-scales
+    const r = pieRoot(eb), id = eb.dataset.hide, p = pies[r.id], sl = r.querySelector('.slice[data-id="' + CSS.escape(id) + '"]');
+    eb.classList.add('off'); eb.disabled = true;
+    setTimeout(() => { if (sl) sl.classList.add('hiding'); }, 150);
+    setTimeout(() => { if (!pieHidden.size) p.pop = true; pieHidden.add(id); pieSaveHidden(); p.pinned = null; pieRefresh(); }, 420);
+    return;
+  }
+  if (ob) { const r = pieRoot(ob), p = pies[r.id], pn = r.querySelector('.hpanel'); p.panel = !p.panel; if (pn) pn.classList.toggle('open', p.panel); ob.setAttribute('aria-expanded', String(p.panel)); return; }
+  if (ub) {   // show one category again; the panel closes itself after the last one
+    const r = pieRoot(ub), p = pies[r.id], id = ub.dataset.unhide, row = ub.closest('.hrow'), last = r.querySelectorAll('.hrow').length <= 1, pn = r.querySelector('.hpanel');
+    ub.disabled = true; if (row) row.classList.add('out');
+    if (last) { p.panel = false; if (pn) pn.classList.remove('open'); }
+    setTimeout(() => { pieHidden.delete(id); pieSaveHidden(); pieFresh = id; pieRefresh(); }, last ? 340 : 270);
+    return;
+  }
+  if (ua) {
+    const r = pieRoot(ua), p = pies[r.id], pn = r.querySelector('.hpanel');
+    ua.disabled = true; p.panel = false; if (pn) pn.classList.remove('open');
+    setTimeout(() => { pieHidden.clear(); pieSaveHidden(); pieFresh = '*'; pieRefresh(); }, 340);
+    return;
+  }
   const head = e.target.closest && e.target.closest('[data-pie]');
   if (head) { const p = pies[head.dataset.pie]; if (p) { p.open = !p.open; pieOpenSave(head.dataset.pie, p.open); renderPies(stats(view.ym)); } return; }
   const r = pieRoot(e.target); if (!r || !pies[r.id]) return;
@@ -3515,13 +3612,28 @@ async function deleteReserve(id){
 }
 
 /* ---------- set aside: card picker (chips) + manage-cards dialog ---------- */
-let ccSelectedCardId = null;
+let ccSelectedCardId = null, brMode = 'full';
+const BR_HELP = {
+  full: 'Pay it all on or before the due date. It is held back in Set Aside until then.',
+  equal: 'Pay the same amount every month. Each instalment is held back in Set Aside when it is due.',
+  var: 'Pay whatever you can, when you can. You enter each repayment and the balance drops. Nothing is held back.'
+};
+function syncBorrowUi(){
+  const card = cardById(ccSelectedCardId), br = !!card && card.kind === 'borrow', m = br ? brMode : 'full';
+  $('#brOpts').hidden = !br; $('#brHelp').textContent = BR_HELP[m];
+  $('#ccMonthsRow').hidden = m !== 'equal'; $('#ccDueFld').hidden = m === 'var';
+  $('#ccAmtLbl').textContent = m === 'full' ? 'Bill amount' : 'Amount borrowed';
+  $('#ccDueLbl').textContent = m === 'equal' ? 'First due date' : 'Due date';
+  Array.prototype.forEach.call(document.querySelectorAll('#brModeSeg button'), b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+}
+$('#brModeSeg').addEventListener('click', e => { const b = e.target.closest('button[data-mode]'); if (b) { brMode = b.dataset.mode; syncBorrowUi(); } });
 function renderCardChips(){
   $('#cardChips').innerHTML = cards.map(k =>
     '<button type="button" class="chip" data-id="' + esc(k.id) + '" aria-pressed="' + (ccSelectedCardId === k.id) + '">' + esc(k.name) + (k.kind !== 'card' ? ' <small>' + esc(ENTRY_LABEL[k.kind]) + '</small>' : '') + '</button>'
   ).join('') + '<button type="button" class="chip new" data-act="newcard">+ New entry</button>';
   const sel = cardById(ccSelectedCardId);
   $('#ccRepeatRow').hidden = !(sel && sel.kind === 'utility');
+  syncBorrowUi();
 }
 $('#cardChips').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
@@ -3543,13 +3655,14 @@ function setNcKind(k){
   $('#ncNote').hidden = !hasNote;
   if (!hasNote) $('#ncNote').value = '';
   $('#ncNote').placeholder = k === 'utility' ? 'Note, e.g. Electricity, consumer no. 4521' : 'Note, e.g. Borrowed from Rahul';
+  $('#ncVaryRow').hidden = k !== 'utility'; if (k !== 'utility') $('#ncVary').checked = false;
   $('#ncHelp').textContent = NC_HELP[k];
 }
 $('#ncKindSeg').addEventListener('click', e => { const b = e.target.closest('button[data-kind]'); if (b) setNcKind(b.dataset.kind); });
 function openCards(fromChips){ openCats(fromChips, 'bills'); }
 function renderCardList(){
   $('#cardList').innerHTML = cards.length ? cards.map(k =>
-    '<div class="rrow" data-id="' + esc(k.id) + '"><div class="rmain static"><div class="rname"><span>' + esc(k.name) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[k.kind]) + '</span></div>' + (k.note ? '<div class="rsub">' + esc(k.note) + '</div>' : '') + '</div>' +
+    '<div class="rrow" data-id="' + esc(k.id) + '"><div class="rmain static"><div class="rname"><span>' + esc(k.name) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[k.kind]) + '</span>' + (k.vary ? '<span class="rbadge">Varies</span>' : '') + '</div>' + (k.note ? '<div class="rsub">' + esc(k.note) + '</div>' : '') + '</div>' +
     '<button type="button" class="icon-btn danger" data-del="' + esc(k.id) + '" aria-label="Delete ' + esc(k.name) + '">' + TRASH + '</button></div>'
   ).join('') : '<p class="muted" style="margin:0">No entries yet.</p>';
 }
@@ -3559,9 +3672,9 @@ $('#newCardForm').addEventListener('submit', e => {
   if (!name) { err.textContent = 'Enter a name.'; return; }
   if (cards.some(k => k.name.toLowerCase() === name.toLowerCase())) { err.textContent = 'You already have an entry called \u201C' + name + '\u201D.'; return; }
   const hasNote = ncKind === 'utility' || ncKind === 'borrow';
-  const k = {id: newId('k'), name: name, kind: ncKind, note: hasNote ? $('#ncNote').value.trim().slice(0, 80) : ''};
+  const k = {id: newId('k'), name: name, kind: ncKind, vary: ncKind === 'utility' && $('#ncVary').checked, note: hasNote ? $('#ncNote').value.trim().slice(0, 80) : ''};
   cards.push(k); queueCards();
-  $('#ncCardName').value = ''; $('#ncNote').value = '';
+  $('#ncCardName').value = ''; $('#ncNote').value = ''; $('#ncVary').checked = false;
   if (cardFromChips) { ccSelectedCardId = k.id; $('#dlgCats').close(); renderCardChips(); }
   else { renderCardList(); renderCardChips(); $('#ncCardName').focus(); }
 });
@@ -3748,7 +3861,7 @@ function renderLeft(){
   $('#lfNote').hidden = !(leftCash && !cash);
   $('#lfNote').textContent = 'Cash view only applies to the current month, so this month shows plain Left.';
 }
-function openLeft(){ renderLeft(); openDialog('#dlgLeft'); }
+function openLeft(){ gate(() => { renderLeft(); openDialog('#dlgLeft'); }); }
 $('#lfCash').addEventListener('change', () => {
   leftCash = $('#lfCash').checked;
   try { localStorage.setItem(LEFTCASH_KEY, leftCash ? '1' : '0'); } catch(e){}
@@ -3836,7 +3949,8 @@ $('#ccDueDay').addEventListener('input', ccAutoYear);
 $('#ccDueMonth').addEventListener('change', ccAutoYear);
 $('#ccDueYear').addEventListener('input', () => { ccYearTouched = true; });
 function resetCCForm(){
-  ccEditId = null; ccSelectedCardId = null; ccYearTouched = false;
+  ccEditId = null; ccSelectedCardId = null; ccYearTouched = false; brMode = 'full';
+  $('#ccMonths').value = ''; $('#ccAmt').disabled = false; $('#ccMonths').disabled = false;
   $('#ccRepeat').value = '1';
   renderCardChips();
   $('#ccAmt').value = ''; $('#ccDueDay').value = ''; $('#ccDueMonth').value = ''; $('#ccDueYear').value = '';
@@ -3846,11 +3960,13 @@ function resetCCForm(){
   $('#ccCancelEdit').hidden = true;
 }
 function fillCCForm(c){
-  ccEditId = c.id; ccSelectedCardId = c.cardId; ccYearTouched = true;
+  ccEditId = c.id; ccSelectedCardId = c.cardId; ccYearTouched = true; brMode = c.rmode || 'full';
+  const lockAmt = !!c.rmode && ((c.rmode === 'equal' && c.paid > 0) || (c.rmode === 'var' && c.bal !== c.total));
+  $('#ccMonths').value = c.n || ''; $('#ccAmt').disabled = lockAmt; $('#ccMonths').disabled = lockAmt;
   $('#ccRepeat').value = String(c.repeat === undefined ? 1 : c.repeat);
   renderCardChips();
-  $('#ccAmt').value = fmtN(c.amount);
-  const p = c.due.split('-').map(Number);
+  $('#ccAmt').value = fmtN(c.rmode ? c.total : c.amount);
+  const p = (c.due || todayStr()).split('-').map(Number);
   $('#ccDueYear').value = String(p[0]); $('#ccDueMonth').value = String(p[1]); $('#ccDueDay').value = String(p[2]);
   $('#ccErr').textContent = '';
   $('#ccFormTitle').textContent = 'Edit \u201C' + c.card + '\u201D';
@@ -3865,18 +3981,32 @@ $('#ccForm').addEventListener('submit', e => {
   if (!card) { err.textContent = 'Pick an entry.'; return; }
   const amt = parseAmount($('#ccAmt').value);
   if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter a valid amount.'; return; }
-  const day = parseInt($('#ccDueDay').value, 10), month = parseInt($('#ccDueMonth').value, 10), year = parseInt($('#ccDueYear').value, 10);
-  if (!day || !month || !year) { err.textContent = 'Enter the due date.'; return; }
-  const dt = new Date(year, month - 1, day);
-  if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) { err.textContent = 'That date doesn\u2019t exist.'; return; }
-  const due = year + '-' + pad(month) + '-' + pad(day);
+  const br = card.kind === 'borrow' ? brMode : 'full';
+  let due = null, day = null;
+  if (br !== 'var') {
+    day = parseInt($('#ccDueDay').value, 10); const month = parseInt($('#ccDueMonth').value, 10), year = parseInt($('#ccDueYear').value, 10);
+    if (!day || !month || !year) { err.textContent = 'Enter the due date.'; return; }
+    const dt = new Date(year, month - 1, day);
+    if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) { err.textContent = 'That date doesn\u2019t exist.'; return; }
+    due = year + '-' + pad(month) + '-' + pad(day);
+  }
+  let n = 0;
+  if (br === 'equal') { n = parseInt($('#ccMonths').value, 10); if (!n || n < 2 || n > 120) { err.textContent = 'Enter the number of months (2 to 120).'; return; } }
   if (card.kind === 'utility' && ccbills.some(x => x.kind === 'utility' && x.cardId === card.id && x.id !== ccEditId)) { err.textContent = '\u201C' + card.name + '\u201D is already on your list. Tap it to change the amount or date.'; return; }
-  const dueDay = card.kind === 'utility' ? day : null, repeatN = card.kind === 'utility' ? Number($('#ccRepeat').value) : 0;
+  const dueDay = card.kind === 'utility' || br === 'equal' ? day : null, repeatN = card.kind === 'utility' ? Number($('#ccRepeat').value) : 0;
+  const plan = br === 'full' ? {rmode: null, total: 0, n: 0, bal: 0} : {rmode: br, total: round2(amt), n: n, bal: round2(amt)};
+  const inst = br === 'equal' ? round2(amt / n) : round2(amt);   // what the bill shows: the next instalment, or the balance
   if (ccEditId) {
     const c = ccbills.find(x => x.id === ccEditId);
-    if (c) { if (c.due !== due) { c.seenOn = null; ccSeenSession.delete(c.id); } c.cardId = card.id; c.card = card.name; c.kind = card.kind; c.amount = round2(amt); c.due = due; c.day = dueDay; c.repeat = repeatN; }
+    if (c) {
+      const locked = !!c.rmode && ((c.rmode === 'equal' && c.paid > 0) || (c.rmode === 'var' && c.bal !== c.total));
+      if (c.due !== due) { c.seenOn = null; ccSeenSession.delete(c.id); }
+      c.cardId = card.id; c.card = card.name; c.kind = card.kind;
+      if (locked) { if (due) { c.due = due; c.day = dueDay; } }
+      else { c.amount = inst; c.due = due; c.day = dueDay; c.repeat = repeatN; c.rmode = plan.rmode; c.total = plan.total; c.n = plan.n; c.paid = 0; c.bal = plan.bal; }
+    }
   } else {
-    ccbills.push({id: newId('c'), cardId: card.id, card: card.name, kind: card.kind, amount: round2(amt), due: due, day: dueDay, repeat: repeatN, seenOn: null});
+    ccbills.push({id: newId('c'), cardId: card.id, card: card.name, kind: card.kind, amount: inst, due: due, day: dueDay, repeat: repeatN, seenOn: null, rmode: plan.rmode, total: plan.total, n: plan.n, paid: 0, bal: plan.bal});
   }
   queueCC(); resetCCForm(); renderCC(); markCCUrgencySeen(); applyCCGlow();
 });
@@ -3886,18 +4016,19 @@ function utilPaidIn(entryId, ym){ return history.find(h => h.kind === 'util' && 
 const REPEAT_LABEL = {1: 'Repeats every month', 2: 'Repeats every 2 months', 3: 'Repeats every 3 months', 6: 'Repeats every 6 months', 12: 'Repeats every year'};
 function renderCC(){
   renderResStats();
-  $('#ccList').innerHTML = ccbills.length ? ccbills.slice().sort((a, b) => a.due < b.due ? -1 : 1).map(c => {
+  $('#ccList').innerHTML = ccbills.length ? ccbills.slice().sort((a, b) => (a.due || '9999') < (b.due || '9999') ? -1 : 1).map(c => {
     const u = ccUrgency(c.due), over = daysUntil(c.due) < 0, ent = cardById(c.cardId), note = ent && ent.note, rp = c.kind === 'utility' ? (c.repeat === undefined ? 1 : c.repeat) : 0;
     return '<div class="rrow' + (over ? ' due-over' : u ? ' due-' + u : '') + '" data-id="' + esc(c.id) + '">' +
       '<div class="rmain" data-open="' + esc(c.id) + '" role="button" tabindex="0">' +
         '<div class="rname"><span>' + esc(c.card) + '</span><span class="rbadge">' + esc(ENTRY_LABEL[c.kind] || 'Card') + '</span></div>' +
-        '<div class="rsub' + (over ? ' over' : '') + '">' + esc(ccDueLabel(c.due)) + '</div>' +
+        '<div class="rsub' + (over ? ' over' : '') + '">' + esc(c.rmode === 'var' ? 'Repay as you go' : ccDueLabel(c.due)) + '</div>' +
         (rp ? '<div class="rsub">' + REPEAT_LABEL[rp] + '</div>' : '') +
+        (c.rmode === 'equal' ? '<div class="rsub">Instalment ' + (c.paid + 1) + ' of ' + c.n + ' \u00b7 ' + fmt(c.bal) + ' left in total</div>' : c.rmode === 'var' ? '<div class="rsub">' + fmt(c.total - c.bal) + ' of ' + fmt(c.total) + ' repaid</div>' : '') +
         (note ? '<div class="rsub">' + esc(note) + '</div>' : '') +
       '</div>' +
       '<div class="ramt">' + fmt(c.amount) + '</div>' +
       '<div class="racts">' +
-        '<button type="button" class="icon-btn ok" data-paid="' + esc(c.id) + '" aria-label="Mark ' + esc(c.card) + ' paid">' + CHECK + '</button>' +
+        '<button type="button" class="icon-btn ok" data-paid="' + esc(c.id) + '" aria-label="' + (c.rmode === 'var' ? 'Record a repayment on ' : 'Mark ') + esc(c.card) + (c.rmode === 'var' ? '' : ' paid') + '">' + CHECK + '</button>' +
         '<button type="button" class="icon-btn danger" data-del="' + esc(c.id) + '" aria-label="Delete ' + esc(c.card) + '">' + TRASH + '</button>' +
       '</div>' +
     '</div>';
@@ -3920,6 +4051,21 @@ async function markCCPaid(id){
     if (utilPaidIn(c.cardId || c.id, curYm())) { toast('\u201C' + c.card + '\u201D is already paid this month. You can mark the next one paid from next month.'); return; }
     openUtilPay(c); return;
   }
+  if (c.rmode === 'var') { openBorrowPay(c); return; }
+  if (c.rmode === 'equal') {
+    const k = c.paid + 1, last = k >= c.n, nd = last ? null : renewalDateStr(addMonths(c.due.slice(0, 7), 1), c.day || +c.due.slice(8, 10));
+    const nextAmt = last ? 0 : (k + 1 >= c.n ? round2(c.bal - c.amount) : round2(c.total / c.n));
+    const okq = await confirmBox({title: 'Mark instalment ' + k + ' of ' + c.n + ' paid?', body: fmt(c.amount) + ' is logged in History. ' + (last ? 'That clears this borrowing.' : 'The next ' + fmt(nextAmt) + ' is due ' + historyDateLabel(nd) + '.') + ' Nothing is added to your ledger.', ok: 'Mark paid'});
+    if (!okq) return;
+    addHistory('borrow', c.card.slice(0, 32) + ' ' + k + '/' + c.n, c.amount, todayStr(), {due: c.due});
+    c.bal = round2(c.bal - c.amount); c.paid = k;
+    if (last || c.bal <= 0.004) ccbills = ccbills.filter(x => x.id !== id);
+    else { c.due = nd; c.amount = nextAmt; c.seenOn = null; ccSeenSession.delete(c.id); }
+    if (ccEditId === id) resetCCForm();
+    queueCC(); renderCC(); applyCCGlow(); render();
+    if (resTab === 'history') renderHistory();
+    return;
+  }
   const ok = await confirmBox({title: 'Mark \u201C' + c.card + '\u201D as paid?', body: 'This removes it from Bills and Bills due, and logs it in History. Left goes back up by ' + fmt(c.amount) + '. Nothing is added to your ledger.', ok: 'Mark paid'});
   if (!ok) return;
   addHistory(c.kind === 'borrow' ? 'borrow' : c.kind === 'other' ? 'other' : 'cc', c.card, c.amount, todayStr(), {due: c.due});
@@ -3928,6 +4074,39 @@ async function markCCPaid(id){
   queueCC(); renderCC(); applyCCGlow(); render();
   if (resTab === 'history') renderHistory();
 }
+/* ----- borrowing, variable repayment: you enter what you actually paid ----- */
+let bpId = null;
+function openBorrowPay(c){
+  bpId = c.id;
+  $('#bpTitle').textContent = 'Repay \u201C' + c.card + '\u201D';
+  $('#bpSum').innerHTML = '<div class="kv"><span>Still to repay</span><b>' + fmt(c.bal) + '</b></div>';
+  $('#bpAmt').value = ''; $('#bpDiff').hidden = true; $('#bpErr').textContent = '';
+  $('#bpDate').value = todayStr(); $('#bpDate').max = todayStr();
+  openDialog('#dlgBorrowPay');
+}
+$('#bpAmt').addEventListener('input', () => {
+  const c = ccbills.find(x => x.id === bpId), v = parseAmount($('#bpAmt').value), p = $('#bpDiff');
+  if (!c || !isFinite(v) || v <= 0) { p.hidden = true; return; }
+  p.hidden = false; p.textContent = v > c.bal + 0.004 ? 'That is more than the ' + fmt(c.bal) + ' still owed.' : v >= c.bal - 0.004 ? 'This clears the borrowing.' : fmt(round2(c.bal - v)) + ' will be left to repay.';
+});
+$('#borrowPayForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const c = ccbills.find(x => x.id === bpId), err = $('#bpErr'); err.textContent = ''; if (!c) return;
+  const v = parseAmount($('#bpAmt').value), d = $('#bpDate').value.trim();
+  if (!isFinite(v) || v <= 0) { err.textContent = 'Enter the amount you paid.'; return; }
+  if (v > c.bal + 0.004) { err.textContent = 'That is more than the ' + fmt(c.bal) + ' still owed.'; return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) { err.textContent = 'Pick the payment date.'; return; }
+  if (d > todayStr()) { err.textContent = 'The payment date can\u2019t be in the future.'; return; }
+  const amt = round2(v);
+  addHistory('borrow', c.card, amt, d, {});
+  c.bal = round2(c.bal - amt);
+  const done = c.bal <= 0.004;
+  if (done) { ccbills = ccbills.filter(x => x.id !== c.id); if (ccEditId === c.id) resetCCForm(); } else c.amount = c.bal;
+  $('#dlgBorrowPay').close();
+  queueCC(); renderCC(); applyCCGlow(); render();
+  if (resTab === 'history') renderHistory();
+  toast(fmt(amt) + ' repaid' + (done ? '. ' + c.card + ' is cleared' : '. ' + fmt(c.bal) + ' left'));
+});
 /* ----- utilities: logged to the ledger, once a month ----- */
 let utilPayId = null;
 function utilCategory(){
@@ -3938,10 +4117,10 @@ function utilCategory(){
 function openUtilPay(c){
   utilPayId = c.id;
   $('#upTitle').textContent = 'Mark \u201C' + c.card + '\u201D paid';
-  const el = isElectricity(c);
+  const el = isVary(c);
   $('#upSum').innerHTML = '<div class="kv"><span>' + (el ? 'Set aside' : 'Amount') + '</span><b>' + fmt(c.amount) + '</b></div>';
   $('#upActualRow').hidden = !el; $('#upActual').value = '';
-  $('#upNote').textContent = el ? 'Enter what the bill actually came to. That amount is added to your ledger under Utilities on that date, and Left adjusts by the difference from what you set aside. A utility can be marked paid once a month.' : 'It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.';
+  $('#upNote').textContent = el ? 'Enter what the bill actually came to. That amount is added to your ledger under Utilities on that date, and anything under what you set aside moves to Savings, and any extra comes out of Left. A utility can be marked paid once a month.' : 'It is added to your ledger under Utilities on that date. A utility can be marked paid once a month.';
   updateUpDiff();
   $('#upDate').value = todayStr(); $('#upDate').max = todayStr();
   $('#upErr').textContent = '';
@@ -3955,7 +4134,7 @@ function updateUpDiff(){   // live line: what the actual amount does to Left
   const held = c.due <= cycle().end, d = round2(v - c.amount);
   p.hidden = false;
   p.textContent = !held ? 'This bill is not set aside in Left yet, so ' + fmt(v) + ' comes out of Left now.'
-    : d < 0 ? fmt(-d) + ' less than you set aside, so ' + fmt(-d) + ' goes back into Left.'
+    : d < 0 ? fmt(-d) + ' less than you set aside, so ' + fmt(-d) + ' moves to Savings.'
     : d > 0 ? fmt(d) + ' more than you set aside, so ' + fmt(d) + ' more comes out of Left.'
     : 'Same as you set aside. Left stays as it is.';
 }
@@ -3967,15 +4146,18 @@ $('#utilPayForm').addEventListener('submit', e => {
   const okDate = pm && (() => { const t = new Date(+pm[1], +pm[2] - 1, +pm[3]); return t.getFullYear() === +pm[1] && t.getMonth() === +pm[2] - 1 && t.getDate() === +pm[3]; })();
   if (!okDate) { err.textContent = 'Pick the payment date.'; return; }
   if (d > todayStr()) { err.textContent = 'The payment date can\u2019t be in the future.'; return; }
-  const el = isElectricity(c), wasHeld = c.due <= cycle().end;
+  const el = isVary(c), wasHeld = c.due <= cycle().end;
   let amt = c.amount;
   if (el) { amt = parseAmount($('#upActual').value); if (!isFinite(amt) || amt <= 0) { err.textContent = 'Enter the actual bill amount.'; return; } amt = round2(amt); }
   const ym = d.slice(0, 7), entryId = c.cardId || c.id;
   if (utilPaidIn(entryId, ym)) { err.textContent = '\u201C' + c.card + '\u201D is already marked paid for ' + ymLabel(ym) + '. Remove that payment in History first if you want to register it on another day.'; return; }
   const cat = utilCategory(), m = ensureMonth(ym, false), txn = {id: newId('t'), d: d, cat: cat.id, catName: cat.name, amt: amt, note: c.card};
-  m.txns.push(txn); touch(ym);
+  m.txns.push(txn);
+  let sav = null;
+  if (el && wasHeld && amt < c.amount) { sav = {id: newId('mv'), kind: 'save', amt: round2(c.amount - amt), d: d}; m.moves = (m.moves || []).concat(sav); normMonth(m); }
+  touch(ym);
   const prevDue = c.due, day = c.day || +c.due.slice(8, 10), rp = c.repeat === undefined ? 1 : c.repeat;
-  addHistory('util', c.card, amt, d, Object.assign({entryId: entryId, txnYm: ym, txnId: txn.id, prevDue: prevDue, due: prevDue}, el && amt !== c.amount ? {planned: c.amount} : {}));
+  addHistory('util', c.card, amt, d, Object.assign({entryId: entryId, txnYm: ym, txnId: txn.id, prevDue: prevDue, due: prevDue}, el && amt !== c.amount ? {planned: c.amount} : {}, sav ? {savYm: ym, savId: sav.id} : {}));
   if (rp > 0) {   // a repeating bill comes back with its next due date, the paid one is in History
     let nd = renewalDateStr(addMonths(c.due.slice(0, 7), rp), day);
     while (nd <= todayStr()) nd = renewalDateStr(addMonths(nd.slice(0, 7), rp), day);
@@ -3988,7 +4170,7 @@ $('#utilPayForm').addEventListener('submit', e => {
   queueCC(); render(); renderCC(); applyCCGlow();
   if (resTab === 'history') renderHistory();
   const df = round2(amt - c.amount);
-  toast(c.card + ' ' + fmt(amt) + ' added to your ledger' + (el && wasHeld && df < 0 ? '. Left up by ' + fmt(-df) : el && wasHeld && df > 0 ? '. Left down by ' + fmt(df) : ''));
+  toast(c.card + ' ' + fmt(amt) + ' added to your ledger' + (el && wasHeld && df < 0 ? '. ' + fmt(-df) + ' moved to Savings' : el && wasHeld && df > 0 ? '. Left down by ' + fmt(df) : ''));
 });
 async function deleteCCBill(id){
   const c = ccbills.find(x => x.id === id); if (!c) return;
@@ -4028,7 +4210,7 @@ async function deleteHistoryEntry(id){
   const util = h.kind === 'util';
   const ok = await confirmBox({
     title: 'Remove this history entry?',
-    body: util ? 'This removes the record and the ' + fmt(h.amount) + ' entry it added to your ' + ymLabel(h.txnYm || h.date.slice(0, 7)) + ' ledger, so you can register the payment again on another day.' : 'This only removes the record here \u2014 it won\u2019t change your ledger.',
+    body: util ? 'This removes the record and the ' + fmt(h.amount) + ' entry it added to your ' + ymLabel(h.txnYm || h.date.slice(0, 7)) + ' ledger, so you can register the payment again on another day.' + (h.savId ? ' The amount it moved to Savings is taken back out too.' : '') : 'This only removes the record here \u2014 it won\u2019t change your ledger.',
     ok: 'Remove'
   });
   if (!ok) return;
@@ -4037,6 +4219,10 @@ async function deleteHistoryEntry(id){
   if (!util) return;
   const m = h.txnYm && state.months[h.txnYm];
   if (m && m.txns.some(t => t.id === h.txnId)) { m.txns = m.txns.filter(t => t.id !== h.txnId); touch(h.txnYm); render(); }
+  if (h.savId && h.savYm) {
+    const sm = state.months[h.savYm], mv = sm && sm.moves && sm.moves.find(x => x.id === h.savId);
+    if (mv && round2(savingsTotal() - mv.amt) >= -0.004) { sm.moves = sm.moves.filter(x => x.id !== h.savId); normMonth(sm); touch(h.savYm); render(); }
+  }
   restoreUtilityBill(h); applyCCGlow();
   renderCC();
 }
@@ -4087,6 +4273,13 @@ loadReserves();
 pruneExpiredReserves();
 loadCards();
 seedElectricity();
+(function migrateVary(){   // once: the Electricity entry becomes a normal 'Amount varies' entry
+  let done = false; try { done = localStorage.getItem(LS + 'varyMig') === '1'; } catch(e){}
+  if (done) return;
+  try { localStorage.setItem(LS + 'varyMig', '1'); } catch(e){}
+  let ch = false; cards.forEach(k => { if (k.kind === 'utility' && !k.vary && (k.id === ELEC_ID || k.name.trim().toLowerCase() === 'electricity')) { k.vary = true; ch = true; } });
+  if (ch) queueCards();
+})();
 loadCCBills();
 pruneExpiredCCBills();
 loadHistory();
